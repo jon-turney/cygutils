@@ -1,3 +1,21 @@
+2002-07-17  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	At Bruno Haible's suggestion, don't include all of
+	gettext.  Just have an intl/ directory with a null
+	Makefile.in, and a populated po/ directory.  m4/
+	is no longer necessary.  Later, when automake bug
+	is fixed, we can remove the intl/ directory entirely,
+	but we'll still need the po/ directory and the ABOUT-NLS
+	file.
+
+	* intl/*: remove
+	* intl/Makefile.in: turn this into a null file
+	* m4/*: remove
+	* configure.ac: remove m4/Makefile from AC_CONFIG_FILES
+	* Makefile.am: remove m4/ from SUBDIRS
+	* Makefile.in: regenerate
+	* configure: regenerate
+
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* configure.ac: bump version to 1.1.2

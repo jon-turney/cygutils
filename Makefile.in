@@ -103,7 +103,7 @@ install_sh = @install_sh@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-SUBDIRS = intl m4 
+SUBDIRS = intl
 DIST_SUBDIRS = 
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
@@ -488,7 +488,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.ac $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac acinclude.m4 m4/codeset.m4 m4/gettext.m4 m4/glibc21.m4 m4/iconv.m4 m4/isc-posix.m4 m4/lcmessage.m4 m4/lib-ld.m4 m4/lib-link.m4 m4/lib-prefix.m4 m4/progtest.m4
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac acinclude.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.h: stamp-h1

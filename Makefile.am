@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-SUBDIRS = intl m4 
+SUBDIRS = intl
 DIST_SUBDIRS =
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)

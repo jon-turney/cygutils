@@ -7046,7 +7046,7 @@ else
 fi
 
 
-                                        ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in m4/Makefile"
+                              ac_config_files="$ac_config_files Makefile intl/Makefile po/Makefile.in"
 
 
 cat >confcache <<\_ACEOF
@@ -7596,7 +7596,6 @@ do
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "intl/Makefile" ) CONFIG_FILES="$CONFIG_FILES intl/Makefile" ;;
   "po/Makefile.in" ) CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
-  "m4/Makefile" ) CONFIG_FILES="$CONFIG_FILES m4/Makefile" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
