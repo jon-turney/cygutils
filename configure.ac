@@ -14,17 +14,11 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 AC_CHECK_LIB(popt, poptPrintHelp) 
-SAVELIBS=$LIBS
-AC_SEARCH_LIBS(semget, cygipc,[
-  cygutils_have_ipc="yes"
+AC_CHECK_FUNC(shmget,[
+  HAVE_INTRINSIC_IPC="yes"
   ],[
-  cygutils_have_ipc="no"
+  HAVE_INTRINSIC_IPC="no"
   ])
-LIBS=$SAVELIBS
-if test "$ac_cv_search_semget" != no; then
-  test "$ac_cv_search_semget" = "none required" || IPCLIBS="$ac_cv_search_semget"
-fi
-AC_SUBST(IPCLIBS)
 
 # AC_CHECK_LIB(intl, gettext)
 AM_GNU_GETTEXT(external,[],[])
@@ -64,7 +58,7 @@ AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *])
 
 dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
-AM_CONDITIONAL(WITH_IPC_PROGRAMS, test "$cygutils_have_ipc" = yes)
+AM_CONDITIONAL(WITH_NATIVE_IPC_PROGRAMS, test "$HAVE_INTRINSIC_IPC" = yes)
 
 AC_CONFIG_FILES([Makefile po/Makefile.in])
 

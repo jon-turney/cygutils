@@ -38,6 +38,13 @@
 #  include <sys/sem.h>
 #endif
 
+/* cygserver doesn't define this constant where we
+   can get it, so just use the default configuration
+   value */
+#ifndef SEMMSL
+# define SEMMSL 60
+#endif
+
 /* arg for semctl system calls. */
 union semun {
   int val;			/* value for SETVAL */

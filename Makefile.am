@@ -13,11 +13,10 @@ windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/readshortcut/readshortcut
 endif
 
-if WITH_IPC_PROGRAMS
-ipc_progs = src/ipc/semtool src/ipc/shmtool src/ipc/msgtool \
-	src/ipc/semstat src/ipc/ipcrm src/ipc/ipcs
+if WITH_NATIVE_IPC_PROGRAMS
+ipc_progs = src/ipc/semtool src/ipc/shmtool \
+            src/ipc/msgtool src/ipc/semstat
 ipc_scripts = src/ipc/ipck
-ipc_mans = src/ipc/ipcs.8 src/ipc/ipcrm.8
 endif
 
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
@@ -40,16 +39,15 @@ man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
 	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
 	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1 \
-	src/lpr/lpr.1 $(ipc_mans)
+	src/lpr/lpr.1
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
-	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
-	src/ipc/msgtool src/ipc/semstat src/ipc/ipcrm src/ipc/ipcs \
+	src/cygstart/cygstart \
+	src/ipc/semtool src/ipc/shmtool \
+	src/ipc/msgtool src/ipc/semstat \
 	src/lpr/lpr src/mkshortcut/mkshortcut src/readshortcut/readshortcut
 
 EXTRA_SCRIPTS = src/ipc/ipck
-
-EXTRA_MANS = src/ipc/ipcs.8 src/ipc/ipcrm.8
 
 po_files = \
 	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars po/POTFILES.in \
@@ -66,7 +64,7 @@ extra_docs = \
 licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
 
 EXTRA_DIST = config.rpath PROGLIST bootstrap common.h \
-   HOW-TO-CONTRIBUTE BRANCHES $(man_MANS) $(EXTRA_SCRIPTS) $(EXTRA_MANS) \
+   HOW-TO-CONTRIBUTE BRANCHES $(man_MANS) $(EXTRA_SCRIPTS) \
    $(licenses) $(po_files) $(extra_docs)
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
@@ -80,12 +78,6 @@ src_rev_rev_LDADD = @LIBINTL@
 src_column_column_LDADD = @LIBINTL@
 src_colcrt_colcrt_LDADD = @LIBINTL@
 src_mcookie_mcookie_LDADD = @LIBINTL@
-src_ipc_semtool_LDADD = @IPCLIBS@
-src_ipc_shmtool_LDADD = @IPCLIBS@
-src_ipc_msgtool_LDADD = @IPCLIBS@
-src_ipc_semstat_LDADD = @IPCLIBS@
-src_ipc_ipcrm_LDADD = @IPCLIBS@
-src_ipc_ipcs_LDADD = @IPCLIBS@
 
 src_cal_cal_SOURCES = src/cal/cal.c src/cal/err.c src/cal/errs.h
 src_col_col_SOURCES = src/col/col.c src/col/err.c src/col/err.h

@@ -1,3 +1,22 @@
+2004-01-31  Charles Wilson  <cwilson@....>
+
+	bump version number
+
+	* src/ipc/ipcrm.c: remove
+	* src/ipc/ipcrm.8: remove
+	* src/ipc/ipcs.c: remove
+	* src/ipc/ipcs.8: remove
+	* src/ipc/semtool.c: compensate for interface differences
+	in cygserver vs. cygipc
+	* configure.ac: don't look for cygipc; just look for shmget
+	* Makefile.am: remove src/ipc/ipcs and src/ipc/ipcrm and their
+	manpages.  Don't use extra libs (IPCLIBS) to build ipc programs
+	-- rely on cygserver support.
+	* README: update
+	* PROGLIST: update
+	* NEWS: update
+	* BRANCHES: update
+
 2003-12-01  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	bump version number

@@ -47,9 +47,12 @@ msgtool.exe / shmtool.exe / semtool.exe / semstat.exe
   with the '-?' option.  Also, see the Linux Programmer's
   Guide -- the IPC chapter is included with the cygipc 
   distribution.
-    These tools can only be built if IPC functions are 
+
+  
+  These tools can only be built if IPC functions are 
   available.  On cygwin, that (currently) means "only if
-  the cygipc package is installed".
+  the cygipc package is installed" or "if using a cygwin
+  kernel newer than 1.5.5"
   (GPL)
   
 banner.exe
@@ -144,8 +147,8 @@ mcookie.exe
     xauth add :0 . `mcookie`
   (GPL - originally public domain)
 
-ipcs.exe, ipcrm.exe, ipck:
-  IPC utilities brought over from cygipc.
+ipck:
+  IPC utility brought over from cygipc.
   (GPL)
 
 (*) originally BSD+advert, but falls under the blanket 
