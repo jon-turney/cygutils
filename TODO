@@ -11,4 +11,10 @@ what to do about wacky windows includes?  <shlobj.h> etc?
 
 convert mkshortcut to popt.
 
+move to one-big-makefile (recursive make considered harmful).
+(requires modifying the how-to-contribute document)
+
+Rewrite documentation for one-makefile setup
+Rewrite documentation to NOT sent tarballs to the cygwin list
+
 

@@ -52,6 +52,7 @@ src/ascii/Makefile
 src/banner/Makefile
 src/cal/Makefile
 src/clip/Makefile
+src/col/Makefile
 src/conv/Makefile
 src/ddate/Makefile
 src/dump/Makefile

@@ -102,6 +102,12 @@ cygstart.exe
   command-line start command.
   (GPL)
 
+col.exe
+  Filters out revers (and half reverse) line feeds so that the output is in
+  the correct order with only forward and half forward line feeds, and replaces
+  white-space characters with tabs where possible.
+  (BSD-no-advert *)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

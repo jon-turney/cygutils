@@ -1,3 +1,27 @@
+2002-05-23  Charles S. Wilson  <cwilson@ece.gatech.edu>
+
+	* Makefile.in: regenerate
+	* src/Makefile.in: regenerate
+	* src/*/Makefile.in: regenerate
+	* configure: regenerate
+	* aclocal.m4: regenerate
+
+2002-05-22  David A. Willis  <dawillis1214@yahoo.com>
+
+	* src/col: new directory
+	* src/col/Makefile.am: new file
+	* src/col/Makefile.in: new file
+	* src/col/col.c: new file
+	* src/col/err.c: new file
+	* src/col/err.h: new file
+	* src/col/col.1: new file
+	* src/col/README.col: new file
+	* src/Makefile.am: add subdirectory col
+	* src/Makefile.in: regenerate
+	* AUTHORS: add David A. Willis for col
+	* PROGLIST: add col
+	* README: add col
+
 2002-04-16  Chris January  <chris@atomice.net>
 
 	* src/conv/conv.c (convert): Use correct type to store the

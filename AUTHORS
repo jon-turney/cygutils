@@ -28,3 +28,7 @@ Joshua Danial Franklin  <joshuadfranklin@yahoo.com>
 
 Michael Schaap  <cygwin_start@mscha.org>
   cygstart.c, cygstart.1
+
+David A. Willis <dawillis1214@yahoo.com>
+  col.c, col.1, err.c, err.h
+  (taked from BSD and adapted)

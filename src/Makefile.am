@@ -5,6 +5,7 @@ SUBDIRS =     \
 	banner     \
 	cal        \
 	clip       \
+	col        \
 	conv       \
 	ddate      \
 	dump       \
