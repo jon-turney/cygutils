@@ -60,6 +60,7 @@ typedef struct optvals_s {
   int smprograms_flag;
   int offset;
   char * name_arg;
+  char * dir_name_arg;
   char * argument_arg;
   char * target_arg;
   char * icon_name_arg;
@@ -111,6 +112,8 @@ main (int argc, const char **argv)
         "offset of icon in icon file (default is 0)", NULL},
     { "name", 'n', POPT_ARG_STRING, NULL, 'n', \
         "name for link (defaults to TARGET)", "NAME"},
+    { "workingdir", 'w', POPT_ARG_STRING, NULL, 'w', \
+        "set working directory (defaults to directory path of TARGET)", "PATH"},
     { "allusers", 'A', POPT_ARG_VAL, &(opts.allusers_flag), 1, \
         "use 'All Users' instead of current user for -D,-P", NULL},
     { "desktop", 'D', POPT_ARG_VAL, &(opts.desktop_flag), 1, \
@@ -154,6 +157,7 @@ main (int argc, const char **argv)
   opts.target_arg = NULL;
   opts.argument_arg = NULL;
   opts.name_arg = NULL;
+  opts.dir_name_arg = NULL;
   opts.icon_name_arg = NULL;
 
   /* Parse options */
@@ -183,6 +187,14 @@ main (int argc, const char **argv)
                  break;
       case 'n':  if (arg = poptGetOptArg(optCon)) {
                    if ((opts.name_arg = strdup(arg)) == NULL ) {
+                     fprintf(stderr, "%s: memory allocation error\n", program_name);
+                     ec=2;                                            
+                     goto exit;
+                   }
+                 }
+                 break;
+      case 'w':  if (arg = poptGetOptArg(optCon)) {
+                   if ((opts.dir_name_arg = strdup(arg)) == NULL ) {
                      fprintf(stderr, "%s: memory allocation error\n", program_name);
                      ec=2;                                            
                      goto exit;
@@ -259,6 +271,7 @@ exit:
   poptFreeContext(optCon);
   if (opts.target_arg)    { free(opts.target_arg);    }
   if (opts.name_arg)      { free(opts.name_arg);      }
+  if (opts.dir_name_arg)  { free(opts.dir_name_arg);  }
   if (opts.argument_arg)  { free(opts.argument_arg);  } 
   if (opts.icon_name_arg) { free(opts.icon_name_arg); } 
   free(program_name);
@@ -305,11 +318,26 @@ int mkshortcut(optvals opts, poptContext optCon)
       strcpy (buf_str, opts.target_arg);
       cygwin_conv_to_full_win32_path (buf_str, exe_name);
 
+      /*  Get a working dir from 'w' option */
+      if (opts.dir_name_arg != NULL)
+        {
+          if (strchr (opts.dir_name_arg, ':') != NULL)
+            {
+              fprintf(stderr, "%s: all paths must be in POSIX format\n", 
+                program_name);
+              usage (optCon, stderr, program_name);
+              return(1);
+            }
+          cygwin_conv_to_win32_path (opts.dir_name_arg, dir_name);
+        }
       /*  Get a working dir from the exepath */
-      tmp_str = strrchr (exe_name, '\\');
-      tmp = strlen (exe_name) - strlen (tmp_str);
-      strncpy (dir_name, exe_name, tmp);
-      dir_name[tmp] = '\0';
+      else
+        {
+          tmp_str = strrchr (exe_name, '\\');
+          tmp = strlen (exe_name) - strlen (tmp_str);
+          strncpy (dir_name, exe_name, tmp);
+          dir_name[tmp] = '\0';
+        }
     }
 
   /*  Generate a name for the link if not given */
