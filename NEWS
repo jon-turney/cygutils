@@ -1,4 +1,4 @@
-  Add rev, column, colcrt, colrm.  Use GNU gettext (add
+  Add rev, column, colcrt, colrm, mcookie.  Use GNU gettext (add
   gettext source, as well).
 
 1.1.1:

@@ -44,7 +44,7 @@ AC_STRUCT_TM
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([strcasecmp strchr strdup strrchr strerror])
-AC_CHECK_FUNCS([bzero getcwd memset nl_langinfo])
+AC_CHECK_FUNCS([bzero getcwd memset nl_langinfo gettimeofday])
 AC_FUNC_LSTAT
 AC_FUNC_STAT
 AC_FUNC_VPRINTF

@@ -1,5 +1,22 @@
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	Add 'mcookie' program.  Tag "v1_1_1d"
+
+	* src/mcookie: new directory
+	* src/mcookie/mcookie.c: new file
+	* src/mcookie/mcookie.1: new file
+	* src/mcookie/md5.h: new file
+	* src/mcookie/md5.c: new file
+	* Makefile.am: add program 'mcookie'
+	* configure.ac: add test for gettimeofday
+	* config.h.in: regenerate
+	* Makefile.in: regenerate
+	* PROGLIST: add mcookie
+	* README: add mcookie
+	* NEWS: mention mcookie
+
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	Add 'colrm' program.  Tag "v1_1_1c"
 
 	* src/colrm: new directory

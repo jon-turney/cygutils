@@ -43,7 +43,7 @@ GPL:
  d2u      dos2unix  u2d       unix2dos
 
 PublicDomain-now-GPL:
- namei    ddate
+ namei    ddate    mcookie
 
 BSD-no-advert:
  cal	col  colcrt  colrm  column  readlink  rev

@@ -145,6 +145,13 @@ colrm.exe
   input.  Output is sent to standard output.
   (BSD-no-advert *)
 
+mcookie.exe
+  generate magic cookies for xauth
+  mcookie  generates a 128-bit random hexadecimal number for
+  use with the X authority system.  Typical usage:
+    xauth add :0 . `mcookie`
+  (GPL - originally public domain)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 
