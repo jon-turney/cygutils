@@ -19,15 +19,18 @@ endif
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
 	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col \
-	src/getopt/getopt src/readlink/readlink src/rev/rev src/column/column
+	src/getopt/getopt src/readlink/readlink src/rev/rev src/column/column \
+	src/colcrt/colcrt
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
-	src/col/err.h src/rev/widechar.h src/column/widechar.h src/column/errs.h
+	src/col/err.h src/rev/widechar.h src/column/widechar.h src/column/errs.h \
+	src/colcrt/widechar.h
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
-	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1
+	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
+	src/colcrt/colcrt.1
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
@@ -48,6 +51,7 @@ src_ddate_ddate_LDADD = @INTLLIBS@
 src_namei_namei_LDADD = @INTLLIBS@
 src_rev_rev_LDADD = @INTLLIBS@
 src_column_column_LDADD = @INTLLIBS@
+src_colcrt_colcrt_LDADD = @INTLLIBS@
 
 src_cal_cal_SOURCES = src/cal/cal.c src/cal/err.c src/cal/errs.h
 src_last_last_SOURCES = src/last/last.c src/last/oldutmp.h
@@ -55,6 +59,7 @@ src_last_utmpdump_SOURCES = src/last/utmpdump.c src/last/oldutmp.h
 src_col_col_SOURCES = src/col/col.c src/col/err.c src/col/err.h
 src_rev_rev_SOURCES = src/rev/rev.c src/rev/widechar.h
 src_column_column_SOURCES = src/column/column.c src/column/err.c src/column/errs.h src/column/widechar.h
+src_colcrt_colcrt_SOURCES = src/colcrt/colcrt.c src/colcrt/widechar.h
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

@@ -103,7 +103,7 @@ cygstart.exe
   (GPL)
 
 col.exe
-  Filters out revers (and half reverse) line feeds so that the output is in
+  Filters out reverse (and half reverse) line feeds so that the output is in
   the correct order with only forward and half forward line feeds, and replaces
   white-space characters with tabs where possible.
   (BSD-no-advert *)
@@ -119,10 +119,24 @@ readlink.exe
 
 rev.exe
   reverse lines of a file. 
+  The rev utility copies the specified files to the standard output,
+  reversing the order of characters in every line.  If no files are speci-
+  fied, the standard input is read.
   (BSD-no-advert *)
 
 column.exe
   columnate lists
+  The column utility formats its input into multiple columns.  Rows are
+  filled before columns.  Input is taken from file operands, or, by
+  default, from the standard input.  Empty lines are ignored.
+  (BSD-no-advert *)
+
+colcrt.exe
+  filter nroff output for CRT previewing
+  Colcrt provides virtual half-line and reverse line feed sequences for
+  terminals without such capability, and on which overstriking is destruc-
+  tive.  Half-line characters and underlining (changed to dashing `-') are
+  placed on new lines in between the normal output lines.
   (BSD-no-advert *)
 
 (*) originally BSD+advert, but falls under the blanket 

@@ -1,9 +1,23 @@
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
-	Add 'column' program
+	Add 'colcrt' program.  Tag "v1_1_1b"
 
-	* src/column/column: new directory
+	* src/colcrt: new directory
+	* src/colcrt/colcrt.c: new file
+	* src/colcrt/colcrt.1: new file
+	* src/colcrt/widechar.h: new file
+	* Makefile.am: add program 'colcrt'
+	* Makefile.in: regenerate
+	* PROGLIST: add colcrt
+	* README: add colcrt
+
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	Add 'column' program.  Tag "v1_1_1a"
+
+	* src/column: new directory
 	* src/column/column.c: new file
+	* src/column/column.1: new file
 	* src/column/err.c: new file
 	* src/column/errs.h: new file
 	* src/column/widechar.h: new file
