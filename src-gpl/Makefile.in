@@ -73,7 +73,7 @@ INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = conv ascii dump getclip putclip \
 	semtool shmtool msgtool semstat banner \
-	last
+	last utmpdump
 
 man_MANS = last.1 lastb.1
 last_SOURCES = last.c oldutmp.h
@@ -86,7 +86,7 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = conv$(EXEEXT) ascii$(EXEEXT) dump$(EXEEXT) \
 	getclip$(EXEEXT) putclip$(EXEEXT) semtool$(EXEEXT) \
 	shmtool$(EXEEXT) msgtool$(EXEEXT) semstat$(EXEEXT) \
-	banner$(EXEEXT) last$(EXEEXT)
+	banner$(EXEEXT) last$(EXEEXT) utmpdump$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 ascii_SOURCES = ascii.c
@@ -143,6 +143,11 @@ shmtool_OBJECTS = shmtool.$(OBJEXT)
 shmtool_LDADD = $(LDADD)
 shmtool_DEPENDENCIES =
 shmtool_LDFLAGS =
+utmpdump_SOURCES = utmpdump.c
+utmpdump_OBJECTS = utmpdump.$(OBJEXT)
+utmpdump_LDADD = $(LDADD)
+utmpdump_DEPENDENCIES =
+utmpdump_LDFLAGS =
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -155,21 +160,21 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/last.Po \
 @AMDEP_TRUE@	$(DEPDIR)/msgtool.Po $(DEPDIR)/putclip.Po \
 @AMDEP_TRUE@	$(DEPDIR)/semstat.Po $(DEPDIR)/semtool.Po \
-@AMDEP_TRUE@	$(DEPDIR)/shmtool.Po
+@AMDEP_TRUE@	$(DEPDIR)/shmtool.Po $(DEPDIR)/utmpdump.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) \
-	msgtool.c putclip.c semstat.c semtool.c shmtool.c
+	msgtool.c putclip.c semstat.c semtool.c shmtool.c utmpdump.c
 
 NROFF = nroff
 MANS = $(man_MANS)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) msgtool.c putclip.c semstat.c semtool.c shmtool.c
+SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) msgtool.c putclip.c semstat.c semtool.c shmtool.c utmpdump.c
 
 all: all-am
 
@@ -238,6 +243,9 @@ semtool$(EXEEXT): $(semtool_OBJECTS) $(semtool_DEPENDENCIES)
 shmtool$(EXEEXT): $(shmtool_OBJECTS) $(shmtool_DEPENDENCIES) 
 	@rm -f shmtool$(EXEEXT)
 	$(LINK) $(shmtool_LDFLAGS) $(shmtool_OBJECTS) $(shmtool_LDADD) $(LIBS)
+utmpdump$(EXEEXT): $(utmpdump_OBJECTS) $(utmpdump_DEPENDENCIES) 
+	@rm -f utmpdump$(EXEEXT)
+	$(LINK) $(utmpdump_LDFLAGS) $(utmpdump_OBJECTS) $(utmpdump_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -256,6 +264,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/shmtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/utmpdump.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)

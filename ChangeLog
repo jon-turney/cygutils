@@ -1,3 +1,12 @@
+2001-01-18  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
+
+	* src-gpl/utmpdump.c: new file
+	* AUTHORS: add utmpdump
+	* PROGLIST: add utmpdump
+	* README: mention utmpdump
+	* src-gpl/Makefile.am: add utmpdump to proglist
+	* src-gpl/Makefile.in: regenerate
+
 2001-01-16  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* bootstrap: new file

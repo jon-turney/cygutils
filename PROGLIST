@@ -71,6 +71,10 @@ cal.exe
 last.exe
   show a listing of the last logged in users
 
+utmpdump.exe
+  give raw output of a utmp (/var/run/utmp) or wtmp 
+  (/var/log/wtmp) file.
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

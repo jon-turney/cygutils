@@ -8,6 +8,6 @@ Jorg Schaible  <joerg.schaible@gft.com>
   banner.c
 
 Mark Bradshaw  <bradshaw@staff.crosswalk.com>
-  last.c, last.1, lastb.1, oldutmp.h
+  last.c, last.1, lastb.1, oldutmp.h, utmpdump.c
   (taken from sysvinit-2.84 package and adapted)
 
