@@ -1,3 +1,7 @@
+2003-06-16  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/mkshortcut/mkshortcut.1: fix ^M problem.
+
 2003-06-13  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* Makefile.am: add ipcs, ipcrm, and ipck
