@@ -64,7 +64,7 @@ extra_docs = \
 licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
 
 EXTRA_DIST = config.rpath PROGLIST bootstrap common.h \
-   HOW-TO-CONTRIBUTE BRANCHES $(man_MANS) \
+   HOW-TO-CONTRIBUTE BRANCHES $(man_MANS) $(EXTRA_SCRIPTS) $(EXTRA_MANS) \
    $(licenses) $(po_files) $(extra_docs)
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
