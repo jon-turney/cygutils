@@ -1,7 +1,7 @@
 /*
  * cygstart - Let Windows start a program, or open a file or URL
  *
- * (c) 2002 Michael Schaap <cygwin_start@mscha.org>
+ * (c) 2002 Michael Schaap <cygstart(at)mscha.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -74,6 +74,8 @@ int main(int argc, const char **argv)
     int ret;
     char *action = NULL;
     char *file = NULL;
+    size_t argLength;
+    const char **tmp;
     char *args = NULL;
     char *workDir = NULL;
     int show = SW_SHOWNORMAL;
@@ -102,7 +104,7 @@ int main(int argc, const char **argv)
         { NULL, '\0', 0, NULL, 0, NULL, NULL }
     };
 
-    /* SHow options */
+    /* Show options */
     struct poptOption showOptionsTable[] = {
         { "hide",  '\0',  POPT_ARG_NONE, NULL, 'H', \
           "Hides the window and activates another window", NULL},
@@ -340,16 +342,17 @@ int main(int argc, const char **argv)
 
     /* Retrieve any arguments */
     if (rest && *rest) {
-        if ((args = (char *) malloc(strlen(*rest)+1)) == NULL) {
+        tmp = rest;
+        argLength = strlen(*tmp);
+        while (tmp++ && *tmp) {
+            argLength += 1 + strlen(*tmp);
+        }
+        if ((args = (char *) malloc(argLength+1)) == NULL) {
             fprintf(stderr, "%s: memory allocation error\n", argv[0]);
             exit(1);
-        }	 
+        }
         strcpy(args, *rest);
         while (rest++ && *rest) {
-            if ((args = (char *) realloc(args, strlen(args)+strlen(*rest)+2)) == NULL) {
-                fprintf(stderr, "%s: memory allocation error\n", argv[0]);
-                exit(1);
-            }		
             strcat(args, " ");
             strcat(args, *rest);
         }
@@ -464,7 +467,7 @@ static void printBottomDescription(FILE *f, char *name)
 {
     fprintf(f, "\n");
     fprintf(f, "With thanks to MSDN: <%s>\n\n", MSDN_URL);
-    fprintf(f, "Please report any bugs to <cygwin_start@mscha.org>.\n");
+    fprintf(f, "Please report any bugs to <cygwin(at)cygwin.com>.\n");
 }
 
 static printLicense(FILE *f, char *name)
