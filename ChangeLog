@@ -10,7 +10,10 @@
 	* src/last/oldutmp.h: remove
 	* src/last/last.1: remove
 	* src/last/lastb.1: remove
+	* src/last/: remove directory
 	* intl/Makefile.in: remove
+	* intl/: remove directory
+
 	* src/cal/cal.c: cygwin provides langinfo.h, but
 	not the nl_langinfo function.  Make sure both exist
 	before calling nl_langinfo.
@@ -31,6 +34,7 @@
 	* PROGLIST: docu update
 	* README: dpcu update
 	* TODO: docu update
+	* HOW-TO-CONTRIBUTE: docu update
 	
 	* aclocal.m4: regenerate
 	* configure: regenerate

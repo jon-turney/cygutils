@@ -157,9 +157,9 @@ The simple 12 step program:
      If your program must link with -lintl, then all you need to
      do is create an LDADD variable as follows:
 
-     src_foo_foo_LDADD = @INTLLIBS@
+     src_foo_foo_LDADD = @LIBINTL@
 
-     The configuration process will replace @INTLLIBS@ with the 
+     The configuration process will replace @LIBINTL@ with the 
      appropriate -lintl -liconv invocation.
 
      Note that you do NOT need to include the following libraries in
