@@ -1,0 +1,48 @@
+This collection started life called the "misc" package, 
+but was renamed to "cygutils" at version 0.9.5.
+
+Many of these utilities require the popt 
+library, available here:
+  ftp://ftp.rpm.org/pub/rpm/test-4.0.1/popt-1.6.1.tar.gz
+
+A Note on Licenseing:
+--------------------------------------
+Since this package consists of many small utilities taken
+from various sources, there are a mixture of licenses.
+
+Most of these utilities are released under the GPL, but
+some were originally public domain but are now GPL, and 
+others are BSD-no-advert.  
+
+Some files were originally BSD+advert (which is bad, and
+not GPL compatible).  However, IF the files in question
+were part of the official BSD distribution from UCB, then 
+they have been affirmitively converted from BSD+advert to 
+BSD-no-advert licensing.  As stated here
+<http://www.opensource.org/licenses/bsd-license.html>:
+   Note: The advertising clause in the license appearing 
+   on BSD Unix files was officially rescinded by the 
+   Director of the Office of Technology Licensing of the 
+   University of California on July 22 1999. He states 
+   that clause 3 is "hereby deleted in its entirety."
+
+So, files derived from older BSD sources, even if they
+still SAY BSD+advert, are now BSD-no-advert.  In 
+accordance with the wishes of the Director of UC's OTL, 
+I have modified the licensing terms to BSD-no-advert of 
+files included in this package that fall under his edict.
+
+What's in this package:
+-------------------------------
+GPL:
+ ascii    u2d       unix2dos  putclip  shmtool 
+ banner   d2u       getclip   semstat
+ conv     dos2unix  msgtool   semtool
+ 
+PublicDomain-now-GPL:
+ namei
+
+BSD-no-advert:
+ cal
+
+

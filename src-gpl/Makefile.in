@@ -1,0 +1,402 @@
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+@SET_MAKE@
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+top_builddir = ..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
+transform = @program_transform_name@
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+AMTAR = @AMTAR@
+AWK = @AWK@
+CC = @CC@
+DEPDIR = @DEPDIR@
+EXEEXT = @EXEEXT@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+MAINT = @MAINT@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+am__include = @am__include@
+am__quote = @am__quote@
+install_sh = @install_sh@
+
+INCLUDES = -I$(top_builddir) -I$(top_srcdir)
+
+bin_PROGRAMS = conv ascii dump getclip putclip \
+	semtool shmtool msgtool semstat banner
+
+banner_LDADD = -lkernel32 -lgdi32
+subdir = src-gpl
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+bin_PROGRAMS = conv$(EXEEXT) ascii$(EXEEXT) dump$(EXEEXT) \
+	getclip$(EXEEXT) putclip$(EXEEXT) semtool$(EXEEXT) \
+	shmtool$(EXEEXT) msgtool$(EXEEXT) semstat$(EXEEXT) \
+	banner$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
+
+ascii_SOURCES = ascii.c
+ascii_OBJECTS = ascii.$(OBJEXT)
+ascii_LDADD = $(LDADD)
+ascii_DEPENDENCIES =
+ascii_LDFLAGS =
+banner_SOURCES = banner.c
+banner_OBJECTS = banner.$(OBJEXT)
+banner_DEPENDENCIES =
+banner_LDFLAGS =
+conv_SOURCES = conv.c
+conv_OBJECTS = conv.$(OBJEXT)
+conv_LDADD = $(LDADD)
+conv_DEPENDENCIES =
+conv_LDFLAGS =
+dump_SOURCES = dump.c
+dump_OBJECTS = dump.$(OBJEXT)
+dump_LDADD = $(LDADD)
+dump_DEPENDENCIES =
+dump_LDFLAGS =
+getclip_SOURCES = getclip.c
+getclip_OBJECTS = getclip.$(OBJEXT)
+getclip_LDADD = $(LDADD)
+getclip_DEPENDENCIES =
+getclip_LDFLAGS =
+msgtool_SOURCES = msgtool.c
+msgtool_OBJECTS = msgtool.$(OBJEXT)
+msgtool_LDADD = $(LDADD)
+msgtool_DEPENDENCIES =
+msgtool_LDFLAGS =
+putclip_SOURCES = putclip.c
+putclip_OBJECTS = putclip.$(OBJEXT)
+putclip_LDADD = $(LDADD)
+putclip_DEPENDENCIES =
+putclip_LDFLAGS =
+semstat_SOURCES = semstat.c
+semstat_OBJECTS = semstat.$(OBJEXT)
+semstat_LDADD = $(LDADD)
+semstat_DEPENDENCIES =
+semstat_LDFLAGS =
+semtool_SOURCES = semtool.c
+semtool_OBJECTS = semtool.$(OBJEXT)
+semtool_LDADD = $(LDADD)
+semtool_DEPENDENCIES =
+semtool_LDFLAGS =
+shmtool_SOURCES = shmtool.c
+shmtool_OBJECTS = shmtool.$(OBJEXT)
+shmtool_LDADD = $(LDADD)
+shmtool_DEPENDENCIES =
+shmtool_LDFLAGS =
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ascii.Po $(DEPDIR)/banner.Po \
+@AMDEP_TRUE@	$(DEPDIR)/conv.Po $(DEPDIR)/dump.Po \
+@AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/msgtool.Po \
+@AMDEP_TRUE@	$(DEPDIR)/putclip.Po $(DEPDIR)/semstat.Po \
+@AMDEP_TRUE@	$(DEPDIR)/semtool.Po $(DEPDIR)/shmtool.Po
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c msgtool.c \
+	putclip.c semstat.c semtool.c shmtool.c
+DIST_COMMON = Makefile.am Makefile.in
+SOURCES = ascii.c banner.c conv.c dump.c getclip.c msgtool.c putclip.c semstat.c semtool.c shmtool.c
+
+all: all-am
+
+.SUFFIXES:
+.SUFFIXES: .c .o .obj
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  src-gpl/Makefile
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+ascii$(EXEEXT): $(ascii_OBJECTS) $(ascii_DEPENDENCIES) 
+	@rm -f ascii$(EXEEXT)
+	$(LINK) $(ascii_LDFLAGS) $(ascii_OBJECTS) $(ascii_LDADD) $(LIBS)
+banner$(EXEEXT): $(banner_OBJECTS) $(banner_DEPENDENCIES) 
+	@rm -f banner$(EXEEXT)
+	$(LINK) $(banner_LDFLAGS) $(banner_OBJECTS) $(banner_LDADD) $(LIBS)
+conv$(EXEEXT): $(conv_OBJECTS) $(conv_DEPENDENCIES) 
+	@rm -f conv$(EXEEXT)
+	$(LINK) $(conv_LDFLAGS) $(conv_OBJECTS) $(conv_LDADD) $(LIBS)
+dump$(EXEEXT): $(dump_OBJECTS) $(dump_DEPENDENCIES) 
+	@rm -f dump$(EXEEXT)
+	$(LINK) $(dump_LDFLAGS) $(dump_OBJECTS) $(dump_LDADD) $(LIBS)
+getclip$(EXEEXT): $(getclip_OBJECTS) $(getclip_DEPENDENCIES) 
+	@rm -f getclip$(EXEEXT)
+	$(LINK) $(getclip_LDFLAGS) $(getclip_OBJECTS) $(getclip_LDADD) $(LIBS)
+msgtool$(EXEEXT): $(msgtool_OBJECTS) $(msgtool_DEPENDENCIES) 
+	@rm -f msgtool$(EXEEXT)
+	$(LINK) $(msgtool_LDFLAGS) $(msgtool_OBJECTS) $(msgtool_LDADD) $(LIBS)
+putclip$(EXEEXT): $(putclip_OBJECTS) $(putclip_DEPENDENCIES) 
+	@rm -f putclip$(EXEEXT)
+	$(LINK) $(putclip_LDFLAGS) $(putclip_OBJECTS) $(putclip_LDADD) $(LIBS)
+semstat$(EXEEXT): $(semstat_OBJECTS) $(semstat_DEPENDENCIES) 
+	@rm -f semstat$(EXEEXT)
+	$(LINK) $(semstat_LDFLAGS) $(semstat_OBJECTS) $(semstat_LDADD) $(LIBS)
+semtool$(EXEEXT): $(semtool_OBJECTS) $(semtool_DEPENDENCIES) 
+	@rm -f semtool$(EXEEXT)
+	$(LINK) $(semtool_LDFLAGS) $(semtool_OBJECTS) $(semtool_LDADD) $(LIBS)
+shmtool$(EXEEXT): $(shmtool_OBJECTS) $(shmtool_DEPENDENCIES) 
+	@rm -f shmtool$(EXEEXT)
+	$(LINK) $(shmtool_LDFLAGS) $(shmtool_OBJECTS) $(shmtool_LDADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ascii.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/banner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/conv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/putclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/shmtool.Po@am__quote@
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+.c.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `test -f $< || echo '$(srcdir)/'`$<
+
+.c.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `cygpath -w $<`
+CCDEPMODE = @CCDEPMODE@
+uninstall-info-am:
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	mkid -fID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) $$here
+
+distclean-tags:
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
+
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+
+top_distdir = ..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
+	done
+check-am: all-am
+check: check-am
+all-am: Makefile $(PROGRAMS)
+
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+
+installcheck: installcheck-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
+clean: clean-am
+
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+
+distclean: distclean-am
+
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-tags
+
+dvi: dvi-am
+
+dvi-am:
+
+info: info-am
+
+info-am:
+
+install-data-am:
+
+install-exec-am: install-binPROGRAMS
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
+
+install-info: install-info-am
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-am
+
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
+
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+
+.PHONY: GTAGS all all-am check check-am clean clean-binPROGRAMS \
+	clean-generic distclean distclean-compile distclean-depend \
+	distclean-generic distclean-tags distdir dvi dvi-am info \
+	info-am install install-am install-binPROGRAMS install-data \
+	install-data-am install-exec install-exec-am install-info \
+	install-info-am install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic tags uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-info-am
+
+install-exec-hook: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@for p in d2u u2d dos2unix unix2dos; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
+	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
+	done
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

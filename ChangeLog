@@ -1,0 +1,101 @@
+2001-12-05  Joerg Schaible  <joerg.schaible@gft.com>
+
+	* src-gpl/banner.c: fix the -c option, use ANSI
+	font to print the extended charset
+
+2001-12-04  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* licenses: new subdir
+	* licenses/COPYING.GPL: new file (GPL text)
+	* licenses/COPYING.BSD-no-advert: new file (BSD license,
+	without the advertising clause)
+	* src-pd: new subdir (for public domain source code that
+	I've taken, modified, and released under the GPL)
+	* src-bsd: new subdir (for source code that is covered 
+	by the BSD-no-advert license)  Note that BSD-w-advert
+	code is disallowed -- can't legally be linked to 
+	cygwin1.dll.
+	* src: removed (renamed to src-gpl for consistency)
+	* src-gpl: new (renamed from src)
+	* PROGLIST: new file (contains descriptions of the 
+	various programs)
+	* README: proglist stuff removed.  README is more general.
+   * src-bsd/Makefile.am: new file
+   * src-bsd/Makefile.in: new file
+   * src-bsd/README.cal: new file
+   * src-bsd/cal.1: new file
+   * src-bsd/cal.c: new file
+   * src-bsd/err.c: new file
+   * src-bsd/errs.h: new file
+   * src-bsd/widechar.h: new file
+   * src-pd/Makefile.am: new file
+	* src-pd/Makefile.in: new file
+	* src-pd/README.namei: new file
+	* src-pd/README1.namei: new file
+	* src-pd/namei.1: new file
+	* src-pd/namei.c: new file
+	* configure.ac: add new tests to support namei and cal
+	* Makefile.am: add new subdirs
+	* config.h.in: regenerate
+	* aclocal.m4: regenerate
+	* Makefile.in: regenerate
+	* src/Makefile.in: regenerate
+
+2001-11-28  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* package renamed to 'cygutils'
+	* README: update
+	* NEWS: update
+	* AUTHORS: add Jorg Schaible
+	* configure.ac: package name change
+	* src/Makefile.am: add 'banner'
+	* src/banner.c: new file.  Modified from Joerg's
+	original to use popt for argument processing.
+	* configure: regenerate
+	* config.h.in: regenerate
+	* aclocal.m4: regenerate
+	* Makefile.in: regenerate
+	* src/Makefile.in: regenerate
+
+2001-11-26  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/semtool.c: added
+	* src/semstat.c: added
+	* src/msgtool.c: added
+	* src/shmtool.c: added
+	* src/Makefile.am: add semtool, semstat, msgtool,
+	and shmtool targets.
+	* configure.ac: add check for cygipc, and for 
+	ipc headers
+	* configure: regenerate
+	* config.h.in: regenerate
+	* aclocal.m4: regenerate
+	* Makefile.in: regenerate
+	* src/Makefile.in: regenerate
+	
+2001-11-25  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* uuencode.1: deleted
+	* uuencode.c: deleted
+	* uudecode.1: deleted
+	* uudecond.c: deleted (get these from GNU sharutils)
+	* mktemp.1: deleted
+	* mktemp.c: deleted (get these from 
+	http://www.courtesan.com/mktemp/)
+	* autoconfiscated -- lots of new files
+	* moved remaining .c files into src subdir
+   * src/conv.c: now recognize 'dos2unix.exe' and
+	'unix2dos.exe' as special argv[0] values, along
+	with 'd2u.exe' and 'u2d.exe'
+	* src/Makefile.in: install conv.exe as itself but
+	also as d2u.exe, u2d.exe, dos2unix.exe and unix2dos.exe
+
+0.9.2
+
+ * link with /usr/lib/libpopt.a ('official' version)
+ * add mktemp implementation
+ * add friendly help/option handling to dump, putclip,
+   getclip, and ascii.
+
+0.9.1 ----  baseline
+

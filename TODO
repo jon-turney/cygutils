@@ -1,0 +1,9 @@
+Implement --dos and --unix functions for getclip and putclip
+
+This package doesn't really DO anything with the configure results.
+If certain libraries aren't found, then some programs shouldn't be
+built. Ditto certain functions.  But right now, everything that is
+needed is checked for in configure, but no adjustments are made
+to accomodate those results -- make will just fail.  This is surely
+not the right way to do things.
+

@@ -1,0 +1,14 @@
+0.9.5:
+  renamed the package to `cygutils'
+  added Jorg Schaible's 'banner' implementation
+
+0.9.4:
+  added ipc tools from "Linux Programmer's Guide":
+    semtool, semstat, shmtool, msgtool 
+
+0.9.3:
+  Autoconfiscated. Not really cross-platform yet, still 
+  will only build properly on cygwin.
+
+0.9.1:
+  initial public release

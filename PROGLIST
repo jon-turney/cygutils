@@ -1,0 +1,79 @@
+ascii.exe
+  dumps the 256 ascii characters to stdout
+  using a nice format (GPL)
+
+dump.exe [file]
+  hex dump of file to stdout, using a nice
+  format (GPL)
+
+putclip.exe
+  copies stdin to the Windows clipboard
+  does NOT use Cygwin's /dev/clipboard 
+  Not build unless on a WIN32 platform
+  (GPL)
+  
+getclip.exe
+  copies the Windows clipboard to stdout
+  does NOT use Cygwin's /dev/clipboard
+  Not build unless on a WIN32 platform
+  (GPL)
+  
+conv.exe / d2u.exe / u2d.exe / dos2unix.exe / unix2dos.exe
+  programs for converting line endings of text
+  files between DOS and UNIX format.
+  (GPL)
+  
+  HEAVILY modified, but core routine is based on 
+  the hd2d-0.5.12 distribution, available here:
+  http://www.megaloman.com/~hany/_data/hd2u/
+  by Peter Hanecak.
+
+msgtool.exe / shmtool.exe / semtool.exe / semstat.exe
+  These programs were taken from "Linux Programmer's
+  Guide - Chapter 6" with a few changes so that they 
+  build cleanly.  The original versions were written
+  by (C)opyright 1994-1995, Scott Burkett.
+  ** MODULE: msgtool
+     A command line tool for tinkering with SysV style 
+	  Message Queues
+  ** MODULE: semtool
+     A command line tool for tinkering with SysV style 
+	  Semaphore Sets
+  ** MODULE: semstat
+     Another tool for tinkering with Semaphore Sets
+  ** MODULE: shmtool
+     A command line tool for tinkering with shared memory 
+  For information on how to use these tools, call them
+  with the '-?' option.  Also, see the Linux Programmer's
+  Guide -- the IPC chapter is included with the cygipc 
+  distribution.
+    These tools can only be built if cygipc is installed
+  and thus are not portable to non-cygwin platforms.  Also,
+  they can only operate properly if ipc-daemon is running.
+  Eventually I'll figure out how to get autotools to NOT 
+  try to build them if IPC services are not available, and
+  I'll figure out how to link/test for libcygipc.a on cygwin
+  and just -lc on linux, etc.
+  (GPL)
+  
+banner.exe
+  prints a large banner to stdout.  From Joerg Schaible.
+  (GPL)
+  
+namei.exe
+  follow a pathname until a terminal point is found
+  (GPL - originally public domain)
+
+cal.exe 
+  displays a calendar
+  (BSD-no-advert *)
+
+(*) originally BSD+advert, but falls under the blanket 
+    conversion to BSD-no-advert, because it was originally
+	 part of the UCB BSD distro. 
+    <http://www.opensource.org/licenses/bsd-license.html>:
+    Note: The advertising clause in the license appearing 
+    on BSD Unix files was officially rescinded by the 
+    Director of the Office of Technology Licensing of the 
+    University of California on July 22 1999. He states 
+    that clause 3 is "hereby deleted in its entirety."

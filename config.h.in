@@ -1,0 +1,148 @@
+/* config.h.in.  Generated automatically from configure.ac by autoheader.  */
+
+/* Define if you have the `bzero' function. */
+#undef HAVE_BZERO
+
+/* Define if you don't have `vprintf' but do have `_doprnt.' */
+#undef HAVE_DOPRNT
+
+/* Define if you have the <errno.h> header file. */
+#undef HAVE_ERRNO_H
+
+/* Define if you have the `getcwd' function. */
+#undef HAVE_GETCWD
+
+/* Define if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define if you have the <langinfo.h> header file. */
+#undef HAVE_LANGINFO_H
+
+/* Define if you have the `cygipc' library (-lcygipc). */
+#undef HAVE_LIBCYGIPC
+
+/* Define if you have the `intl' library (-lintl). */
+#undef HAVE_LIBINTL
+
+/* Define if you have the <libintl.h> header file. */
+#undef HAVE_LIBINTL_H
+
+/* Define if you have the `popt' library (-lpopt). */
+#undef HAVE_LIBPOPT
+
+/* Define if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Define if you have the <locale.h> header file. */
+#undef HAVE_LOCALE_H
+
+/* Define if `lstat' has the bug that it succeeds when given the zero-length
+   file name argument. */
+#undef HAVE_LSTAT_EMPTY_STRING_BUG
+
+/* Define if your system has a working `malloc' function. */
+#undef HAVE_MALLOC
+
+/* Define if you have the <malloc.h> header file. */
+#undef HAVE_MALLOC_H
+
+/* Define if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define if you have the `nl_langinfo' function. */
+#undef HAVE_NL_LANGINFO
+
+/* Define if you have the <popt.h> header file. */
+#undef HAVE_POPT_H
+
+/* Define if you have the `setlocale' function. */
+#undef HAVE_SETLOCALE
+
+/* Define if `stat' has the bug that it succeeds when given the zero-length
+   file name argument. */
+#undef HAVE_STAT_EMPTY_STRING_BUG
+
+/* Define if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
+/* Define if you have the `strdup' function. */
+#undef HAVE_STRDUP
+
+/* Define if you have the `strerror' function. */
+#undef HAVE_STRERROR
+
+/* Define if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define if you have the `strrchr' function. */
+#undef HAVE_STRRCHR
+
+/* Define if you have the <sys/msg.h> header file. */
+#undef HAVE_SYS_MSG_H
+
+/* Define if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
+/* Define if you have the <sys/sem.h> header file. */
+#undef HAVE_SYS_SEM_H
+
+/* Define if you have the <sys/shm.h> header file. */
+#undef HAVE_SYS_SHM_H
+
+/* Define if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define if you have the <unisted.h> header file. */
+#undef HAVE_UNISTED_H
+
+/* Define if you have the `vprintf' function. */
+#undef HAVE_VPRINTF
+
+/* Define if you have the <wchar.h> header file. */
+#undef HAVE_WCHAR_H
+
+/* Define if you have the <wctype.h> header file. */
+#undef HAVE_WCTYPE_H
+
+/* Define if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
+/* Define if `lstat' dereferences a symlink specified with a trailing slash.
+   */
+#undef LSTAT_FOLLOWS_SLASHED_SYMLINK
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define if your <sys/time.h> declares `struct tm'. */
+#undef TM_IN_SYS_TIME
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
