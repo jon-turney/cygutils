@@ -274,3 +274,21 @@ The simple 12 step program:
 --
 Chuck Wilson
 cygutils maintainer
+
+Note to self: how to commit contributions:
+  apply the patch
+  untar the contribution
+  Add the Changelog entry
+  ./bootstrap
+  cvs add src/directory
+  cvs add src/directory/srcfiles
+  cvs add src/directory/Makefile.am
+  cvs commit -m "Add foo contribution"
+  ./bootstrap
+  cvs diff | grep Index > foo
+  cvs add src/directory/Makefile.in
+  >>> use 'foo' to add another Changelog entry
+  >>> don't forget "src/directory/Makefile.in: new file"
+  cvs commit -m "Add foo contribution"
+  cvs tag something
+
