@@ -71,17 +71,22 @@ install_sh = @install_sh@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-bin_PROGRAMS = namei
-man_MANS = namei.1
+bin_PROGRAMS = namei ddate
+man_MANS = namei.1 ddate.1
 
-EXTRA_DIST = README.namei README1.namei
+EXTRA_DIST = README.namei README1.namei ddate.doc
 subdir = src-pd
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-bin_PROGRAMS = namei$(EXEEXT)
+bin_PROGRAMS = namei$(EXEEXT) ddate$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
+ddate_SOURCES = ddate.c
+ddate_OBJECTS = ddate.$(OBJEXT)
+ddate_LDADD = $(LDADD)
+ddate_DEPENDENCIES =
+ddate_LDFLAGS =
 namei_SOURCES = namei.c
 namei_OBJECTS = namei.$(OBJEXT)
 namei_LDADD = $(LDADD)
@@ -94,18 +99,18 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/namei.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ddate.Po $(DEPDIR)/namei.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = namei.c
+DIST_SOURCES = ddate.c namei.c
 
 NROFF = nroff
 MANS = $(man_MANS)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = namei.c
+SOURCES = ddate.c namei.c
 
 all: all-am
 
@@ -141,6 +146,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+ddate$(EXEEXT): $(ddate_OBJECTS) $(ddate_DEPENDENCIES) 
+	@rm -f ddate$(EXEEXT)
+	$(LINK) $(ddate_LDFLAGS) $(ddate_OBJECTS) $(ddate_LDADD) $(LIBS)
 namei$(EXEEXT): $(namei_OBJECTS) $(namei_DEPENDENCIES) 
 	@rm -f namei$(EXEEXT)
 	$(LINK) $(namei_LDFLAGS) $(namei_OBJECTS) $(namei_LDADD) $(LIBS)
@@ -151,6 +159,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ddate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/namei.Po@am__quote@
 
 distclean-depend:

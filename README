@@ -41,7 +41,7 @@ GPL:
  realpath
 
 PublicDomain-now-GPL:
- namei
+ namei    ddate
 
 BSD-no-advert:
  cal

@@ -1,5 +1,17 @@
 2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	* src-pd/ddate.c: new file
+	* src-pd/ddate.1: new file
+	* src-pd/ddate.doc: new file
+	* AUTHORS: add Druel the Chaotic
+	* PROGLIST: add ddate
+	* README: mention ddate
+	* src-pd/Makefile.am: add ddate to proglist, ddate.1
+	to manlist
+	* src-bsd/Makefile.in: regenerate
+
+2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* src-gpl/realpath.c: new file
 	* AUTHORS: add Steven Barker
 	* PROGLIST: add realpath

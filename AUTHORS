@@ -14,3 +14,7 @@ Mark Bradshaw  <bradshaw@staff.crosswalk.com>
 Steven Barker  <scbarker@uiuc.edu>
   realpath.c (submitted to bug-sh-utils on 6 October 2001)
   -- adapted by Charles Wilson
+
+Druel the Chaotic (Jeremy Johnson)  <mpython@gnu.ai.mit.edu>
+  ddate.c, ddate.1, ddate.doc
+  -- adapted by Charles Wilson
