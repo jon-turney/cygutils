@@ -7,3 +7,7 @@ Scott Burkett  <scottb@IntNet.net>
 Jorg Schaible  <joerg.schaible@gft.com>
   banner.c
 
+Mark Bradshaw  <bradshaw@staff.crosswalk.com>
+  last.c, last.1, lastb.1, oldutmp.h
+  (taken from sysvinit-2.84 package and adapted)
+

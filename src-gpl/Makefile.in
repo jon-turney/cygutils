@@ -72,9 +72,13 @@ install_sh = @install_sh@
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = conv ascii dump getclip putclip \
-	semtool shmtool msgtool semstat banner
+	semtool shmtool msgtool semstat banner \
+	last
 
+man_MANS = last.1 lastb.1
+last_SOURCES = last.c oldutmp.h
 banner_LDADD = -lkernel32 -lgdi32
+noinst_HEADERS = oldutmp.h
 subdir = src-gpl
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -82,7 +86,7 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = conv$(EXEEXT) ascii$(EXEEXT) dump$(EXEEXT) \
 	getclip$(EXEEXT) putclip$(EXEEXT) semtool$(EXEEXT) \
 	shmtool$(EXEEXT) msgtool$(EXEEXT) semstat$(EXEEXT) \
-	banner$(EXEEXT)
+	banner$(EXEEXT) last$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 ascii_SOURCES = ascii.c
@@ -109,6 +113,11 @@ getclip_OBJECTS = getclip.$(OBJEXT)
 getclip_LDADD = $(LDADD)
 getclip_DEPENDENCIES =
 getclip_LDFLAGS =
+am_last_OBJECTS = last.$(OBJEXT)
+last_OBJECTS = $(am_last_OBJECTS)
+last_LDADD = $(LDADD)
+last_DEPENDENCIES =
+last_LDFLAGS =
 msgtool_SOURCES = msgtool.c
 msgtool_OBJECTS = msgtool.$(OBJEXT)
 msgtool_LDADD = $(LDADD)
@@ -143,18 +152,24 @@ LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ascii.Po $(DEPDIR)/banner.Po \
 @AMDEP_TRUE@	$(DEPDIR)/conv.Po $(DEPDIR)/dump.Po \
-@AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/msgtool.Po \
-@AMDEP_TRUE@	$(DEPDIR)/putclip.Po $(DEPDIR)/semstat.Po \
-@AMDEP_TRUE@	$(DEPDIR)/semtool.Po $(DEPDIR)/shmtool.Po
+@AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/last.Po \
+@AMDEP_TRUE@	$(DEPDIR)/msgtool.Po $(DEPDIR)/putclip.Po \
+@AMDEP_TRUE@	$(DEPDIR)/semstat.Po $(DEPDIR)/semtool.Po \
+@AMDEP_TRUE@	$(DEPDIR)/shmtool.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c msgtool.c \
-	putclip.c semstat.c semtool.c shmtool.c
-DIST_COMMON = Makefile.am Makefile.in
-SOURCES = ascii.c banner.c conv.c dump.c getclip.c msgtool.c putclip.c semstat.c semtool.c shmtool.c
+DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) \
+	msgtool.c putclip.c semstat.c semtool.c shmtool.c
+
+NROFF = nroff
+MANS = $(man_MANS)
+HEADERS = $(noinst_HEADERS)
+
+DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
+SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) msgtool.c putclip.c semstat.c semtool.c shmtool.c
 
 all: all-am
 
@@ -205,6 +220,9 @@ dump$(EXEEXT): $(dump_OBJECTS) $(dump_DEPENDENCIES)
 getclip$(EXEEXT): $(getclip_OBJECTS) $(getclip_DEPENDENCIES) 
 	@rm -f getclip$(EXEEXT)
 	$(LINK) $(getclip_LDFLAGS) $(getclip_OBJECTS) $(getclip_LDADD) $(LIBS)
+last$(EXEEXT): $(last_OBJECTS) $(last_DEPENDENCIES) 
+	@rm -f last$(EXEEXT)
+	$(LINK) $(last_LDFLAGS) $(last_OBJECTS) $(last_LDADD) $(LIBS)
 msgtool$(EXEEXT): $(msgtool_OBJECTS) $(msgtool_DEPENDENCIES) 
 	@rm -f msgtool$(EXEEXT)
 	$(LINK) $(msgtool_LDFLAGS) $(msgtool_OBJECTS) $(msgtool_LDADD) $(LIBS)
@@ -232,6 +250,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/conv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/dump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/last.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/putclip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
@@ -254,6 +273,45 @@ distclean-depend:
 	$(COMPILE) -c `cygpath -w $<`
 CCDEPMODE = @CCDEPMODE@
 uninstall-info-am:
+
+man1dir = $(mandir)/man1
+install-man1: $(man1_MANS) $(man_MANS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(man1dir)
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
+	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
+	for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
+	  else file=$$i; fi; \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst"; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst; \
+	done
+uninstall-man1:
+	@$(NORMAL_UNINSTALL)
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
+	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
+	for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " rm -f $(DESTDIR)$(man1dir)/$$inst"; \
+	  rm -f $(DESTDIR)$(man1dir)/$$inst; \
+	done
 
 tags: TAGS
 
@@ -310,10 +368,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(MANS) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(man1dir)
 
 install: install-am
 install-exec: install-exec-am
@@ -355,7 +413,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-man
 
 install-exec-am: install-binPROGRAMS
 	@$(NORMAL_INSTALL)
@@ -363,7 +421,7 @@ install-exec-am: install-binPROGRAMS
 
 install-info: install-info-am
 
-install-man:
+install-man: install-man1
 
 installcheck-am:
 
@@ -375,18 +433,21 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-man
+
+uninstall-man: uninstall-man1
 
 .PHONY: GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic distclean distclean-compile distclean-depend \
 	distclean-generic distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-binPROGRAMS install-data \
 	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-info-am install-man install-man1 install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic tags uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am
+	uninstall-binPROGRAMS uninstall-info-am uninstall-man \
+	uninstall-man1
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

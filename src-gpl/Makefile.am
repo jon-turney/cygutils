@@ -3,8 +3,12 @@
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = conv ascii dump getclip putclip \
-	semtool shmtool msgtool semstat banner
+	semtool shmtool msgtool semstat banner \
+	last
+man_MANS = last.1 lastb.1
+last_SOURCES = last.c oldutmp.h
 banner_LDADD = -lkernel32 -lgdi32
+noinst_HEADERS = oldutmp.h
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)

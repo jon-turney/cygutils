@@ -36,7 +36,7 @@ What's in this package:
 -------------------------------
 GPL:
  ascii    u2d       unix2dos  putclip  shmtool 
- banner   d2u       getclip   semstat
+ banner   d2u       getclip   semstat  last
  conv     dos2unix  msgtool   semtool
  
 PublicDomain-now-GPL:

@@ -68,6 +68,9 @@ cal.exe
   displays a calendar
   (BSD-no-advert *)
 
+last.exe
+  show a listing of the last logged in users
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 
@@ -77,3 +80,4 @@ cal.exe
     Director of the Office of Technology Licensing of the 
     University of California on July 22 1999. He states 
     that clause 3 is "hereby deleted in its entirety."
+

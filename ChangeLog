@@ -1,3 +1,19 @@
+2001-01-16  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* bootstrap: new file
+	* src-gpl/Makefile.am: add last to proglist
+	* src-gpl/Makefile.in: regenerate
+	* PROGLIST: add last
+	* README: mention last
+	* AUTHORS: add Mark Bradshaw
+
+2001-01-16  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
+
+	* src-gpl/last.c: new file
+	* src-gpl/last.1: new file
+	* src-gpl/lastb.1: new file
+	* src-gpl/oldutmp.h: new file
+
 2001-12-05  Joerg Schaible  <joerg.schaible@gft.com>
 
 	* src-gpl/banner.c: fix the -c option, use ANSI
