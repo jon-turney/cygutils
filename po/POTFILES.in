@@ -1,0 +1,4 @@
+# AFAIK, none of these programs actually have translations,
+# even though some of them depend on gettext.  So, this
+# file, which should list the package source files that
+# have translation strings in them, is empty.
