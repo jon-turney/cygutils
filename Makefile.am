@@ -37,11 +37,21 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/ipc/msgtool src/ipc/semstat src/lpr/lpr \
 	src/mkshortcut/mkshortcut
 
-EXTRA_DIST = config.rpath \
+po_files = \
+	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars po/POTFILES.in \
+	po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header \
+	po/insert-header.sin po/quot.sed po/remove-potcdate.sin
+	
+extra_docs = \
    src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
   	src/namei/README1.namei src/col/README.col \
 	src/getopt/parse.bash src/getopt/parse.tcsh \
-	src/getopt/test.bash src/getopt/test.tcsh 
+	src/getopt/test.bash src/getopt/test.tcsh
+
+licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
+
+EXTRA_DIST = config.rpath PROGLIST bootstrap common.h HOW-TO-CONTRIBUTE \
+   $(licenses) $(po_files) $(extra_docs) $(man_MANS)
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool
@@ -72,5 +82,3 @@ install-exec-hook: $(bin_PROGRAMS)
 	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
 	done
 	 
-
-ACLOCAL_AMFLAGS = -I m4

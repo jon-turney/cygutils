@@ -79,6 +79,11 @@ The simple 12 step program:
       the blurb in the .c or .h file is just that: a short
       blurb, with a reference to the full text elsewhere)
 
+      You should also add it to the licenses variable in 
+      the toplevel Makefile.am: e.g.
+
+      licenses = ... licenses/COPYING.MPL ...
+
 3) Make a home 
 
    create a new directory for your contribution underneath 'src'
@@ -175,9 +180,10 @@ The simple 12 step program:
      man_MANS = ... src/foo/foo.1 ...
 
      If there are non-man-page documentation files, you should those
-     files to the EXTRA_DIST variable:
+     files to the extra_docs variable (which gets automatically 
+     included in EXTRA_DIST)
 
-     EXTRA_DIST = ... src/foo/foo.README ...
+     extra_docs = ... src/foo/foo.README ...
 
      However, there is no provisiion for actually INSTALLING these
      additional documentation files.  At least not yet.
