@@ -44,15 +44,9 @@ chdir to /,  or if it encounters an unknown file type.
 
 -------------------------------------------------------------*/
 
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
+#include "common.h"
 #include <sys/stat.h>
 #include <sys/param.h>
-#include <config.h>
 
 int main(int argc, char *argv[]);
 

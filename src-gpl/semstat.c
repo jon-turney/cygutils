@@ -8,9 +8,7 @@
  the current value of all semaphores in the set created by semtool.
  *****************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
+#include "common.h"
 #include <sys/ipc.h>
 #include <sys/sem.h>
 

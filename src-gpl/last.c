@@ -17,18 +17,12 @@
  *		2 of the License, or (at your option) any later version.
  */
 
-#include <sys/types.h>
+#include "common.h"
 #include <sys/stat.h>
-#include <sys/fcntl.h>
 #include <time.h>
-#include <stdio.h>
 #include <ctype.h>
 #include <utmp.h>
-#include <errno.h>
 #include <malloc.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 #include <signal.h>
 #include <getopt.h>
 #include <netinet/in.h>

@@ -1,11 +1,40 @@
+2002-01-27  Charles Wilson  <cwilson@ece.gatech.edu>
 
-2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
+	* acinclude.m4: new file
+	* common.h: new file
+	* configure.ac: add conditionals for windows-only,
+	cygipc-only programs
+	* src-gpl/Makefile.am: use conditionals
+	* aclocal.m4: regenerate
+	* config.h.in: regenerate
+	* Makefile.in: regenerate
+	* src-gpl/Makefile.in: regenerate
+	* configure: regenerate
+	* README: minor changes
+	* src-bsd/cal.c: use common.h
+	* src-pd/ddate.c: use common.h
+	* src-pd/namei.c: use common.h
+	* src-gpl/ascii.c: use common.h
+	* src-gpl/banner.c: use common.h
+	* src-gpl/conv.c: use common.h
+	* src-gpl/dump.c: use common.h
+	* src-gpl/getclip.c: use common.h
+	* src-gpl/last.c: use common.h
+	* src-gpl/msgtool.c: use common.h
+	* src-gpl/putclip.c: use common.h
+	* src-gpl/realpath.c: use common.h
+	* src-gpl/semstat.c: use common.h
+	* src-gpl/semtool.c: use common.h
+	* src-gpl/shmtool.c: use common.h
+	* src-gpl/utmpdump.c: use common.h
+
+2002-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* NEWS: add entries for 0.9.6, .7, and .8
 	* ChangeLog: fix tabs
 	* release version 0.9.8
 
-2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
+2002-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* src-pd/ddate.c: new file
 	* src-pd/ddate.1: new file
@@ -17,7 +46,7 @@
 	to manlist
 	* src-bsd/Makefile.in: regenerate
 
-2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
+2002-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* src-gpl/realpath.c: new file
 	* AUTHORS: add Steven Barker
@@ -26,7 +55,7 @@
 	* src-gpl/Makefile.am: add realpath to proglist
 	* src-gpl/Makefile.in: regenerate
 
-2001-01-18  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
+2002-01-18  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
 
 	* src-gpl/utmpdump.c: new file
 	* AUTHORS: add Mark Bradshaw
@@ -35,7 +64,7 @@
 	* src-gpl/Makefile.am: add utmpdump to proglist
 	* src-gpl/Makefile.in: regenerate
 
-2001-01-16  Charles Wilson  <cwilson@ece.gatech.edu>
+2002-01-16  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* bootstrap: new file
 	* src-gpl/Makefile.am: add last to proglist
@@ -44,7 +73,7 @@
 	* README: mention last
 	* AUTHORS: add Mark Bradshaw
 
-2001-01-16  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
+2002-01-16  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
 
 	* src-gpl/last.c: new file
 	* src-gpl/last.1: new file

@@ -22,16 +22,7 @@
  *   -- remove gettext dependency
  */
 
-#include <config.h>
-#include <stdio.h>
-#include <sys/types.h>
-
-/* this should be changed to use a generic realpath
-   function if libc does not have one of its own */
-#include <stdlib.h>
-#include <errno.h>
-#include <limits.h>
-#include <popt.h>
+#include "common.h"
 
 /* The official name of this program (e.g., no `g' prefix).  */
 #define PROGRAM_NAME "realpath"

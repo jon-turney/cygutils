@@ -2,9 +2,16 @@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-bin_PROGRAMS = conv ascii dump getclip putclip \
-	semtool shmtool msgtool semstat banner \
-	last utmpdump realpath
+if WITH_WINDOWS_PROGRAMS
+windows_progs = getclip putclip banner
+endif
+if WITH_CYGIPC_PROGRAMS
+cygipc_progs = semtool shmtool msgtool semstat
+endif
+bin_PROGRAMS = conv ascii dump \
+	last utmpdump realpath $(windows_progs) \
+	$(cygipc_progs)
+
 man_MANS = last.1 lastb.1
 last_SOURCES = last.c oldutmp.h
 banner_LDADD = -lkernel32 -lgdi32

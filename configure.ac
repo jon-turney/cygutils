@@ -19,7 +19,7 @@ AC_CHECK_LIB(intl, gettext)
 AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h limits.h malloc.h stdlib.h string.h popt.h windows.h])
 AC_CHECK_HEADERS([sys/sem.h sys/shm.h sys/msg.h ])
-AC_CHECK_HEADERS([langinfo.h libintl.h locale.h sys/param.h unisted.h])
+AC_CHECK_HEADERS([langinfo.h libintl.h locale.h sys/param.h sys/fcntl.h unistd.h])
 AC_CHECK_HEADERS([wchar.h wctype.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -33,6 +33,12 @@ AC_CHECK_FUNCS([bzero getcwd memset nl_langinfo setlocale])
 AC_FUNC_LSTAT
 AC_FUNC_STAT
 AC_FUNC_VPRINTF
+dnl should only exist on windows, I hope
+AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *]) 
+
+dnl Set Conditionals for Makefile.am
+AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
+AM_CONDITIONAL(WITH_CYGIPC_PROGRAMS, test "$ac_cv_lib_cygipc_semget" = yes)
 
 AC_CONFIG_FILES([Makefile src-gpl/Makefile src-pd/Makefile src-bsd/Makefile])
 AC_OUTPUT

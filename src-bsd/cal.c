@@ -56,16 +56,11 @@
  *             rewrite of the displaying) and proper handling of RTL scripts
  */
 
-#include <sys/types.h>
+#include "common.h"
 
 #include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <time.h>
-#include <unistd.h>
 #include <locale.h>
-#include "config.h"
 #include "errs.h"
 
 /* Determine if the C(++) compiler requires complete function prototype  */

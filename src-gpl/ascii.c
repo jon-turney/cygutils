@@ -21,11 +21,7 @@
  * See the COPYING file for license information.
  */
 
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <popt.h>
+#include "common.h"
 
 static const char versionID[] = 
     "0.1.1";

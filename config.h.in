@@ -92,6 +92,9 @@
 /* Define if you have the `strrchr' function. */
 #undef HAVE_STRRCHR
 
+/* Define if you have the <sys/fcntl.h> header file. */
+#undef HAVE_SYS_FCNTL_H
+
 /* Define if you have the <sys/msg.h> header file. */
 #undef HAVE_SYS_MSG_H
 
@@ -112,9 +115,6 @@
 
 /* Define if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define if you have the <unisted.h> header file. */
-#undef HAVE_UNISTED_H
 
 /* Define if you have the `vprintf' function. */
 #undef HAVE_VPRINTF

@@ -18,16 +18,12 @@
  *		2 of the License, or (at your option) any later version.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "common.h"
 #include <utmp.h>
 #include <time.h>
 #include <ctype.h>
-#include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <limits.h>
 #include "oldutmp.h"
 
 char *strptime (const char *, const char *, struct tm *);

@@ -21,12 +21,8 @@
  * See the COPYING file for license information.
  */
 
-#include "config.h"
-#include <windows.h>
-#include <stdio.h>
+#include "common.h"
 #include <malloc.h>
-#include <string.h>
-#include <popt.h>
 #define CLIPCHUNK 1024
 
 static const char versionID[] = 

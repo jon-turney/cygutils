@@ -64,11 +64,8 @@
 
 /*#define PRAISE_BOB 13013*/
 
-#include <stdlib.h>
-#include <string.h>
+#include "common.h"
 #include <time.h>
-#include <stdio.h>
-#include "config.h"
 
 #ifndef PACKAGE
 #define PACKAGE "cygutils"
