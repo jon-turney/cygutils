@@ -56,11 +56,11 @@
  *             rewrite of the displaying) and proper handling of RTL scripts
  */
 
-#include "common.h"
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
-#include <ctype.h>
-#include <time.h>
-#include <locale.h>
+#include "common.h"
 #include "errs.h"
 
 /* Determine if the C(++) compiler requires complete function prototype  */
@@ -84,6 +84,10 @@ int main __P((int argc, char *argv[]));
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
+#endif
+#if !HAVE_SETLOCALE
+# undef setlocale(a, b)
+# define setlocale(a, b) /* empty */
 #endif
 
 #ifdef ENABLE_NLS

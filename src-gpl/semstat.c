@@ -7,10 +7,36 @@
  A companion command line tool for the semtool package.  semstat displays
  the current value of all semaphores in the set created by semtool.
  *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * See the COPYING file for license information.
+ */
+
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
 #include "common.h"
-#include <sys/ipc.h>
-#include <sys/sem.h>
+
+#if HAVE_SYS_IPC_H
+#  include <sys/ipc.h>
+#endif
+#if HAVE_SYS_SEM_H
+#  include <sys/sem.h>
+#endif
 
 /* arg for semctl system calls. */
 union semun {

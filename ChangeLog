@@ -1,3 +1,39 @@
+2002-02-23  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src-pd/ddate.c: add explicit license reference
+	and move #includes to common.h.  Guard setlocale. 
+	Explicitly include config.h, common.h
+	* src-pd/namei.c: ditto
+	* src-bsd/cal.c: ditto
+	* src-bsd/err.c: ditto
+	* src-bsd/errs.h: explicitly include config.h, common.h
+	* src-bsd/widechar.h: explicitly include config.h (NOT common.h)
+	* src-gpl/ascii.c: explicitly include config.h
+	* src-gpl/banner.c: reformat license notice. explicitly 
+	include config.h
+	* src-gpl/conv.c: explictly include config.h
+	* src-gpl/dump.c: explictly include config.h; move other
+	includes into common.h
+	* src-gpl/getclip.c: explicitly include config.h
+	* src-gpl/last.c: reformat license notice. explicitly include
+	config.h.  Move other #includes into common.h
+	* src-gpl/oldutmp.h: add explicit license reference.
+	* src-gpl/putclip.c: include config.h.  Move other #includes
+	into common.h
+	* src-gpl/realpath.c: Reformat license reference. Explicitly 
+	include config.h.
+	* src-gpl/msgtool.c: add explicit license reference. include
+	config.h.  Guard ipc #includes.  Move other includes into common.h
+	* src-gpl/semstat.c: ditto
+	* src-gpl/semtool.c: ditto
+	* src-gpl/shmtool.c: ditto
+	* src-gpl/utmpdump.c: Reformat license reference.  Explicitly 
+	include config.h.  Move other includes into common.h.
+	* config.h.in: regenerate
+	* configure.ac: Add the new checks 
+	* common.h: Migrate other includes from .c files here.
+	* configure: regenerate
+
 2002-01-28  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* src-bsd/cal.c: fix spelling

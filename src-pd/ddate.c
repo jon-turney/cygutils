@@ -6,7 +6,26 @@
    mpython@gnu.ai.mit.edu  
       28 Sever St Apt #3
       Worcester MA 01609
+*/
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * See the COPYING file for license information.
+ */
 
+/*
    and I'm not responsible if this program messes anything up (except your 
    mind, I'm responsible for that)
 
@@ -37,7 +56,6 @@
    -  minor changes so that it compiles on cygwin
 	-  removed nls.h dependency (but retain NLS capabiltiy)
 	-  changes (c) 2002 Charles Wilson.  Licensed under the GPL.
-
 */
 
 /* configuration options  VVVVV   READ THIS!!! */
@@ -63,9 +81,10 @@
 /* If you wish ddate(1) to contain SubGenius slogans, define PRAISE_BOB */
 
 /*#define PRAISE_BOB 13013*/
-
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 #include "common.h"
-#include <time.h>
 
 #ifndef PACKAGE
 #define PACKAGE "cygutils"
@@ -77,6 +96,10 @@
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
+#endif
+#if !HAVE_SETLOCALE
+#  undef setlocale(a, b)
+#  define setlocale(a, b) /* empty */
 #endif
 
 #ifdef ENABLE_NLS

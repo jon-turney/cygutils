@@ -1,7 +1,13 @@
 /* config.h.in.  Generated automatically from configure.ac by autoheader.  */
 
+/* Define if you have the <arpa/inet.h> header file. */
+#undef HAVE_ARPA_INET_H
+
 /* Define if you have the `bzero' function. */
 #undef HAVE_BZERO
+
+/* Define if you have the <ctype.h> header file. */
+#undef HAVE_CTYPE_H
 
 /* Define if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
@@ -9,8 +15,14 @@
 /* Define if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
 
+/* Define if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
 /* Define if you have the `getcwd' function. */
 #undef HAVE_GETCWD
+
+/* Define if you have the <getopt.h> header file. */
+#undef HAVE_GETOPT_H
 
 /* Define if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -52,6 +64,12 @@
 /* Define if you have the `memset' function. */
 #undef HAVE_MEMSET
 
+/* Define if you have the <netdb.h> header file. */
+#undef HAVE_NETDB_H
+
+/* Define if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
 /* Define if you have the `nl_langinfo' function. */
 #undef HAVE_NL_LANGINFO
 
@@ -61,9 +79,18 @@
 /* Define if you have the `setlocale' function. */
 #undef HAVE_SETLOCALE
 
+/* Define if you have the <signal.h> header file. */
+#undef HAVE_SIGNAL_H
+
 /* Define if `stat' has the bug that it succeeds when given the zero-length
    file name argument. */
 #undef HAVE_STAT_EMPTY_STRING_BUG
+
+/* Define if you have the <stdarg.h> header file. */
+#undef HAVE_STDARG_H
+
+/* Define if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
 
 /* Define if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
@@ -92,9 +119,6 @@
 /* Define if you have the `strrchr' function. */
 #undef HAVE_STRRCHR
 
-/* Define if you have the <sys/fcntl.h> header file. */
-#undef HAVE_SYS_FCNTL_H
-
 /* Define if you have the <sys/msg.h> header file. */
 #undef HAVE_SYS_MSG_H
 
@@ -107,6 +131,9 @@
 /* Define if you have the <sys/shm.h> header file. */
 #undef HAVE_SYS_SHM_H
 
+/* Define if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
 /* Define if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -116,14 +143,17 @@
 /* Define if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the <utmp.h> header file. */
+#undef HAVE_UTMP_H
+
+/* Define if you have the <varargs.h> header file. */
+#undef HAVE_VARARGS_H
+
 /* Define if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
 
 /* Define if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
-
-/* Define if you have the <wctype.h> header file. */
-#undef HAVE_WCTYPE_H
 
 /* Define if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
@@ -137,6 +167,9 @@
 
 /* Define if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
 
 /* Define if your <sys/time.h> declares `struct tm'. */
 #undef TM_IN_SYS_TIME

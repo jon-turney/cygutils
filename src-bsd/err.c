@@ -33,13 +33,10 @@
  *       July 22, 1999.
  *       See http://www.opensource.org/licenses/bsd-license.html
  */
-
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
+#include "common.h"
 #include "errs.h"
 
 

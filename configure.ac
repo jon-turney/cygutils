@@ -17,10 +17,17 @@ AC_CHECK_LIB(intl, gettext)
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([errno.h limits.h malloc.h stdlib.h string.h popt.h windows.h])
+AC_HEADER_TIME
+AC_CHECK_HEADERS([stdlib.h stddef.h errno.h limits.h malloc.h \
+ctype.h getopt.h popt.h windows.h])
+AC_CHECK_HEADERS([string.h strings.h], break)
+AC_CHECK_HEADERS([stdarg.h varargs.h], break)
+AC_CHECK_HEADERS([utmp.h signal.h netinet/in.h netdb.h arpa/inet.h \
+sys/socket.h])
 AC_CHECK_HEADERS([sys/sem.h sys/shm.h sys/msg.h ])
-AC_CHECK_HEADERS([langinfo.h libintl.h locale.h sys/param.h sys/fcntl.h unistd.h])
-AC_CHECK_HEADERS([wchar.h wctype.h])
+AC_CHECK_HEADERS([langinfo.h libintl.h sys/param.h fcntl.h unistd.h])
+AC_CHECK_HEADERS([wchar.h])
+AC_CHECK_HEADERS(locale.h, AC_CHECK_FUNCS(setlocale))
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -29,7 +36,7 @@ AC_STRUCT_TM
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([strcasecmp strchr strdup strrchr strerror])
-AC_CHECK_FUNCS([bzero getcwd memset nl_langinfo setlocale])
+AC_CHECK_FUNCS([bzero getcwd memset nl_langinfo])
 AC_FUNC_LSTAT
 AC_FUNC_STAT
 AC_FUNC_VPRINTF

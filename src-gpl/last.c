@@ -1,34 +1,49 @@
-/*
+/* 
  * last.c	Re-implementation of the 'last' command, this time
- *		for Linux. Yes I know there is BSD last, but I
- *		just felt like writing this. No thanks :-).
+ *		for Linux. Yes I know there is BSD last, but I 
+ *		just felt like writing this. No thanks :-). 
  *		Also, this version gives lots more info (especially with -x)
+ * 
+ * Author:	Miquel van Smoorenburg, miquels@cistron.nl 
+ * 
+ * Version:	@(#)last 2.79  13-Jun-2001  miquels@cistron.nl 
+ * 
+ *		This file is part of the sysvinit suite, 
+ *		Copyright 1991-2001 Miquel van Smoorenburg. 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation in version 2 of the License.
  *
- * Author:	Miquel van Smoorenburg, miquels@cistron.nl
- *
- * Version:	@(#)last  2.79  13-Jun-2001  miquels@cistron.nl
- *
- *		This file is part of the sysvinit suite,
- *		Copyright 1991-2001 Miquel van Smoorenburg.
- *
- *		This program is free software; you can redistribute it and/or
- *		modify it under the terms of the GNU General Public License
- *		as published by the Free Software Foundation; either version
- *		2 of the License, or (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "common.h"
-#include <sys/stat.h>
-#include <time.h>
+
+/* special requirements moved into common.h */
+/*
 #include <ctype.h>
-#include <utmp.h>
-#include <malloc.h>
-#include <signal.h>
 #include <getopt.h>
+#include <utmp.h>
+#include <signal.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+*/
+/* end special requirements */
+
 #include "oldutmp.h"
 
 #define RUN_LVL         1       /* The system's runlevel.  */

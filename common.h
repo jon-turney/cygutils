@@ -9,30 +9,102 @@
 
 #if HAVE_SYS_TYPES_H
 #  include <sys/types.h>
-#endif /*HAVE_SYS_TYPES_H*/
-
+#endif /* HAVE_SYS_TYPES_H */
+#if HAVE_SYS_STAT_H
+#  include <sys/stat.h>
+#endif /* HAVE_SYS_STAT_H */
 #if STDC_HEADERS
 #  include <stdlib.h>
+#  include <stddef.h>
+#else
+#  if HAVE_STDLIB_H
+#    include <stdlib.h>
+#  endif
+#endif /*STDC_HEADERS*/
+
+#if HAVE_STRING_H
+#  if !STDC_HEADERS && HAVE_MEMORY_H
+#    include <memory.h>
+#  endif
 #  include <string.h>
 #elif HAVE_STRINGS_H
 #  include <strings.h>
-#endif /*STDC_HEADERS*/
+#endif /*HAVE_STRING[S]_H*/
+
+#if HAVE_STDARG_H
+#  include <stdarg.h>
+#  define VA_START(a, f)	va_start(a, f)
+#else
+#  if HAVE_VARARGS_H
+#    include <varargs.h>
+#    define VA_START(a, f)	va_start(a)
+#  endif
+#endif
+#ifndef VA_START
+	error no variadic api
+#endif /* VARIADIC */
+
+#if TIME_WITH_SYS_TIME
+#  include <sys/time.h>
+#  include <time.h>
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
+#endif /* TIME */
 
 #if HAVE_UNISTD_H
 #  include <unistd.h>
 #endif /*HAVE_UNISTD_H*/
 
+#if HAVE_SYS_PARAM_H
+#  include <sys/param.h>
+#endif /*HAVE_SYS_PARAM_H */
+
 #if HAVE_ERRNO_H
 #  include <errno.h>
 #endif /*HAVE_ERRNO_H*/
 
-#if HAVE_SYS_FCNTL_H
-#  include <sys/fcntl.h>
-#endif /*HAVE_SYS_FCNTL_H*/
+#if HAVE_FCNTL_H
+#  include <fcntl.h>
+#endif /*HAVE_FCNTL_H*/
 
 #if HAVE_LIMITS_H
 #  include <limits.h>
 #endif /*HAVE_LIMITS_H*/
+
+#if HAVE_MALLOC_H
+#  include <malloc.h>
+#endif /*HAVE_LIMITS_H*/
+
+/* Geez, last.c/utmpdump.c have a lot of special requirements */
+#if HAVE_CTYPE_H
+#  include <ctype.h>
+#endif
+#if HAVE_GETOPT_H
+#  include <getopt.h>
+#endif
+#if HAVE_UTMP_H
+#  include <utmp.h>
+#endif /* HAVE_UTMP_H */
+#if HAVE_SIGNAL_H
+#  include <signal.h>
+#endif /* HAVE_SIGNAL_H */
+#if HAVE_NETINET_IN_H
+#  include <netinet/in.h>
+#endif /* HAVE_NETINET_IN_H */
+#if HAVE_NETDB_H
+#  include <netdb.h>
+#endif /* HAVE_NETDB_H */
+#if HAVE_ARPA_INET_H
+#  include <arpa/inet.h>
+#endif /* HAVE_ARPA_INET_H */
+#if HAVE_SYS_SOCKET_H
+#  include <sys/socket.h>
+#endif /* HAVE_SYS_SOCKET_H */
+/* End: last.c/utmpdump.c stuff */
 
 #if HAVE_POPT_H
 #  include <popt.h>
@@ -46,6 +118,8 @@
 #  endif
 #  define setmode(a, b) 
 #endif /*HAVE_WINDOWS_H*/
+
+/* we don't include wchar.h or wctype.h here.  let widechar.h do that */
 
 #endif /* !CYGUTILS_COMMON_H */
 
