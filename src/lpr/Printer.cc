@@ -281,7 +281,7 @@ void Printer::open()
   
   prDef.pDatatype = "RAW";
   prDef.pDevMode = m_devMode;
-  prDef.DesiredAccess = PRINTER_ALL_ACCESS;
+  prDef.DesiredAccess = PRINTER_ACCESS_USE;
   
   if (m_devHandle == INVALID_HANDLE_VALUE &&
       !OpenPrinter(tstr(m_devName), &m_devHandle, &prDef))
