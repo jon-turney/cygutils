@@ -13,5 +13,6 @@ SUBDIRS =     \
 	lpr        \
 	mkshortcut \
 	namei      \
-	realpath
+	realpath   \
+	cygstart
 

@@ -60,6 +60,7 @@ src/last/Makefile
 src/lpr/Makefile
 src/mkshortcut/Makefile
 src/namei/Makefile
-src/realpath/Makefile])
+src/realpath/Makefile
+src/cygstart/Makefile])
 
 AC_OUTPUT

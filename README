@@ -38,6 +38,7 @@ GPL:
  ascii    banner    conv      dump     getclip
  last     msgtool   putclip   realpath semstat
  semtool  shmtool   utmpdump  lpr      mkshortcut
+ cygstart
 
  d2u      dos2unix  u2d       unix2dos
 

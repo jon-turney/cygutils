@@ -1,3 +1,16 @@
+2002-03-15  Michael Schaap  <cygwin_start@mscha.org>
+
+	* src/cygstart: new directory
+	* src/cygstart/Makefile.am: new file
+	* src/cygstart/Makefile.in: new file
+	* src/cygstart/cygstart.c: new file
+	* src/cygstart/cygstart.1: new file
+	* src/Makefile.am: add subdirectory cygstart
+	* src/Makefile.in: regenerate
+	* AUTHORS: add Michael Schaap for cygstart
+	* PROGLIST: add cygstart
+	* README: add cygstart
+
 2002-03-13  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* HOW-TO-CONTRIBUTE: fix typos

@@ -96,6 +96,12 @@ mkshortcut.exe
   using .lnk files, which aren't really "full-featured")
   (GPL)
 
+cygstart.exe
+  A command-line tool which allows you to let Windows start a program or open
+  a file or URL in its associated application. It is similar to the Windows
+  command-line start command.
+  (GPL)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 
