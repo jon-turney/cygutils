@@ -59,7 +59,7 @@ extra_docs = \
 	src/namei/README1.namei src/col/README.col \
 	src/getopt/parse.bash src/getopt/parse.tcsh \
 	src/getopt/test.bash src/getopt/test.tcsh \
-	src/ipc/ipcs.8 src/ipc/ipcrm.8 src/lpr/README
+	src/lpr/README
 
 licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
 
