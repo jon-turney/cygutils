@@ -106,6 +106,17 @@
 #endif /* HAVE_SYS_SOCKET_H */
 /* End: last.c/utmpdump.c stuff */
 
+/* column needs TIOCGWINSZ */
+#if HAVE_TERMIOS_H
+# include <termios.h>
+#endif
+          
+#if GWINSZ_IN_SYS_IOCTL
+# include <sys/ioctl.h>
+#endif
+/* End: column needs TIOCGWINSZ */
+
+
 #if HAVE_POPT_H
 #  include <popt.h>
 #endif /*HAVE_POPT_H*/

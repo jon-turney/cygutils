@@ -1,5 +1,23 @@
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	Add 'column' program
+
+	* src/column/column: new directory
+	* src/column/column.c: new file
+	* src/column/err.c: new file
+	* src/column/errs.h: new file
+	* src/column/widechar.h: new file
+	* Makefile.am: add program 'column'
+	* configure.ac: add check for TIOCGWINSZ, termios.h, and ioctl.h.
+	* common.h: use TIOCGWINSZ to include sys/termios.h or sys/ioctl.h.
+	* Makefile.in: regenerate
+	* config.h.in: regenerate
+	* configure: regenerate
+	* PROGLIST: add column
+	* README: add column
+
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* TODO: remove gettext reminder
 	* HOW-TO-CONTRIBUTE: explain how to handle programs
 	that need -lintl, given the gettextize changes below.
@@ -44,6 +62,8 @@
 	Adjust to cygwin's libintl library now depending on libiconv.
 	Easiest way: remove explicit search for -lintl and libintl.h;
 	instead use AM_GNU_GETTEXT.
+
+	Add 'rev' program
 
 	* configure.ac: don't look for -lintl and libintl.h 'by hand';
 	use AM_GNU_GETTEXT instead.  Unfortunately, even 'external'
