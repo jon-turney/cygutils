@@ -1,3 +1,6 @@
+2003-05-20  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* NEWS: update lpr entry
 
 2003-05-20  Rick Rankin  <rick_rankin@yahoo.com>
 	* src/lpr/lpr.c: removed file
