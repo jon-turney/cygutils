@@ -1,3 +1,8 @@
+1.1.0:
+  change to one-big-makefile (cf. "Recursive Make Considered
+  Harmful").  Update documentation (esp. "HOW-TO-CONTRIBUTE" to
+  reflect that.
+
 1.0.0:
   rearrange directory structure to cut down on clutter
   (first insure that every .c and .h file has the correct

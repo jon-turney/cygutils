@@ -75,26 +75,285 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-SUBDIRS = src
+AUTOMAKE_OPTIONS = subdir-objects
+
+SUBDIRS = 
+DIST_SUBDIRS = 
+
+INCLUDES = -I$(top_builddir) -I$(top_srcdir)
+
+@WITH_WINDOWS_PROGRAMS_TRUE@windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
+@WITH_WINDOWS_PROGRAMS_TRUE@	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut
+
+
+@WITH_CYGIPC_PROGRAMS_TRUE@cygipc_progs = src/ipc/semtool src/ipc/shmtool src/ipc/msgtool src/ipc/semstat
+
+bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
+	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
+	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col
+
+
+noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
+	src/col/err.h
+
+
+man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
+	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1
+
+
+EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
+	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
+	src/ipc/msgtool src/ipc/semstat src/lpr/lpr \
+	src/mkshortcut/mkshortcut
+
+
+EXTRA_DIST = src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
+  	src/namei/README1.namei src/col/README.col
+
+
+src_banner_banner_LDADD = -lkernel32 -lgdi32
+src_lpr_lpr_LDADD = -lwinspool
+src_mkshortcut_mkshortcut_LDADD = -lole32 -luuid
+
+src_cal_cal_SOURCES = src/cal/cal.c src/cal/err.c src/cal/errs.h
+src_last_last_SOURCES = src/last/last.c src/last/oldutmp.h
+src_last_utmpdump_SOURCES = src/last/utmpdump.c src/last/oldutmp.h
+src_col_col_SOURCES = src/col/col.c src/col/err.c src/col/err.h
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
-DIST_SOURCES =
+EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
+	src/clip/putclip$(EXEEXT) src/cygstart/cygstart$(EXEEXT) \
+	src/ipc/semtool$(EXEEXT) src/ipc/shmtool$(EXEEXT) \
+	src/ipc/msgtool$(EXEEXT) src/ipc/semstat$(EXEEXT) \
+	src/lpr/lpr$(EXEEXT) src/mkshortcut/mkshortcut$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ascii/ascii$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/banner/banner$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/clip/getclip$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/clip/putclip$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/cygstart/cygstart$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/lpr/lpr$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/mkshortcut/mkshortcut$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/cal/cal$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/conv/conv$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ddate/ddate$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/dump/dump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/last$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/utmpdump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/namei/namei$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/realpath/realpath$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/conv/conv$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ddate/ddate$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/dump/dump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/last$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/utmpdump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/namei/namei$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/realpath/realpath$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ascii/ascii$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/banner/banner$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/clip/getclip$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/clip/putclip$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/cygstart/cygstart$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/lpr/lpr$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/mkshortcut/mkshortcut$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/cal/cal$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/conv/conv$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ddate/ddate$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/dump/dump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ipc/semtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ipc/shmtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ipc/msgtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ipc/semstat$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/last$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/utmpdump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/namei/namei$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/realpath/realpath$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/conv/conv$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ddate/ddate$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/dump/dump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ipc/semtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ipc/shmtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ipc/msgtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ipc/semstat$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/last$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/utmpdump$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/namei/namei$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/realpath/realpath$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
+
+src_ascii_ascii_SOURCES = src/ascii/ascii.c
+src_ascii_ascii_OBJECTS = src/ascii/ascii.$(OBJEXT)
+src_ascii_ascii_LDADD = $(LDADD)
+src_ascii_ascii_DEPENDENCIES =
+src_ascii_ascii_LDFLAGS =
+src_banner_banner_SOURCES = src/banner/banner.c
+src_banner_banner_OBJECTS = src/banner/banner.$(OBJEXT)
+src_banner_banner_DEPENDENCIES =
+src_banner_banner_LDFLAGS =
+am_src_cal_cal_OBJECTS = src/cal/cal.$(OBJEXT) src/cal/err.$(OBJEXT)
+src_cal_cal_OBJECTS = $(am_src_cal_cal_OBJECTS)
+src_cal_cal_LDADD = $(LDADD)
+src_cal_cal_DEPENDENCIES =
+src_cal_cal_LDFLAGS =
+src_clip_getclip_SOURCES = src/clip/getclip.c
+src_clip_getclip_OBJECTS = src/clip/getclip.$(OBJEXT)
+src_clip_getclip_LDADD = $(LDADD)
+src_clip_getclip_DEPENDENCIES =
+src_clip_getclip_LDFLAGS =
+src_clip_putclip_SOURCES = src/clip/putclip.c
+src_clip_putclip_OBJECTS = src/clip/putclip.$(OBJEXT)
+src_clip_putclip_LDADD = $(LDADD)
+src_clip_putclip_DEPENDENCIES =
+src_clip_putclip_LDFLAGS =
+am_src_col_col_OBJECTS = src/col/col.$(OBJEXT) src/col/err.$(OBJEXT)
+src_col_col_OBJECTS = $(am_src_col_col_OBJECTS)
+src_col_col_LDADD = $(LDADD)
+src_col_col_DEPENDENCIES =
+src_col_col_LDFLAGS =
+src_conv_conv_SOURCES = src/conv/conv.c
+src_conv_conv_OBJECTS = src/conv/conv.$(OBJEXT)
+src_conv_conv_LDADD = $(LDADD)
+src_conv_conv_DEPENDENCIES =
+src_conv_conv_LDFLAGS =
+src_cygstart_cygstart_SOURCES = src/cygstart/cygstart.c
+src_cygstart_cygstart_OBJECTS = src/cygstart/cygstart.$(OBJEXT)
+src_cygstart_cygstart_LDADD = $(LDADD)
+src_cygstart_cygstart_DEPENDENCIES =
+src_cygstart_cygstart_LDFLAGS =
+src_ddate_ddate_SOURCES = src/ddate/ddate.c
+src_ddate_ddate_OBJECTS = src/ddate/ddate.$(OBJEXT)
+src_ddate_ddate_LDADD = $(LDADD)
+src_ddate_ddate_DEPENDENCIES =
+src_ddate_ddate_LDFLAGS =
+src_dump_dump_SOURCES = src/dump/dump.c
+src_dump_dump_OBJECTS = src/dump/dump.$(OBJEXT)
+src_dump_dump_LDADD = $(LDADD)
+src_dump_dump_DEPENDENCIES =
+src_dump_dump_LDFLAGS =
+src_ipc_msgtool_SOURCES = src/ipc/msgtool.c
+src_ipc_msgtool_OBJECTS = src/ipc/msgtool.$(OBJEXT)
+src_ipc_msgtool_LDADD = $(LDADD)
+src_ipc_msgtool_DEPENDENCIES =
+src_ipc_msgtool_LDFLAGS =
+src_ipc_semstat_SOURCES = src/ipc/semstat.c
+src_ipc_semstat_OBJECTS = src/ipc/semstat.$(OBJEXT)
+src_ipc_semstat_LDADD = $(LDADD)
+src_ipc_semstat_DEPENDENCIES =
+src_ipc_semstat_LDFLAGS =
+src_ipc_semtool_SOURCES = src/ipc/semtool.c
+src_ipc_semtool_OBJECTS = src/ipc/semtool.$(OBJEXT)
+src_ipc_semtool_LDADD = $(LDADD)
+src_ipc_semtool_DEPENDENCIES =
+src_ipc_semtool_LDFLAGS =
+src_ipc_shmtool_SOURCES = src/ipc/shmtool.c
+src_ipc_shmtool_OBJECTS = src/ipc/shmtool.$(OBJEXT)
+src_ipc_shmtool_LDADD = $(LDADD)
+src_ipc_shmtool_DEPENDENCIES =
+src_ipc_shmtool_LDFLAGS =
+am_src_last_last_OBJECTS = src/last/last.$(OBJEXT)
+src_last_last_OBJECTS = $(am_src_last_last_OBJECTS)
+src_last_last_LDADD = $(LDADD)
+src_last_last_DEPENDENCIES =
+src_last_last_LDFLAGS =
+am_src_last_utmpdump_OBJECTS = src/last/utmpdump.$(OBJEXT)
+src_last_utmpdump_OBJECTS = $(am_src_last_utmpdump_OBJECTS)
+src_last_utmpdump_LDADD = $(LDADD)
+src_last_utmpdump_DEPENDENCIES =
+src_last_utmpdump_LDFLAGS =
+src_lpr_lpr_SOURCES = src/lpr/lpr.c
+src_lpr_lpr_OBJECTS = src/lpr/lpr.$(OBJEXT)
+src_lpr_lpr_DEPENDENCIES =
+src_lpr_lpr_LDFLAGS =
+src_mkshortcut_mkshortcut_SOURCES = src/mkshortcut/mkshortcut.c
+src_mkshortcut_mkshortcut_OBJECTS = src/mkshortcut/mkshortcut.$(OBJEXT)
+src_mkshortcut_mkshortcut_DEPENDENCIES =
+src_mkshortcut_mkshortcut_LDFLAGS =
+src_namei_namei_SOURCES = src/namei/namei.c
+src_namei_namei_OBJECTS = src/namei/namei.$(OBJEXT)
+src_namei_namei_LDADD = $(LDADD)
+src_namei_namei_DEPENDENCIES =
+src_namei_namei_LDFLAGS =
+src_realpath_realpath_SOURCES = src/realpath/realpath.c
+src_realpath_realpath_OBJECTS = src/realpath/realpath.$(OBJEXT)
+src_realpath_realpath_LDADD = $(LDADD)
+src_realpath_realpath_DEPENDENCIES =
+src_realpath_realpath_LDFLAGS =
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I.
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+@AMDEP_TRUE@DEP_FILES = src/ascii/$(DEPDIR)/ascii.Po \
+@AMDEP_TRUE@	src/banner/$(DEPDIR)/banner.Po \
+@AMDEP_TRUE@	src/cal/$(DEPDIR)/cal.Po src/cal/$(DEPDIR)/err.Po \
+@AMDEP_TRUE@	src/clip/$(DEPDIR)/getclip.Po \
+@AMDEP_TRUE@	src/clip/$(DEPDIR)/putclip.Po \
+@AMDEP_TRUE@	src/col/$(DEPDIR)/col.Po src/col/$(DEPDIR)/err.Po \
+@AMDEP_TRUE@	src/conv/$(DEPDIR)/conv.Po \
+@AMDEP_TRUE@	src/cygstart/$(DEPDIR)/cygstart.Po \
+@AMDEP_TRUE@	src/ddate/$(DEPDIR)/ddate.Po \
+@AMDEP_TRUE@	src/dump/$(DEPDIR)/dump.Po \
+@AMDEP_TRUE@	src/ipc/$(DEPDIR)/msgtool.Po \
+@AMDEP_TRUE@	src/ipc/$(DEPDIR)/semstat.Po \
+@AMDEP_TRUE@	src/ipc/$(DEPDIR)/semtool.Po \
+@AMDEP_TRUE@	src/ipc/$(DEPDIR)/shmtool.Po \
+@AMDEP_TRUE@	src/last/$(DEPDIR)/last.Po \
+@AMDEP_TRUE@	src/last/$(DEPDIR)/utmpdump.Po \
+@AMDEP_TRUE@	src/lpr/$(DEPDIR)/lpr.Po \
+@AMDEP_TRUE@	src/mkshortcut/$(DEPDIR)/mkshortcut.Po \
+@AMDEP_TRUE@	src/namei/$(DEPDIR)/namei.Po \
+@AMDEP_TRUE@	src/realpath/$(DEPDIR)/realpath.Po
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+DIST_SOURCES = src/ascii/ascii.c src/banner/banner.c \
+	$(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c \
+	$(src_col_col_SOURCES) src/conv/conv.c src/cygstart/cygstart.c \
+	src/ddate/ddate.c src/dump/dump.c src/ipc/msgtool.c \
+	src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c \
+	$(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) \
+	src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c \
+	src/realpath/realpath.c
+
+NROFF = nroff
+MANS = $(man_MANS)
+HEADERS = $(noinst_HEADERS)
+
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-	Makefile.in NEWS TODO acinclude.m4 aclocal.m4 config.h.in \
-	configure configure.ac depcomp install-sh missing mkinstalldirs
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_COMMON = README $(noinst_HEADERS) AUTHORS COPYING ChangeLog \
+	INSTALL Makefile.am Makefile.in NEWS TODO acinclude.m4 \
+	aclocal.m4 compile config.h.in configure configure.ac depcomp \
+	install-sh missing mkinstalldirs
+SOURCES = src/ascii/ascii.c src/banner/banner.c $(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c $(src_col_col_SOURCES) src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c src/realpath/realpath.c
+
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
+.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  Makefile
@@ -125,7 +384,627 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(top_srcdir)/configure.ac $(ACLOC
 
 distclean-hdr:
 	-rm -f config.h
+binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    p1=`echo "$$p1" | sed -e 's,^.*/,,'`; \
+	    f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  f=`echo "$$f" | sed -e 's,^.*/,,'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+src/ascii/.dirstamp:
+	@$(mkinstalldirs) src/ascii
+	@: > src/ascii/.dirstamp
+src/ascii/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/ascii/$(DEPDIR)
+	@: > src/ascii/$(DEPDIR)/.dirstamp
+src/ascii/ascii.$(OBJEXT): src/ascii/ascii.c src/ascii/.dirstamp \
+	src/ascii/$(DEPDIR)/.dirstamp
+src/ascii/ascii$(EXEEXT): $(src_ascii_ascii_OBJECTS) $(src_ascii_ascii_DEPENDENCIES) src/ascii/.dirstamp
+	@rm -f src/ascii/ascii$(EXEEXT)
+	$(LINK) $(src_ascii_ascii_LDFLAGS) $(src_ascii_ascii_OBJECTS) $(src_ascii_ascii_LDADD) $(LIBS)
+src/banner/.dirstamp:
+	@$(mkinstalldirs) src/banner
+	@: > src/banner/.dirstamp
+src/banner/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/banner/$(DEPDIR)
+	@: > src/banner/$(DEPDIR)/.dirstamp
+src/banner/banner.$(OBJEXT): src/banner/banner.c src/banner/.dirstamp \
+	src/banner/$(DEPDIR)/.dirstamp
+src/banner/banner$(EXEEXT): $(src_banner_banner_OBJECTS) $(src_banner_banner_DEPENDENCIES) src/banner/.dirstamp
+	@rm -f src/banner/banner$(EXEEXT)
+	$(LINK) $(src_banner_banner_LDFLAGS) $(src_banner_banner_OBJECTS) $(src_banner_banner_LDADD) $(LIBS)
+src/cal/.dirstamp:
+	@$(mkinstalldirs) src/cal
+	@: > src/cal/.dirstamp
+src/cal/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/cal/$(DEPDIR)
+	@: > src/cal/$(DEPDIR)/.dirstamp
+src/cal/cal.$(OBJEXT): src/cal/cal.c src/cal/.dirstamp \
+	src/cal/$(DEPDIR)/.dirstamp
+src/cal/err.$(OBJEXT): src/cal/err.c src/cal/.dirstamp \
+	src/cal/$(DEPDIR)/.dirstamp
+src/cal/cal$(EXEEXT): $(src_cal_cal_OBJECTS) $(src_cal_cal_DEPENDENCIES) src/cal/.dirstamp
+	@rm -f src/cal/cal$(EXEEXT)
+	$(LINK) $(src_cal_cal_LDFLAGS) $(src_cal_cal_OBJECTS) $(src_cal_cal_LDADD) $(LIBS)
+src/clip/.dirstamp:
+	@$(mkinstalldirs) src/clip
+	@: > src/clip/.dirstamp
+src/clip/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/clip/$(DEPDIR)
+	@: > src/clip/$(DEPDIR)/.dirstamp
+src/clip/getclip.$(OBJEXT): src/clip/getclip.c src/clip/.dirstamp \
+	src/clip/$(DEPDIR)/.dirstamp
+src/clip/getclip$(EXEEXT): $(src_clip_getclip_OBJECTS) $(src_clip_getclip_DEPENDENCIES) src/clip/.dirstamp
+	@rm -f src/clip/getclip$(EXEEXT)
+	$(LINK) $(src_clip_getclip_LDFLAGS) $(src_clip_getclip_OBJECTS) $(src_clip_getclip_LDADD) $(LIBS)
+src/clip/putclip.$(OBJEXT): src/clip/putclip.c src/clip/.dirstamp \
+	src/clip/$(DEPDIR)/.dirstamp
+src/clip/putclip$(EXEEXT): $(src_clip_putclip_OBJECTS) $(src_clip_putclip_DEPENDENCIES) src/clip/.dirstamp
+	@rm -f src/clip/putclip$(EXEEXT)
+	$(LINK) $(src_clip_putclip_LDFLAGS) $(src_clip_putclip_OBJECTS) $(src_clip_putclip_LDADD) $(LIBS)
+src/col/.dirstamp:
+	@$(mkinstalldirs) src/col
+	@: > src/col/.dirstamp
+src/col/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/col/$(DEPDIR)
+	@: > src/col/$(DEPDIR)/.dirstamp
+src/col/col.$(OBJEXT): src/col/col.c src/col/.dirstamp \
+	src/col/$(DEPDIR)/.dirstamp
+src/col/err.$(OBJEXT): src/col/err.c src/col/.dirstamp \
+	src/col/$(DEPDIR)/.dirstamp
+src/col/col$(EXEEXT): $(src_col_col_OBJECTS) $(src_col_col_DEPENDENCIES) src/col/.dirstamp
+	@rm -f src/col/col$(EXEEXT)
+	$(LINK) $(src_col_col_LDFLAGS) $(src_col_col_OBJECTS) $(src_col_col_LDADD) $(LIBS)
+src/conv/.dirstamp:
+	@$(mkinstalldirs) src/conv
+	@: > src/conv/.dirstamp
+src/conv/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/conv/$(DEPDIR)
+	@: > src/conv/$(DEPDIR)/.dirstamp
+src/conv/conv.$(OBJEXT): src/conv/conv.c src/conv/.dirstamp \
+	src/conv/$(DEPDIR)/.dirstamp
+src/conv/conv$(EXEEXT): $(src_conv_conv_OBJECTS) $(src_conv_conv_DEPENDENCIES) src/conv/.dirstamp
+	@rm -f src/conv/conv$(EXEEXT)
+	$(LINK) $(src_conv_conv_LDFLAGS) $(src_conv_conv_OBJECTS) $(src_conv_conv_LDADD) $(LIBS)
+src/cygstart/.dirstamp:
+	@$(mkinstalldirs) src/cygstart
+	@: > src/cygstart/.dirstamp
+src/cygstart/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/cygstart/$(DEPDIR)
+	@: > src/cygstart/$(DEPDIR)/.dirstamp
+src/cygstart/cygstart.$(OBJEXT): src/cygstart/cygstart.c \
+	src/cygstart/.dirstamp src/cygstart/$(DEPDIR)/.dirstamp
+src/cygstart/cygstart$(EXEEXT): $(src_cygstart_cygstart_OBJECTS) $(src_cygstart_cygstart_DEPENDENCIES) src/cygstart/.dirstamp
+	@rm -f src/cygstart/cygstart$(EXEEXT)
+	$(LINK) $(src_cygstart_cygstart_LDFLAGS) $(src_cygstart_cygstart_OBJECTS) $(src_cygstart_cygstart_LDADD) $(LIBS)
+src/ddate/.dirstamp:
+	@$(mkinstalldirs) src/ddate
+	@: > src/ddate/.dirstamp
+src/ddate/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/ddate/$(DEPDIR)
+	@: > src/ddate/$(DEPDIR)/.dirstamp
+src/ddate/ddate.$(OBJEXT): src/ddate/ddate.c src/ddate/.dirstamp \
+	src/ddate/$(DEPDIR)/.dirstamp
+src/ddate/ddate$(EXEEXT): $(src_ddate_ddate_OBJECTS) $(src_ddate_ddate_DEPENDENCIES) src/ddate/.dirstamp
+	@rm -f src/ddate/ddate$(EXEEXT)
+	$(LINK) $(src_ddate_ddate_LDFLAGS) $(src_ddate_ddate_OBJECTS) $(src_ddate_ddate_LDADD) $(LIBS)
+src/dump/.dirstamp:
+	@$(mkinstalldirs) src/dump
+	@: > src/dump/.dirstamp
+src/dump/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/dump/$(DEPDIR)
+	@: > src/dump/$(DEPDIR)/.dirstamp
+src/dump/dump.$(OBJEXT): src/dump/dump.c src/dump/.dirstamp \
+	src/dump/$(DEPDIR)/.dirstamp
+src/dump/dump$(EXEEXT): $(src_dump_dump_OBJECTS) $(src_dump_dump_DEPENDENCIES) src/dump/.dirstamp
+	@rm -f src/dump/dump$(EXEEXT)
+	$(LINK) $(src_dump_dump_LDFLAGS) $(src_dump_dump_OBJECTS) $(src_dump_dump_LDADD) $(LIBS)
+src/ipc/.dirstamp:
+	@$(mkinstalldirs) src/ipc
+	@: > src/ipc/.dirstamp
+src/ipc/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/ipc/$(DEPDIR)
+	@: > src/ipc/$(DEPDIR)/.dirstamp
+src/ipc/msgtool.$(OBJEXT): src/ipc/msgtool.c src/ipc/.dirstamp \
+	src/ipc/$(DEPDIR)/.dirstamp
+src/ipc/msgtool$(EXEEXT): $(src_ipc_msgtool_OBJECTS) $(src_ipc_msgtool_DEPENDENCIES) src/ipc/.dirstamp
+	@rm -f src/ipc/msgtool$(EXEEXT)
+	$(LINK) $(src_ipc_msgtool_LDFLAGS) $(src_ipc_msgtool_OBJECTS) $(src_ipc_msgtool_LDADD) $(LIBS)
+src/ipc/semstat.$(OBJEXT): src/ipc/semstat.c src/ipc/.dirstamp \
+	src/ipc/$(DEPDIR)/.dirstamp
+src/ipc/semstat$(EXEEXT): $(src_ipc_semstat_OBJECTS) $(src_ipc_semstat_DEPENDENCIES) src/ipc/.dirstamp
+	@rm -f src/ipc/semstat$(EXEEXT)
+	$(LINK) $(src_ipc_semstat_LDFLAGS) $(src_ipc_semstat_OBJECTS) $(src_ipc_semstat_LDADD) $(LIBS)
+src/ipc/semtool.$(OBJEXT): src/ipc/semtool.c src/ipc/.dirstamp \
+	src/ipc/$(DEPDIR)/.dirstamp
+src/ipc/semtool$(EXEEXT): $(src_ipc_semtool_OBJECTS) $(src_ipc_semtool_DEPENDENCIES) src/ipc/.dirstamp
+	@rm -f src/ipc/semtool$(EXEEXT)
+	$(LINK) $(src_ipc_semtool_LDFLAGS) $(src_ipc_semtool_OBJECTS) $(src_ipc_semtool_LDADD) $(LIBS)
+src/ipc/shmtool.$(OBJEXT): src/ipc/shmtool.c src/ipc/.dirstamp \
+	src/ipc/$(DEPDIR)/.dirstamp
+src/ipc/shmtool$(EXEEXT): $(src_ipc_shmtool_OBJECTS) $(src_ipc_shmtool_DEPENDENCIES) src/ipc/.dirstamp
+	@rm -f src/ipc/shmtool$(EXEEXT)
+	$(LINK) $(src_ipc_shmtool_LDFLAGS) $(src_ipc_shmtool_OBJECTS) $(src_ipc_shmtool_LDADD) $(LIBS)
+src/last/.dirstamp:
+	@$(mkinstalldirs) src/last
+	@: > src/last/.dirstamp
+src/last/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/last/$(DEPDIR)
+	@: > src/last/$(DEPDIR)/.dirstamp
+src/last/last.$(OBJEXT): src/last/last.c src/last/.dirstamp \
+	src/last/$(DEPDIR)/.dirstamp
+src/last/last$(EXEEXT): $(src_last_last_OBJECTS) $(src_last_last_DEPENDENCIES) src/last/.dirstamp
+	@rm -f src/last/last$(EXEEXT)
+	$(LINK) $(src_last_last_LDFLAGS) $(src_last_last_OBJECTS) $(src_last_last_LDADD) $(LIBS)
+src/last/utmpdump.$(OBJEXT): src/last/utmpdump.c src/last/.dirstamp \
+	src/last/$(DEPDIR)/.dirstamp
+src/last/utmpdump$(EXEEXT): $(src_last_utmpdump_OBJECTS) $(src_last_utmpdump_DEPENDENCIES) src/last/.dirstamp
+	@rm -f src/last/utmpdump$(EXEEXT)
+	$(LINK) $(src_last_utmpdump_LDFLAGS) $(src_last_utmpdump_OBJECTS) $(src_last_utmpdump_LDADD) $(LIBS)
+src/lpr/.dirstamp:
+	@$(mkinstalldirs) src/lpr
+	@: > src/lpr/.dirstamp
+src/lpr/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/lpr/$(DEPDIR)
+	@: > src/lpr/$(DEPDIR)/.dirstamp
+src/lpr/lpr.$(OBJEXT): src/lpr/lpr.c src/lpr/.dirstamp \
+	src/lpr/$(DEPDIR)/.dirstamp
+src/lpr/lpr$(EXEEXT): $(src_lpr_lpr_OBJECTS) $(src_lpr_lpr_DEPENDENCIES) src/lpr/.dirstamp
+	@rm -f src/lpr/lpr$(EXEEXT)
+	$(LINK) $(src_lpr_lpr_LDFLAGS) $(src_lpr_lpr_OBJECTS) $(src_lpr_lpr_LDADD) $(LIBS)
+src/mkshortcut/.dirstamp:
+	@$(mkinstalldirs) src/mkshortcut
+	@: > src/mkshortcut/.dirstamp
+src/mkshortcut/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/mkshortcut/$(DEPDIR)
+	@: > src/mkshortcut/$(DEPDIR)/.dirstamp
+src/mkshortcut/mkshortcut.$(OBJEXT): src/mkshortcut/mkshortcut.c \
+	src/mkshortcut/.dirstamp src/mkshortcut/$(DEPDIR)/.dirstamp
+src/mkshortcut/mkshortcut$(EXEEXT): $(src_mkshortcut_mkshortcut_OBJECTS) $(src_mkshortcut_mkshortcut_DEPENDENCIES) src/mkshortcut/.dirstamp
+	@rm -f src/mkshortcut/mkshortcut$(EXEEXT)
+	$(LINK) $(src_mkshortcut_mkshortcut_LDFLAGS) $(src_mkshortcut_mkshortcut_OBJECTS) $(src_mkshortcut_mkshortcut_LDADD) $(LIBS)
+src/namei/.dirstamp:
+	@$(mkinstalldirs) src/namei
+	@: > src/namei/.dirstamp
+src/namei/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/namei/$(DEPDIR)
+	@: > src/namei/$(DEPDIR)/.dirstamp
+src/namei/namei.$(OBJEXT): src/namei/namei.c src/namei/.dirstamp \
+	src/namei/$(DEPDIR)/.dirstamp
+src/namei/namei$(EXEEXT): $(src_namei_namei_OBJECTS) $(src_namei_namei_DEPENDENCIES) src/namei/.dirstamp
+	@rm -f src/namei/namei$(EXEEXT)
+	$(LINK) $(src_namei_namei_LDFLAGS) $(src_namei_namei_OBJECTS) $(src_namei_namei_LDADD) $(LIBS)
+src/realpath/.dirstamp:
+	@$(mkinstalldirs) src/realpath
+	@: > src/realpath/.dirstamp
+src/realpath/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/realpath/$(DEPDIR)
+	@: > src/realpath/$(DEPDIR)/.dirstamp
+src/realpath/realpath.$(OBJEXT): src/realpath/realpath.c \
+	src/realpath/.dirstamp src/realpath/$(DEPDIR)/.dirstamp
+src/realpath/realpath$(EXEEXT): $(src_realpath_realpath_OBJECTS) $(src_realpath_realpath_DEPENDENCIES) src/realpath/.dirstamp
+	@rm -f src/realpath/realpath$(EXEEXT)
+	$(LINK) $(src_realpath_realpath_LDFLAGS) $(src_realpath_realpath_OBJECTS) $(src_realpath_realpath_LDADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT) core *.core
+	-rm -f src/ascii/ascii.$(OBJEXT)
+	-rm -f src/banner/banner.$(OBJEXT)
+	-rm -f src/cal/cal.$(OBJEXT)
+	-rm -f src/cal/err.$(OBJEXT)
+	-rm -f src/clip/getclip.$(OBJEXT)
+	-rm -f src/clip/putclip.$(OBJEXT)
+	-rm -f src/col/col.$(OBJEXT)
+	-rm -f src/col/err.$(OBJEXT)
+	-rm -f src/conv/conv.$(OBJEXT)
+	-rm -f src/cygstart/cygstart.$(OBJEXT)
+	-rm -f src/ddate/ddate.$(OBJEXT)
+	-rm -f src/dump/dump.$(OBJEXT)
+	-rm -f src/ipc/msgtool.$(OBJEXT)
+	-rm -f src/ipc/semstat.$(OBJEXT)
+	-rm -f src/ipc/semtool.$(OBJEXT)
+	-rm -f src/ipc/shmtool.$(OBJEXT)
+	-rm -f src/last/last.$(OBJEXT)
+	-rm -f src/last/utmpdump.$(OBJEXT)
+	-rm -f src/lpr/lpr.$(OBJEXT)
+	-rm -f src/mkshortcut/mkshortcut.$(OBJEXT)
+	-rm -f src/namei/namei.$(OBJEXT)
+	-rm -f src/realpath/realpath.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+	-rm -f src/ascii/$(DEPDIR)/.dirstamp
+	-rm -f src/ascii/.dirstamp
+	-rm -f src/banner/$(DEPDIR)/.dirstamp
+	-rm -f src/banner/.dirstamp
+	-rm -f src/cal/$(DEPDIR)/.dirstamp
+	-rm -f src/cal/.dirstamp
+	-rm -f src/clip/$(DEPDIR)/.dirstamp
+	-rm -f src/clip/.dirstamp
+	-rm -f src/col/$(DEPDIR)/.dirstamp
+	-rm -f src/col/.dirstamp
+	-rm -f src/conv/$(DEPDIR)/.dirstamp
+	-rm -f src/conv/.dirstamp
+	-rm -f src/cygstart/$(DEPDIR)/.dirstamp
+	-rm -f src/cygstart/.dirstamp
+	-rm -f src/ddate/$(DEPDIR)/.dirstamp
+	-rm -f src/ddate/.dirstamp
+	-rm -f src/dump/$(DEPDIR)/.dirstamp
+	-rm -f src/dump/.dirstamp
+	-rm -f src/ipc/$(DEPDIR)/.dirstamp
+	-rm -f src/ipc/.dirstamp
+	-rm -f src/last/$(DEPDIR)/.dirstamp
+	-rm -f src/last/.dirstamp
+	-rm -f src/lpr/$(DEPDIR)/.dirstamp
+	-rm -f src/lpr/.dirstamp
+	-rm -f src/mkshortcut/$(DEPDIR)/.dirstamp
+	-rm -f src/mkshortcut/.dirstamp
+	-rm -f src/namei/$(DEPDIR)/.dirstamp
+	-rm -f src/namei/.dirstamp
+	-rm -f src/realpath/$(DEPDIR)/.dirstamp
+	-rm -f src/realpath/.dirstamp
+
+@AMDEP_TRUE@@am__include@ @am__quote@src/ascii/$(DEPDIR)/ascii.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/banner/$(DEPDIR)/banner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cal/$(DEPDIR)/cal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cal/$(DEPDIR)/err.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/clip/$(DEPDIR)/getclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/clip/$(DEPDIR)/putclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/col/$(DEPDIR)/col.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/col/$(DEPDIR)/err.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/conv/$(DEPDIR)/conv.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/cygstart/$(DEPDIR)/cygstart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/ddate/$(DEPDIR)/ddate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/dump/$(DEPDIR)/dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/msgtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/semstat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/semtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/shmtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/last/$(DEPDIR)/last.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/last/$(DEPDIR)/utmpdump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lpr/$(DEPDIR)/lpr.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/mkshortcut/$(DEPDIR)/mkshortcut.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/namei/$(DEPDIR)/namei.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/realpath/$(DEPDIR)/realpath.Po@am__quote@
+
+distclean-depend:
+	-rm -rf src/ascii/$(DEPDIR) src/banner/$(DEPDIR) src/cal/$(DEPDIR) src/clip/$(DEPDIR) src/col/$(DEPDIR) src/conv/$(DEPDIR) src/cygstart/$(DEPDIR) src/ddate/$(DEPDIR) src/dump/$(DEPDIR) src/ipc/$(DEPDIR) src/last/$(DEPDIR) src/lpr/$(DEPDIR) src/mkshortcut/$(DEPDIR) src/namei/$(DEPDIR) src/realpath/$(DEPDIR)
+
+.c.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+
+.c.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c -o $@ `cygpath -w $<`
+
+src/ascii/ascii.o: src/ascii/ascii.c
+@AMDEP_TRUE@	source='src/ascii/ascii.c' object='src/ascii/ascii.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ascii/$(DEPDIR)/ascii.Po' tmpdepfile='src/ascii/$(DEPDIR)/ascii.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ascii/ascii.o `test -f 'src/ascii/ascii.c' || echo '$(srcdir)/'`src/ascii/ascii.c
+
+src/ascii/ascii.obj: src/ascii/ascii.c
+@AMDEP_TRUE@	source='src/ascii/ascii.c' object='src/ascii/ascii.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ascii/$(DEPDIR)/ascii.Po' tmpdepfile='src/ascii/$(DEPDIR)/ascii.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ascii/ascii.obj `cygpath -w src/ascii/ascii.c`
+
+src/banner/banner.o: src/banner/banner.c
+@AMDEP_TRUE@	source='src/banner/banner.c' object='src/banner/banner.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/banner/$(DEPDIR)/banner.Po' tmpdepfile='src/banner/$(DEPDIR)/banner.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/banner/banner.o `test -f 'src/banner/banner.c' || echo '$(srcdir)/'`src/banner/banner.c
+
+src/banner/banner.obj: src/banner/banner.c
+@AMDEP_TRUE@	source='src/banner/banner.c' object='src/banner/banner.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/banner/$(DEPDIR)/banner.Po' tmpdepfile='src/banner/$(DEPDIR)/banner.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/banner/banner.obj `cygpath -w src/banner/banner.c`
+
+src/cal/cal.o: src/cal/cal.c
+@AMDEP_TRUE@	source='src/cal/cal.c' object='src/cal/cal.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cal/$(DEPDIR)/cal.Po' tmpdepfile='src/cal/$(DEPDIR)/cal.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cal/cal.o `test -f 'src/cal/cal.c' || echo '$(srcdir)/'`src/cal/cal.c
+
+src/cal/cal.obj: src/cal/cal.c
+@AMDEP_TRUE@	source='src/cal/cal.c' object='src/cal/cal.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cal/$(DEPDIR)/cal.Po' tmpdepfile='src/cal/$(DEPDIR)/cal.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cal/cal.obj `cygpath -w src/cal/cal.c`
+
+src/cal/err.o: src/cal/err.c
+@AMDEP_TRUE@	source='src/cal/err.c' object='src/cal/err.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cal/$(DEPDIR)/err.Po' tmpdepfile='src/cal/$(DEPDIR)/err.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cal/err.o `test -f 'src/cal/err.c' || echo '$(srcdir)/'`src/cal/err.c
+
+src/cal/err.obj: src/cal/err.c
+@AMDEP_TRUE@	source='src/cal/err.c' object='src/cal/err.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cal/$(DEPDIR)/err.Po' tmpdepfile='src/cal/$(DEPDIR)/err.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cal/err.obj `cygpath -w src/cal/err.c`
+
+src/clip/getclip.o: src/clip/getclip.c
+@AMDEP_TRUE@	source='src/clip/getclip.c' object='src/clip/getclip.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/clip/$(DEPDIR)/getclip.Po' tmpdepfile='src/clip/$(DEPDIR)/getclip.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/clip/getclip.o `test -f 'src/clip/getclip.c' || echo '$(srcdir)/'`src/clip/getclip.c
+
+src/clip/getclip.obj: src/clip/getclip.c
+@AMDEP_TRUE@	source='src/clip/getclip.c' object='src/clip/getclip.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/clip/$(DEPDIR)/getclip.Po' tmpdepfile='src/clip/$(DEPDIR)/getclip.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/clip/getclip.obj `cygpath -w src/clip/getclip.c`
+
+src/clip/putclip.o: src/clip/putclip.c
+@AMDEP_TRUE@	source='src/clip/putclip.c' object='src/clip/putclip.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/clip/$(DEPDIR)/putclip.Po' tmpdepfile='src/clip/$(DEPDIR)/putclip.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/clip/putclip.o `test -f 'src/clip/putclip.c' || echo '$(srcdir)/'`src/clip/putclip.c
+
+src/clip/putclip.obj: src/clip/putclip.c
+@AMDEP_TRUE@	source='src/clip/putclip.c' object='src/clip/putclip.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/clip/$(DEPDIR)/putclip.Po' tmpdepfile='src/clip/$(DEPDIR)/putclip.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/clip/putclip.obj `cygpath -w src/clip/putclip.c`
+
+src/col/col.o: src/col/col.c
+@AMDEP_TRUE@	source='src/col/col.c' object='src/col/col.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/col/$(DEPDIR)/col.Po' tmpdepfile='src/col/$(DEPDIR)/col.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/col/col.o `test -f 'src/col/col.c' || echo '$(srcdir)/'`src/col/col.c
+
+src/col/col.obj: src/col/col.c
+@AMDEP_TRUE@	source='src/col/col.c' object='src/col/col.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/col/$(DEPDIR)/col.Po' tmpdepfile='src/col/$(DEPDIR)/col.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/col/col.obj `cygpath -w src/col/col.c`
+
+src/col/err.o: src/col/err.c
+@AMDEP_TRUE@	source='src/col/err.c' object='src/col/err.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/col/$(DEPDIR)/err.Po' tmpdepfile='src/col/$(DEPDIR)/err.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/col/err.o `test -f 'src/col/err.c' || echo '$(srcdir)/'`src/col/err.c
+
+src/col/err.obj: src/col/err.c
+@AMDEP_TRUE@	source='src/col/err.c' object='src/col/err.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/col/$(DEPDIR)/err.Po' tmpdepfile='src/col/$(DEPDIR)/err.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/col/err.obj `cygpath -w src/col/err.c`
+
+src/conv/conv.o: src/conv/conv.c
+@AMDEP_TRUE@	source='src/conv/conv.c' object='src/conv/conv.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/conv/$(DEPDIR)/conv.Po' tmpdepfile='src/conv/$(DEPDIR)/conv.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/conv/conv.o `test -f 'src/conv/conv.c' || echo '$(srcdir)/'`src/conv/conv.c
+
+src/conv/conv.obj: src/conv/conv.c
+@AMDEP_TRUE@	source='src/conv/conv.c' object='src/conv/conv.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/conv/$(DEPDIR)/conv.Po' tmpdepfile='src/conv/$(DEPDIR)/conv.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/conv/conv.obj `cygpath -w src/conv/conv.c`
+
+src/cygstart/cygstart.o: src/cygstart/cygstart.c
+@AMDEP_TRUE@	source='src/cygstart/cygstart.c' object='src/cygstart/cygstart.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cygstart/$(DEPDIR)/cygstart.Po' tmpdepfile='src/cygstart/$(DEPDIR)/cygstart.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cygstart/cygstart.o `test -f 'src/cygstart/cygstart.c' || echo '$(srcdir)/'`src/cygstart/cygstart.c
+
+src/cygstart/cygstart.obj: src/cygstart/cygstart.c
+@AMDEP_TRUE@	source='src/cygstart/cygstart.c' object='src/cygstart/cygstart.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/cygstart/$(DEPDIR)/cygstart.Po' tmpdepfile='src/cygstart/$(DEPDIR)/cygstart.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/cygstart/cygstart.obj `cygpath -w src/cygstart/cygstart.c`
+
+src/ddate/ddate.o: src/ddate/ddate.c
+@AMDEP_TRUE@	source='src/ddate/ddate.c' object='src/ddate/ddate.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ddate/$(DEPDIR)/ddate.Po' tmpdepfile='src/ddate/$(DEPDIR)/ddate.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ddate/ddate.o `test -f 'src/ddate/ddate.c' || echo '$(srcdir)/'`src/ddate/ddate.c
+
+src/ddate/ddate.obj: src/ddate/ddate.c
+@AMDEP_TRUE@	source='src/ddate/ddate.c' object='src/ddate/ddate.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ddate/$(DEPDIR)/ddate.Po' tmpdepfile='src/ddate/$(DEPDIR)/ddate.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ddate/ddate.obj `cygpath -w src/ddate/ddate.c`
+
+src/dump/dump.o: src/dump/dump.c
+@AMDEP_TRUE@	source='src/dump/dump.c' object='src/dump/dump.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/dump/$(DEPDIR)/dump.Po' tmpdepfile='src/dump/$(DEPDIR)/dump.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/dump/dump.o `test -f 'src/dump/dump.c' || echo '$(srcdir)/'`src/dump/dump.c
+
+src/dump/dump.obj: src/dump/dump.c
+@AMDEP_TRUE@	source='src/dump/dump.c' object='src/dump/dump.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/dump/$(DEPDIR)/dump.Po' tmpdepfile='src/dump/$(DEPDIR)/dump.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/dump/dump.obj `cygpath -w src/dump/dump.c`
+
+src/ipc/msgtool.o: src/ipc/msgtool.c
+@AMDEP_TRUE@	source='src/ipc/msgtool.c' object='src/ipc/msgtool.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/msgtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/msgtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/msgtool.o `test -f 'src/ipc/msgtool.c' || echo '$(srcdir)/'`src/ipc/msgtool.c
+
+src/ipc/msgtool.obj: src/ipc/msgtool.c
+@AMDEP_TRUE@	source='src/ipc/msgtool.c' object='src/ipc/msgtool.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/msgtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/msgtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/msgtool.obj `cygpath -w src/ipc/msgtool.c`
+
+src/ipc/semstat.o: src/ipc/semstat.c
+@AMDEP_TRUE@	source='src/ipc/semstat.c' object='src/ipc/semstat.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/semstat.Po' tmpdepfile='src/ipc/$(DEPDIR)/semstat.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/semstat.o `test -f 'src/ipc/semstat.c' || echo '$(srcdir)/'`src/ipc/semstat.c
+
+src/ipc/semstat.obj: src/ipc/semstat.c
+@AMDEP_TRUE@	source='src/ipc/semstat.c' object='src/ipc/semstat.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/semstat.Po' tmpdepfile='src/ipc/$(DEPDIR)/semstat.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/semstat.obj `cygpath -w src/ipc/semstat.c`
+
+src/ipc/semtool.o: src/ipc/semtool.c
+@AMDEP_TRUE@	source='src/ipc/semtool.c' object='src/ipc/semtool.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/semtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/semtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/semtool.o `test -f 'src/ipc/semtool.c' || echo '$(srcdir)/'`src/ipc/semtool.c
+
+src/ipc/semtool.obj: src/ipc/semtool.c
+@AMDEP_TRUE@	source='src/ipc/semtool.c' object='src/ipc/semtool.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/semtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/semtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/semtool.obj `cygpath -w src/ipc/semtool.c`
+
+src/ipc/shmtool.o: src/ipc/shmtool.c
+@AMDEP_TRUE@	source='src/ipc/shmtool.c' object='src/ipc/shmtool.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/shmtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/shmtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/shmtool.o `test -f 'src/ipc/shmtool.c' || echo '$(srcdir)/'`src/ipc/shmtool.c
+
+src/ipc/shmtool.obj: src/ipc/shmtool.c
+@AMDEP_TRUE@	source='src/ipc/shmtool.c' object='src/ipc/shmtool.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/shmtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/shmtool.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/ipc/shmtool.obj `cygpath -w src/ipc/shmtool.c`
+
+src/last/last.o: src/last/last.c
+@AMDEP_TRUE@	source='src/last/last.c' object='src/last/last.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/last/$(DEPDIR)/last.Po' tmpdepfile='src/last/$(DEPDIR)/last.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/last/last.o `test -f 'src/last/last.c' || echo '$(srcdir)/'`src/last/last.c
+
+src/last/last.obj: src/last/last.c
+@AMDEP_TRUE@	source='src/last/last.c' object='src/last/last.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/last/$(DEPDIR)/last.Po' tmpdepfile='src/last/$(DEPDIR)/last.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/last/last.obj `cygpath -w src/last/last.c`
+
+src/last/utmpdump.o: src/last/utmpdump.c
+@AMDEP_TRUE@	source='src/last/utmpdump.c' object='src/last/utmpdump.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/last/$(DEPDIR)/utmpdump.Po' tmpdepfile='src/last/$(DEPDIR)/utmpdump.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/last/utmpdump.o `test -f 'src/last/utmpdump.c' || echo '$(srcdir)/'`src/last/utmpdump.c
+
+src/last/utmpdump.obj: src/last/utmpdump.c
+@AMDEP_TRUE@	source='src/last/utmpdump.c' object='src/last/utmpdump.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/last/$(DEPDIR)/utmpdump.Po' tmpdepfile='src/last/$(DEPDIR)/utmpdump.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/last/utmpdump.obj `cygpath -w src/last/utmpdump.c`
+
+src/lpr/lpr.o: src/lpr/lpr.c
+@AMDEP_TRUE@	source='src/lpr/lpr.c' object='src/lpr/lpr.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/lpr/$(DEPDIR)/lpr.Po' tmpdepfile='src/lpr/$(DEPDIR)/lpr.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/lpr/lpr.o `test -f 'src/lpr/lpr.c' || echo '$(srcdir)/'`src/lpr/lpr.c
+
+src/lpr/lpr.obj: src/lpr/lpr.c
+@AMDEP_TRUE@	source='src/lpr/lpr.c' object='src/lpr/lpr.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/lpr/$(DEPDIR)/lpr.Po' tmpdepfile='src/lpr/$(DEPDIR)/lpr.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/lpr/lpr.obj `cygpath -w src/lpr/lpr.c`
+
+src/mkshortcut/mkshortcut.o: src/mkshortcut/mkshortcut.c
+@AMDEP_TRUE@	source='src/mkshortcut/mkshortcut.c' object='src/mkshortcut/mkshortcut.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/mkshortcut/$(DEPDIR)/mkshortcut.Po' tmpdepfile='src/mkshortcut/$(DEPDIR)/mkshortcut.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/mkshortcut/mkshortcut.o `test -f 'src/mkshortcut/mkshortcut.c' || echo '$(srcdir)/'`src/mkshortcut/mkshortcut.c
+
+src/mkshortcut/mkshortcut.obj: src/mkshortcut/mkshortcut.c
+@AMDEP_TRUE@	source='src/mkshortcut/mkshortcut.c' object='src/mkshortcut/mkshortcut.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/mkshortcut/$(DEPDIR)/mkshortcut.Po' tmpdepfile='src/mkshortcut/$(DEPDIR)/mkshortcut.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/mkshortcut/mkshortcut.obj `cygpath -w src/mkshortcut/mkshortcut.c`
+
+src/namei/namei.o: src/namei/namei.c
+@AMDEP_TRUE@	source='src/namei/namei.c' object='src/namei/namei.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/namei/$(DEPDIR)/namei.Po' tmpdepfile='src/namei/$(DEPDIR)/namei.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/namei/namei.o `test -f 'src/namei/namei.c' || echo '$(srcdir)/'`src/namei/namei.c
+
+src/namei/namei.obj: src/namei/namei.c
+@AMDEP_TRUE@	source='src/namei/namei.c' object='src/namei/namei.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/namei/$(DEPDIR)/namei.Po' tmpdepfile='src/namei/$(DEPDIR)/namei.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/namei/namei.obj `cygpath -w src/namei/namei.c`
+
+src/realpath/realpath.o: src/realpath/realpath.c
+@AMDEP_TRUE@	source='src/realpath/realpath.c' object='src/realpath/realpath.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/realpath/$(DEPDIR)/realpath.Po' tmpdepfile='src/realpath/$(DEPDIR)/realpath.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/realpath/realpath.o `test -f 'src/realpath/realpath.c' || echo '$(srcdir)/'`src/realpath/realpath.c
+
+src/realpath/realpath.obj: src/realpath/realpath.c
+@AMDEP_TRUE@	source='src/realpath/realpath.c' object='src/realpath/realpath.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/realpath/$(DEPDIR)/realpath.Po' tmpdepfile='src/realpath/$(DEPDIR)/realpath.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/realpath/realpath.obj `cygpath -w src/realpath/realpath.c`
+CCDEPMODE = @CCDEPMODE@
 uninstall-info-am:
+
+man1dir = $(mandir)/man1
+install-man1: $(man1_MANS) $(man_MANS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(man1dir)
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
+	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
+	for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
+	  else file=$$i; fi; \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst"; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst; \
+	done
+uninstall-man1:
+	@$(NORMAL_UNINSTALL)
+	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
+	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
+	for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " rm -f $(DESTDIR)$(man1dir)/$$inst"; \
+	  rm -f $(DESTDIR)$(man1dir)/$$inst; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -238,6 +1117,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
+	$(mkinstalldirs) $(distdir)/src/cal $(distdir)/src/col $(distdir)/src/ddate $(distdir)/src/last $(distdir)/src/namei
 	@for file in $(DISTFILES); do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -258,7 +1138,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	list='$(SUBDIRS)'; for subdir in $$list; do \
+	list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
@@ -325,9 +1205,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile config.h
+all-am: Makefile $(PROGRAMS) $(MANS) $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(man1dir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -355,11 +1236,12 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f config.status config.cache config.log
-distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-hdr distclean-tags
 
 dvi: dvi-recursive
 
@@ -369,13 +1251,15 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-man
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
-install-man:
+install-man: install-man1
 
 installcheck-am:
 
@@ -385,28 +1269,44 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-man
 
 uninstall-info: uninstall-info-recursive
 
+uninstall-man: uninstall-man1
+
 .PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-recursive dist dist-all dist-gzip distcheck \
-	distclean distclean-generic distclean-hdr distclean-recursive \
-	distclean-tags distcleancheck distdir dvi dvi-am dvi-recursive \
-	info info-am info-recursive install install-am install-data \
-	install-data-am install-data-recursive install-exec \
-	install-exec-am install-exec-recursive install-info \
-	install-info-am install-info-recursive install-man \
+	clean-binPROGRAMS clean-generic clean-recursive dist dist-all \
+	dist-gzip distcheck distclean distclean-compile \
+	distclean-depend distclean-generic distclean-hdr \
+	distclean-recursive distclean-tags distcleancheck distdir dvi \
+	dvi-am dvi-recursive info info-am info-recursive install \
+	install-am install-binPROGRAMS install-data install-data-am \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-info install-info-am \
+	install-info-recursive install-man install-man1 \
 	install-recursive install-strip installcheck installcheck-am \
 	installdirs installdirs-am installdirs-recursive \
 	maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-generic \
-	mostlyclean-recursive tags tags-recursive uninstall \
-	uninstall-am uninstall-info-am uninstall-info-recursive \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-binPROGRAMS uninstall-info-am \
+	uninstall-info-recursive uninstall-man uninstall-man1 \
 	uninstall-recursive
 
+	src/namei/namei.1 src/col/col.1
+
+install-exec-hook: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@for p in d2u u2d dos2unix unix2dos; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
+	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
+	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

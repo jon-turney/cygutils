@@ -3,6 +3,32 @@ be a good addition to cygutils, do you?  You
 probably want to know how you could contribute it,
 don't you?  Well, first:
 
+  Not every spiffy utility belongs in cygutils. We
+  don't want cygutils to become a huge grab bag of
+  hundreds of small programs...in many cases, your
+  spiffy new program should become a standalone package
+  and a full-fledged member of the cygwin distribution.
+  (Don't worry -- that's not hard.  It's probably 
+  easier than integrating your spiffy program into
+  cygutils).
+
+  So, your first step is to post a message to the
+  cygwin-apps mailing list, present your program, and 
+  ASK if it should be included in cygutils, or turned
+  into a standalong package.  If you believe it should
+  become part of cygutils, explain why.  I will not
+  add any program to cygutils without a consensus
+  from the cygwin-apps list.
+   
+  In the body of your email, describe what your program 
+  does, why it's needed, and why you think it should be 
+  added to the cygutils package.  Also explain why (or 
+  state that) existing tools will not meet the need your 
+  program does.
+
+Second, once you're obtained agreement that yourfile.c
+should be added to cygutils:
+
   Don't just send me yourfile.c and expect me to
   do all the integration work.
 
@@ -14,10 +40,9 @@ on your machine with a simple
 In addition to that, you need to check out the cygutils 
 source and integrate yourfile into the whole system.  Instructions
 follow below.  However, you'll notice that it's quite a bit
-of work.  You may want to send an exploratory email to
-cygwin@cygwin.com and explain your programs behavior, what
-need it fills, and get pre-clearance for eventual inclusion
-into cygutils before embarking on the journey outlined below.
+of work.  Again, are you SURE you want it to become part 
+of cygutils?  Making a standalong program is a lot easier...
+
 Also, note that I will not fix your bugs.  If, at some time
 after your program is accepted into cygutils, I (as cygutils
 maintainer) get a bug report on your program, I will forward
@@ -87,85 +112,89 @@ The simple 12 step program:
       the "_FOO_H" identifier should be changed to match the filename
       of your header file.  Thus, "bob.h" would be guarded with _BOB_H.
 
-5) Makefile.am
+      Naturally, the header files should also be copied into src/foo/.
 
-   Create a Makefile.am file in your 'foo' directory. If your 
-   contribution will build on non-windows platforms in addition to
-   cygwin, then Makefile.am should look like this:
+5) Modify cygutils/Makefile.am
 
-   ## Makefile.am -- Process this file with automake to produce Makefile.in
-   INCLUDES = -I$(top_builddir) -I$(top_srcdir)
-   bin_PROGRAMS = foo
-   ## end
+  a) Add your program to the list of progs to be built.  If your 
+     program will build on non-windows platforms in addition to cygwin,
+     then you can add your program to the "bin_PROGRAMS" variable:
 
-   (Yes, really.  That's it).  If your contribution is windows-specific,
-   like lpr or mkshortcut or the [put|get]clip programs, then your
-   Makefile.am should look like:
+     bin_PROGRAMS = ... src/foo/foo ...
 
-   ## Makefile.am -- Process this file with automake to produce Makefile.in
-   INCLUDES = -I$(top_builddir) -I$(top_srcdir)
-   if WITH_WINDOWS_PROGRAMS
-   windows_progs = foo
-   endif
-   bin_PROGRAMS = $(windows_progs)
-   EXTRA_PROGRAMS = foo
-   ## end
+     If your contribution is windows-specific, then you should add it
+     to BOTH the "windows_progs" and the EXTRA_PROGRAMS variables:
 
-   a) Special link libraries
+	  windows_progs = ... src/foo/foo ...
+     EXTRA_PROGRAMS = ... src/foo/foo ...
+
+  b) Special link libraries
 	
-      If you need to link to special *WINDOWS* libraries, then obviously
-      your program is windows-specific, but also you should add a line 
-      in your Makefile.am like this:
+     If you need to link to special *WINDOWS* libraries, then obviously
+     your program is windows-specific, but also you should add a line 
+     in your Makefile.am like this:
 
-      foo_LDADD = -lwinlib
+     src_foo_foo_LDADD = -lwinlib
 
-      Where foo is your program name, and winlib is the library you need.
-      See src/lpr/Makefile.am or src/mkshortcut/Makefile.am for 
-      more examples.
+     Where "src_foo_foo" is the path to your program, where the '/' 
+     characters are replaced with '_' characters.  Yes, it looks a little
+     funny -- but because our subdirectory has the same name as our
+     program, we get double foo's...  Also, 'winlib' is the library 
+     that you need.  See the src_lpr_lpr_LDADD variable in Makefile.am
+     for an example.
+	  
+     If, on the other hand, you need to link to some other (cygwin)
+     library that is also more generally available -- like libreadline
+     or libncurses -- then you'll need to do a little more work. 
+     For your initial submission, just create an LDADD variable in 
+     Makefile.am with -lreadline (or whatever).  We'll figure out how
+	  to handle it better further down the road.  However, make sure
+     to let me know about your special link requirements.
 
-      If, on the other hand, you need to link to some other (cygwin)
-      library that is also more generally available -- like libreadline
-      or libncurses -- then you'll need to do a little more work. 
-      For your initial submission, just add the -lreadline (or whatever)
-      command to your Makefile.am foo_LDADD line.  However, make sure
-      to let me know about your special link requirements.
+	  src_foo_foo_LDADD = -lreadline
 
-      Note that you do NOT need to include the following libraries in
-      a 'foo_LDADD' line; these will be added automatically...
+     Note that you do NOT need to include the following libraries in
+     a 'src_foo_foo_LDADD' line; these will be added automatically...
 
-      -lintl -lcygipc -lpopt  (that is, gettext, cygipc, or popt)
+     -lintl -lcygipc -lpopt  (that is, gettext, cygipc, or popt)
 
-   b) man pages and other documentation
+  c) man pages and other documentation
 
-      If you got 'em, copy 'em to your foo directory, and add a line
-      to your Makefile.am like this:
+     If you got 'em, copy 'em to your src/foo directory, and add the
+	  manpage to the man_MANS variable in Makefile.am like this:
 
-      man_MANS = foo.1
+     man_MANS = ... src/foo/foo.1 ...
 
-      If there are non-man-page documentation files, you should add
-      a line like this:
+     If there are non-man-page documentation files, you should those
+     files to the EXTRA_DIST variable:
 
-      EXTRA_DIST = foo.README
+     EXTRA_DIST = ... src/foo/foo.README ...
 
-      However, there is no provisiion for actually INSTALLING these
-      additional documentation files.  At least not yet.
+     However, there is no provisiion for actually INSTALLING these
+     additional documentation files.  At least not yet.
 
-   c) Extra files
+  d) Extra files
 
-      If your contribution consists of more source files than a single
-      .c, then you need to add a line that lists all of them in your
-      Makefile.am:
+     If your contribution consists of more source files than a single
+     .c, then you need to add a variable to Makefile.am that lists all 
+     of them:
 
-      foo_SOURCES = foo.c otherfoo.c foo.h
+     src_foo_foo_SOURCES = foo.c otherfoo.c foo.h
 
-      If there are .h files in that list, you should also add a line
-      like this:
+	  Note that this variable should NOT be specified if your program 
+	  consists merely of a single .c file whose name is the same as
+	  your program + '.c'.
 
-      noinst_HEADERS = foo.h
+     If there are .h files in your SOURCES list, then you need to 
+     add those .h files to the noinst_HEADERS variable, or the headers 
+     would get installed into /usr/include/src/foo/ -- and we don't 
+     want that!
 
-   If you have other questions about the Makefile.am file, consult
-   the other ones already in cygutils as examples, or read the
-   automake documentation.
+     noinst_HEADERS = ... src/foo/foo.h ...
+
+  If you have other questions about the Makefile.am file, try to 
+  follow the "patterns" established in it by the other programs, 
+  or (gasp) read the automake documentation.
 
 6) Simplify your #includes.
 
@@ -186,14 +215,7 @@ The simple 12 step program:
    Add your app to the list at the end of the README file
    Add your name to the AUTHORS file.
 
-8) Hook your directory into the package build structure
-
-   Add the name of your directory in src to the list in 
-   src/Makefile.am.
-
-   Add your Makefile to the list at the end of configure.ac
-
-9) Bootstrap
+8) Bootstrap
 
    (You need to have autoconf, autoconf-devel, automake, and
    automake-devel installed for this to work).  Change dir
@@ -203,17 +225,17 @@ The simple 12 step program:
    ./bootstrap
 
    If you haven't made any mistakes, you should (a) see no
-   errors, and (b) see a Makefile.in file added to your foo
-   directory.
+   errors, and (b) see some new rules in Makefile.in that
+	correspond to your program.
 
-10) Build and test
+9) Build and test
 
    Now, just run './configure ; make' as usual.  Somewhere 
    amongst the flurry of messages, you should see your application
    being built.  If so, you're almost done.  If not, then you
    need to figure out why.  Time to read the auto* documentation...
 
-11) Create a patch and ChangeLog entry
+10) Create a patch and ChangeLog entry
 
    a) PATCH
 	
@@ -244,12 +266,9 @@ The simple 12 step program:
       2002-03-02  Your Name  <your_email_address@domain.com>
 
          * src/foo: new directory
-         * src/foo/Makefile.am: new file
-         * src/foo/Makefile.in: new file
          * src/foo/foo.c: new file
-         * src/Makefile.am: add subdirectory foo
-         * src/Makefile.in: regenerate
-         * configure.ac: add src/foo/Makefile to output list
+			* Makefile.am: add program 'foo'
+			* Makefile.in: regenerate
          * AUTHORS: add yourname for foo
          * PROGLIST: add foo
          * README: add foo
@@ -258,18 +277,20 @@ The simple 12 step program:
       file in src/foo/ (like your man pages, or extra documentation
       files, or headers)
 
-12) Send an email to cygwin@cygwin.com with the patch and the 
-   tarball as attachements.  Paste your changelog into the body 
-   of the message -- or you can send it as an attachment.  (Do NOT
-   put your patch into the body of the email; most mail programs
-   will horrendously distort it if you do). 
+11) Send a notice email to cygwin-apps@cygwin.com, that says "Hey, I
+   finished the integration work neceesary to include 'foo' in the
+   'cygutils' package, as previously agreed on this list."  Paste 
+   the ChangeLog into that notice.  But do NOT send the patch or 
+   tarball to the mailing list.  
 	
-   In the body of your email, Describe what your program does, why
-   it's needed, and why you think it should be added to the 
-   cygutils package.  Also explain why (or state that) existing
-   tools will not meet the need your program does.  Also, be
-   sure and warn of any special link requirements (cf. section
-   5a and 5b above).
+   Instead, send that to ME, cwilson@ece.gatech.edu.  The patch
+   and tarball should be attachments, but paste the ChangeLog entry
+	into the body of the message.  Do NOT paste your patch into the 
+	body of the email; most mail programs will horrendously distort 
+   it if you do).  Also, be sure and warn of any special link 
+   requirements (cf. section 5a and 5b above).
+
+12) Bask in the glow of a job well done.
 
 --
 Chuck Wilson
@@ -282,13 +303,10 @@ Note to self: how to commit contributions:
   ./bootstrap
   cvs add src/directory
   cvs add src/directory/srcfiles
-  cvs add src/directory/Makefile.am
   cvs commit -m "Add foo contribution"
   ./bootstrap
   cvs diff | grep Index > foo
-  cvs add src/directory/Makefile.in
   >>> use 'foo' to add another Changelog entry
-  >>> don't forget "src/directory/Makefile.in: new file"
   cvs commit -m "Add foo contribution"
   cvs tag something
 

@@ -1,3 +1,48 @@
+2002-06-05  Charles S. Wilson  <cwilson@ece.gatech.edu>
+            Robert Collins  <robert.collins@itdomain.com.au>
+
+	Convert to one-big-makefile style.  cf "Recursive make
+	considered harmful"
+
+	* Makefile.am: consolidate from src/*/Makefile.am
+	* configure.ac: remove src/*/Makefile from AC_CONFIG_FILES list.
+	bump version.
+	* NEWS: Note one-file-to-build-them-all
+	* TODO: update
+	* aclocal.m4: regenerate
+	* Makefile.in: regenerate
+	* configure: regenerate
+	* /src/realpath/Makefile.in: delete
+	* /src/realpath/Makefile.am: delete
+	* /src/namei/Makefile.in: delete
+	* /src/namei/Makefile.am: delete
+	* /src/mkshortcut/Makefile.in: delete
+	* /src/mkshortcut/Makefile.am: delete
+	* /src/lpr/Makefile.in: delete
+	* /src/lpr/Makefile.am: delete
+	* /src/last/Makefile.in: delete
+	* /src/last/Makefile.am: delete
+	* /src/ipc/Makefile.in: delete
+	* /src/ipc/Makefile.am: delete
+	* /src/dump/Makefile.in: delete
+	* /src/dump/Makefile.am: delete
+	* /src/ddate/Makefile.in: delete
+	* /src/ddate/Makefile.am: delete
+	* /src/cygstart/Makefile.in: delete
+	* /src/cygstart/Makefile.am: delete
+	* /src/conv/Makefile.in: delete
+	* /src/conv/Makefile.am: delete
+	* /src/col/Makefile.in: delete
+	* /src/col/Makefile.am: delete
+	* /src/cal/Makefile.in: delete
+	* /src/cal/Makefile.am: delete
+	* /src/banner/Makefile.in: delete
+	* /src/banner/Makefile.am: delete
+	* /src/ascii/Makefile.in: delete
+	* /src/ascii/Makefile.am: delete
+	* /src/Makefile.in: delete
+	* /src/Makefile.am: delete
+
 2002-05-23  Charles S. Wilson  <cwilson@ece.gatech.edu>
 
 	* Makefile.in: regenerate

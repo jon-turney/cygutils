@@ -32,3 +32,7 @@ Michael Schaap  <cygwin_start@mscha.org>
 David A. Willis <dawillis1214@yahoo.com>
   col.c, col.1, err.c, err.h
   (taked from BSD and adapted)
+
+Robert Collins:
+  demonstrated how to consolidate the build process
+  to "one Makefile to build them all".

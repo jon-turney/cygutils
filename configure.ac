@@ -1,13 +1,14 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
-AC_INIT(cygutils, 1.0.0, cwilson@ece.gatech.edu)
+AC_INIT(cygutils, 1.1.0, cwilson@ece.gatech.edu)
 AC_CONFIG_SRCDIR([config.h.in])
 AM_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE(cygutils, 1.0.0)
+AM_INIT_AUTOMAKE(cygutils, 1.1.0)
 AM_MAINTAINER_MODE
 
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
 # Checks for libraries.
@@ -47,21 +48,6 @@ dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
 AM_CONDITIONAL(WITH_CYGIPC_PROGRAMS, test "$ac_cv_lib_cygipc_semget" = yes)
 
-AC_CONFIG_FILES([Makefile src/Makefile
-src/ascii/Makefile
-src/banner/Makefile
-src/cal/Makefile
-src/clip/Makefile
-src/col/Makefile
-src/conv/Makefile
-src/ddate/Makefile
-src/dump/Makefile
-src/ipc/Makefile
-src/last/Makefile
-src/lpr/Makefile
-src/mkshortcut/Makefile
-src/namei/Makefile
-src/realpath/Makefile
-src/cygstart/Makefile])
+AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
