@@ -1,8 +1,6 @@
-1.1.5:
-  Reimplemented lpr in C++ (Rick Rankin)
-
 1.1.4:
   Added -w/--workingdir option to mkshortcut (David Baur)
+  Reimplemented lpr in C++ (Rick Rankin)
 
 1.1.3:
   Removed last, utmpdump (now provided by the sysvinit package)
