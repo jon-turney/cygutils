@@ -118,9 +118,8 @@ void Printer::print(istream & in, const string & docName)
 
   char ch;
   char lastCh = '\0';
-  while (!in.eof())
+  while (in.get(ch))
   {
-    in.get(ch);
     if (!m_rawFlag && ch == '\n' && lastCh != '\r')
       put('\r');
     put(ch);

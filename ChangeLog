@@ -1,3 +1,18 @@
+2003-12-01  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	bump version number
+
+	* src/ipc/ipck: fix typo, adapt for cygserver 
+	compatibility
+	* NEWS: update
+	* BRANCHES: update
+
+2003-11-25  Rick Rankin <rick_rankin@yahoo.com>
+
+	* src/lpr/Printer.cc: fix bug in print() operation that was
+	  causing duplication of the last character of a file.
+	* src/lpr/lpr.cc: add description of -l option to help message.
+
 2003-10-23  Joshua Daniel Franklin  <joshuadfranklin@yahoo.com>
 
 	* src/mkshortcut/mkshortcut.1: update to reflect

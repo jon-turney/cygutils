@@ -1,3 +1,7 @@
+1.2.3:
+  Bugfix for lpr
+  Bugfix for ipck
+
 1.2.2:
   Add readshortcut (Rob Siklos)
   Actually implement the --dos/--unix options to putclip

@@ -14,7 +14,12 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software
 #   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-`
+SELF=$0
+FULLSELF=`realpath ${SELF}`
+DIR=`dirname $FULLSELF`
+MOD=`basename $FULLSELF | sed -e 's,^ipck,,'`
+IPCS=${DIR}/ipcs${MOD}
+IPCRM=${DIR}/ipcrm${MOD}
 
 syntaxe()
 {
@@ -31,44 +36,44 @@ then
  case $1 in
  all)
  echo "kill all ipc"
- a=`ipcs | grep "_sem" | awk '{print $2}'`
+ a=`${IPCS} | grep "_sem" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm sem $a
+  ${IPCRM} sem $a
  fi
- a=`ipcs | grep "_shm" | awk '{print $2}'`
+ a=`${IPCS} | grep "_shm" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm shm $a
+  ${IPCRM} shm $a
  fi
- a=`ipcs | grep "_msg" | awk '{print $2}'`
+ a=`${IPCS} | grep "_msg" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm msg $a
+  ${IPCRM} msg $a
  fi
  ;;
  allsem)
  echo "kill all sem"
- a=`ipcs | grep "_sem" | awk '{print $2}'`
+ a=`${IPCS} | grep "_sem" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm sem $a
+  ${IPCRM} sem $a
  fi
  ;;
  allmsg)
  echo "kill all msg"
- a=`ipcs | grep "_msg" | awk '{print $2}'`
+ a=`${IPCS} | grep "_msg" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm msg $a
+  ${IPCRM} msg $a
  fi
  ;;
  allshm)
  echo "kill all shm"
- a=`ipcs | grep "_shm" | awk '{print $2}'`
+ a=`${IPCS} | grep "_shm" | awk '{print $2}'`
  if test " $a" != " " 
  then
-  ipcrm shm $a
+  ${IPCRM} shm $a
  fi
  ;;
  *)

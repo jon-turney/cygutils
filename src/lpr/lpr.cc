@@ -48,13 +48,15 @@ string getProgramName(const string & str)
 }
 
 const char * usageMessage =
-" [-h] [-D] [-d device] [-P device]\n"
+" [-h] [-D] [-d device] [-l] [-P device]\n"
 "\n"
 "where:\n"
 "\n"
 "  -h        does nothing. Accepted for compatibility.\n"
 "  -d device spools to the specified device.\n"
 "  -D        enable debugging output.\n"
+"  -l        prevent <LF> -> <CR><LF> processing. By default, standalone"
+"            <LF> characters are converted to <CR><LF>."
 "  -P device spools to the specified device.\n"
 "\n"
 "Notes:\n"
