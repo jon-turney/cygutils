@@ -1,3 +1,13 @@
+0.9.8:
+  add last, utmpdump implementations from Mark Bradshaw
+  add realpath, ddate implementations
+
+0.9.7:
+  fix banner, release on sources mirror system
+
+0.9.6:
+  huge reorg, separate apps by license
+
 0.9.5:
   renamed the package to `cygutils'
   added Jorg Schaible's 'banner' implementation
