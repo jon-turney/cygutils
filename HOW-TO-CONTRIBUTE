@@ -130,6 +130,11 @@ The simple 12 step program:
       command to your Makefile.am foo_LDADD line.  However, make sure
       to let me know about your special link requirements.
 
+      Note that you do NOT need to include the following libraries in
+      a 'foo_LDADD' line; these will be added automatically...
+
+      -lintl -lcygipc -lpopt  (that is, gettext, cygipc, or popt)
+
    b) man pages and other documentation
 
       If you got 'em, copy 'em to your foo directory, and add a line
@@ -178,7 +183,7 @@ The simple 12 step program:
 7) Add information to cygutils documentation files:
 
    Add a short blurb about your app to <cygutils>/PROGLIST
-	Add your app to the list at the end of the README file
+   Add your app to the list at the end of the README file
    Add your name to the AUTHORS file.
 
 8) Hook your directory into the package build structure
@@ -199,7 +204,7 @@ The simple 12 step program:
 
    If you haven't made any mistakes, you should (a) see no
    errors, and (b) see a Makefile.in file added to your foo
-	directory.
+   directory.
 
 10) Build and test
 
