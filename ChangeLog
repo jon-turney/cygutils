@@ -1,5 +1,10 @@
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	* configure.ac: bump version to 1.1.2
+	* configure: regenerate
+
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	Add 'mcookie' program.  Tag "v1_1_1d"
 
 	* src/mcookie: new directory
