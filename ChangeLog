@@ -19,6 +19,7 @@
 	* Makefile.in: remove
 	* aclocal.m4: remove
 	* configure: remove
+	* stamp-h.in: remove (not used by newer autotools)
 
 2002-11-10  Charles Wilson  <cwilson@ece.gatech.edu>
 
