@@ -23,14 +23,17 @@ bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/colcrt/colcrt src/colrm/colrm src/mcookie/mcookie
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h \
-	src/col/err.h src/rev/widechar.h src/column/widechar.h src/column/errs.h \
-	src/colcrt/widechar.h src/colrm/widechar.h src/mcookie/md5.h
+	src/col/err.h src/rev/widechar.h \
+	src/column/widechar.h src/column/errs.h \
+	src/colcrt/widechar.h src/colrm/widechar.h src/mcookie/md5.h \
+	src/lpr/Printer.hh src/lpr/PrinterException.hh src/lpr/Win32Utils.hh
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/mkshortcut/mkshortcut.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
 	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
-	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1
+	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1 \
+	src/lpr/lpr.1
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
@@ -41,10 +44,10 @@ po_files = \
 	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars po/POTFILES.in \
 	po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header \
 	po/insert-header.sin po/quot.sed po/remove-potcdate.sin
-	
+
 extra_docs = \
-   src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
-  	src/namei/README1.namei src/col/README.col \
+	src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
+	src/namei/README1.namei src/col/README.col \
 	src/getopt/parse.bash src/getopt/parse.tcsh \
 	src/getopt/test.bash src/getopt/test.tcsh
 
@@ -71,6 +74,7 @@ src_column_column_SOURCES = src/column/column.c src/column/err.c src/column/errs
 src_colcrt_colcrt_SOURCES = src/colcrt/colcrt.c src/colcrt/widechar.h
 src_colrm_colrm_SOURCES = src/colrm/colrm.c src/colrm/widechar.h
 src_mcookie_mcookie_SOURCES = src/mcookie/mcookie.c src/mcookie/md5.c src/mcookie/md5.h
+src_lpr_lpr_SOURCES = src/lpr/Printer.cc src/lpr/Win32Utils.cc src/lpr/lpr.cc src/lpr/Printer.hh src/lpr/PrinterException.hh src/lpr/Win32Utils.hh
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -81,4 +85,4 @@ install-exec-hook: $(bin_PROGRAMS)
 	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
 	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
 	done
-	 
+

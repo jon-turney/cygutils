@@ -1,3 +1,18 @@
+
+2003-05-20  Rick Rankin  <rick_rankin@yahoo.com>
+	* src/lpr/lpr.c: removed file
+	* src/lpr/Printer.cc: new file
+	* src/lpr/Printer.hh: new file
+	* src/lpr/PrinterException.hh: new file
+	* src/lpr/README: new file
+	* src/lpr/Win32Utils.cc: new file
+	* src/lpr/Win32Utils.hh: new file
+	* src/lpr/lpr.1: new file
+	* src/lpr/lpr.cc: new file
+	* Makefile.am: add macro src_lpr_lpr_SOURCES
+	updated macros noinst_HEADERS, man_MANS
+	* configure.ac: added AC_PROG_CXX to compile C++ files
+
 2003-05-17  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* configure.ac: correct a problem with newer 
