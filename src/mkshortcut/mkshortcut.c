@@ -61,6 +61,7 @@ typedef struct optvals_s {
   int show_flag;
   int offset;
   char * name_arg;
+  char * desc_arg;
   char * dir_name_arg;
   char * argument_arg;
   char * target_arg;
@@ -93,7 +94,7 @@ main (int argc, const char **argv)
   const char * arg;
 
   struct poptOption helpOptionsTable[] = {
-    { "help",  'h',  POPT_ARG_NONE, NULL, '?', \
+    { "help", 'h',  POPT_ARG_NONE, NULL, '?', \
         "Show this help message", NULL},
     { "usage", '\0', POPT_ARG_NONE, NULL, 'u', \
         "Display brief usage message", NULL},
@@ -105,24 +106,26 @@ main (int argc, const char **argv)
   };
 
   struct poptOption generalOptionsTable[] = {
-    { "arguments",  'a',  POPT_ARG_STRING, NULL, 'a', \
+    { "arguments", 'a',  POPT_ARG_STRING, NULL, 'a', \
         "Use arguments ARGS", "ARGS"},
+    { "desc", 'd', POPT_ARG_STRING, NULL, 'd', \
+        "Text for description/tooltip (defaults to POSIX path of TARGET)", "DESC"},
     { "icon", 'i', POPT_ARG_STRING, NULL, 'i', \
-        "icon file for link to use", "iconfile"},
+        "Icon file for link to use", "ICONFILE"},
     { "iconoffset", 'j', POPT_ARG_INT, &(opts.offset), 'j', \
-        "offset of icon in icon file (default is 0)", NULL},
+        "Offset of icon in icon file (default is 0)", NULL},
     { "name", 'n', POPT_ARG_STRING, NULL, 'n', \
-        "name for link (defaults to TARGET)", "NAME"},
+        "Name for link (defaults to TARGET)", "NAME"},
     { "show", 's', POPT_ARG_STRING, NULL, 's', \
-        "window to show: normal, minimized, maximized", "norm|min|max"},
+        "Window to show: normal, minimized, maximized", "norm|min|max"},
     { "workingdir", 'w', POPT_ARG_STRING, NULL, 'w', \
-        "set working directory (defaults to directory path of TARGET)", "PATH"},
+        "Set working directory (defaults to directory path of TARGET)", "PATH"},
     { "allusers", 'A', POPT_ARG_VAL, &(opts.allusers_flag), 1, \
-        "use 'All Users' instead of current user for -D,-P", NULL},
+        "Use 'All Users' instead of current user for -D,-P", NULL},
     { "desktop", 'D', POPT_ARG_VAL, &(opts.desktop_flag), 1, \
-        "create link relative to 'Desktop' directory", NULL},
+        "Create link relative to 'Desktop' directory", NULL},
     { "smprograms", 'P', POPT_ARG_VAL, &(opts.smprograms_flag), 1, \
-        "create link relative to Start Menu 'Programs' directory", NULL},
+        "Create link relative to Start Menu 'Programs' directory", NULL},
     { NULL, '\0', 0, NULL, 0, NULL, NULL }
   };
   
@@ -161,6 +164,7 @@ main (int argc, const char **argv)
   opts.target_arg = NULL;
   opts.argument_arg = NULL;
   opts.name_arg = NULL;
+  opts.desc_arg = NULL;
   opts.dir_name_arg = NULL;
   opts.icon_name_arg = NULL;
 
@@ -177,6 +181,14 @@ main (int argc, const char **argv)
                  goto exit;
       case 'l':  license(optCon, stderr, program_name);
                  goto exit;
+      case 'd':  if (arg = poptGetOptArg(optCon)) {
+                   if ((opts.desc_arg = strdup(arg)) == NULL ) {
+                     fprintf(stderr, "%s: memory allocation error\n", program_name);
+                     ec=2;                                            
+                     goto exit;
+                   }
+                 }
+                 break;
       case 'i':  opts.icon_flag = 1;
                  if (arg = poptGetOptArg(optCon)) {
                    cygwin_conv_to_full_win32_path (arg, icon_name);
@@ -279,7 +291,7 @@ main (int argc, const char **argv)
     } else {
       // THE MEAT GOES HERE
       ec = mkshortcut(opts, optCon);
-    }    
+    }
   } else {
     fprintf(stderr, "%s: TARGET not specified\n", program_name);
     usage(optCon, stderr, program_name);
@@ -290,6 +302,7 @@ exit:
   poptFreeContext(optCon);
   if (opts.target_arg)    { free(opts.target_arg);    }
   if (opts.name_arg)      { free(opts.name_arg);      }
+  if (opts.desc_arg)      { free(opts.desc_arg);      }
   if (opts.dir_name_arg)  { free(opts.dir_name_arg);  }
   if (opts.argument_arg)  { free(opts.argument_arg);  } 
   if (opts.icon_name_arg) { free(opts.icon_name_arg); } 
@@ -302,6 +315,7 @@ int mkshortcut(optvals opts, poptContext optCon)
   char link_name[MAX_PATH];
   char exe_name[MAX_PATH];
   char dir_name[MAX_PATH];
+  char desc[MAX_PATH];
   char *buf_str, *tmp_str;
   int tmp;
 
@@ -323,6 +337,7 @@ int mkshortcut(optvals opts, poptContext optCon)
     {
       /*  Nope, somebody's trying a W32 path  */
       if (opts.target_arg[1] == ':') {
+	free (buf_str);
 	fprintf(stderr, "%s: all paths must be in POSIX format\n", 
           program_name);
 	usage (optCon, stderr, program_name);
@@ -342,6 +357,7 @@ int mkshortcut(optvals opts, poptContext optCon)
         {
           if (strchr (opts.dir_name_arg, ':') != NULL)
             {
+              free (buf_str);
               fprintf(stderr, "%s: all paths must be in POSIX format\n", 
                 program_name);
               usage (optCon, stderr, program_name);
@@ -387,6 +403,7 @@ int mkshortcut(optvals opts, poptContext optCon)
 	{
 	  /*  Cannot have absolute path relative to Desktop/SM Programs */
 	  if (opts.name_arg[0] == '/') {
+	    free (buf_str);
 	    fprintf(stderr, "%s: absolute pathnames not allowed with -D/-P\n",
               program_name);
 	    usage (optCon, stderr, program_name);
@@ -395,6 +412,7 @@ int mkshortcut(optvals opts, poptContext optCon)
 	}
       /*  Sigh. Another W32 path */
       if (strchr (opts.name_arg, ':') != NULL) {
+	free (buf_str);
 	fprintf(stderr, "%s: all paths must be in POSIX format\n", 
           program_name);
 	usage (optCon, stderr, program_name);
@@ -450,10 +468,25 @@ int mkshortcut(optvals opts, poptContext optCon)
       strcat (link_name, buf_str);
     }
 
+  /* Setup description text */
+  if (opts.desc_arg != NULL)
+    {
+      strncpy (desc, opts.desc_arg, MAX_PATH);
+
+      /* There won't be a null terminated if strlen(desc_arg)>MAX_PATH */
+      desc[MAX_PATH] = '\0';
+    }
+  else
+    {
+      /* Put the POSIX path in the "Description", just to be nice */
+      cygwin_conv_to_full_posix_path (exe_name, desc);
+    }
+
   /*  Beginning of Windows interface */
   hres = OleInitialize (NULL);
   if (hres != S_FALSE && hres != S_OK)
-    {
+    {    
+      free (buf_str);
       fprintf (stderr, "%s: Could not initialize OLE interface\n", 
         program_name);
       return (3);
@@ -470,9 +503,7 @@ int mkshortcut(optvals opts, poptContext optCon)
       if (SUCCEEDED (hres))
 	{
 	  shell_link->lpVtbl->SetPath (shell_link, exe_name);
-	  /* Put the POSIX path in the "Description", just to be nice */
-	  cygwin_conv_to_full_posix_path (exe_name, buf_str);
-	  shell_link->lpVtbl->SetDescription (shell_link, buf_str);
+	  shell_link->lpVtbl->SetDescription (shell_link, desc);
 	  shell_link->lpVtbl->SetWorkingDirectory (shell_link, dir_name);
 	  if (opts.argument_arg)
 	    shell_link->lpVtbl->SetArguments (shell_link, opts.argument_arg);
@@ -489,6 +520,7 @@ int mkshortcut(optvals opts, poptContext optCon)
 				 MAX_PATH);
 	  if (!SUCCEEDED (hres))
 	    {
+	      free (buf_str);
 	      fprintf (stderr, "%s: Unicode translation failed%d\n",
 		       program_name, hres);
 	      return (3);
@@ -496,6 +528,7 @@ int mkshortcut(optvals opts, poptContext optCon)
 	  hres = persist_file->lpVtbl->Save (persist_file, widepath, TRUE);
 	  if (!SUCCEEDED (hres))
 	    {
+	      free (buf_str);
 	      fprintf (stderr,
 		"%s: Saving \"%s\" failed; does the target directory exist?\n",
 		program_name, link_name);
@@ -506,12 +539,14 @@ int mkshortcut(optvals opts, poptContext optCon)
 	}
       else
 	{
+	  free (buf_str);
 	  fprintf (stderr, "%s: QueryInterface failed\n", program_name);
 	  return (3);
 	}
     }
   else
-    {
+    { 
+      free (buf_str);
       fprintf (stderr, "%s: CoCreateInstance failed\n", program_name);
       return (3);
     }

@@ -1,7 +1,8 @@
 1.2.5:
   Add new -s (startup norm|max|min mode) option for 
     mkshortcut
-
+  Add new -d|--desc option for mkshortcut (to control
+    the 'description' field == tooltip text)
 
 1.2.4:
   Remove ipcs, ipcrm which are now provided by cygwin itself

@@ -1,3 +1,20 @@
+2004-03-12  Charles Wilson  <cwilson@....>
+
+	bump version number
+
+	* src/mkshortcut/mkshortcut.c: fix some
+	memory leaks in mkshortcut().
+	* configure.ac: bump version number
+	* BRANCHES: update
+
+2004-03-10  Harold L Hunt II  <huntharo@....>
+
+	* src/mkshortcut/mkshortcut.c: add -d|--desc
+	option to set the description field (==tooltip
+	text) of the shortcut.
+	* src/mkshortcut/mkshortcut.1: document it.
+	* NEWS: document it
+
 2004-02-14  Dick Repansky  <rrepasky@....>
             Joshua Danial Franklin  <joshuadfranklin@....>
 

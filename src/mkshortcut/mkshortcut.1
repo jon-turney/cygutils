@@ -1,6 +1,6 @@
 .\"{{{}}}
 .\"{{{  Title
-.TH MKSHORTCUT 1 "21 Oct 03" "mkshortcut 1.5 (cygutils)" "Cygutils"
+.TH MKSHORTCUT 1 "10 Mar 04" "mkshortcut 1.6 (cygutils)" "Cygutils"
 .\"}}}
 .\"{{{  Name
 .SH NAME
@@ -10,7 +10,8 @@ mkshortcut \- create a Windows shortcut
 .SH SYNOPSIS
 .B mkshorcut
 .RB "[\-\fBa\fP \fIARGS\fP]"
-.RB "[\-\fBi\fP \fIiconfile\fP [\-\fBj\fP \fIINT\fP] ]"
+.RB "[\-\fBd\fP \fIDESC\fP]"
+.RB "[\-\fBi\fP \fIICONFILE\fP [\-\fBj\fP \fIINT\fP] ]"
 .RB "[\-\fBn\fP \fINAME\fP ]"
 .RB "[\-\fBs\fP \fInorm|min|max\fP ]"
 .RB "[\-\fBw\fP \fIPATH\fP ]"
@@ -23,6 +24,10 @@ mkshortcut \- create a Windows shortcut
 .TP 
 \fB\-a\fR, \fB\-\-arguments\fP=\fIARGS\fP
 Arguments to use (see example below).
+
+.TP 
+\fB\-d\fR, \fB\-\-desc\fR=\fI"DESC"\fP
+Text for description/tooltip (defaults to POSIX path of TARGET). Note that \fI"DESC"\fP can contain spaces, but in that case must be enclosed in quotes.
 
 .TP 
 \fB\-h\fR, \fB\-\-help\fR
