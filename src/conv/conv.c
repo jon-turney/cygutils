@@ -322,7 +322,7 @@ static void license(poptContext optCon, FILE * f, char * name)
 
 // if fn is NULL then input is stdin and output is stdout
 static int convert(const char *fn, int ConvType, char * progname) {
-  char c;
+  int c;
   char *tempFn;
   FILE *in = stdin, *out = stdout;
   char buf[PATH_MAX * 2];

@@ -1,3 +1,8 @@
+2002-04-16  Chris January  <chris@atomice.net>
+
+	* src/conv/conv.c (convert): Use correct type to store the
+	return value of fgetc()
+
 2002-03-15  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* Makefile.in: rebootstrap
