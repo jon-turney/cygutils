@@ -112,7 +112,7 @@ struct time_info_struct {
 };
 struct time_info_struct time_info = {
   {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
-  {"Janurary", "February", "March", "April", 
+  {"January", "February", "March", "April", 
    "May", "June", "July", "August",
    "September", "October", "November", "December"}
 };
