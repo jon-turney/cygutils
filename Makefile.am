@@ -47,6 +47,8 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 
 EXTRA_SCRIPTS = src/ipc/ipck
 
+EXTRA_MANS = src/ipc/ipcs.8 src/ipc/ipcrm.8
+
 po_files = \
 	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars po/POTFILES.in \
 	po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header \
@@ -57,12 +59,13 @@ extra_docs = \
 	src/namei/README1.namei src/col/README.col \
 	src/getopt/parse.bash src/getopt/parse.tcsh \
 	src/getopt/test.bash src/getopt/test.tcsh \
-	src/ipc/ipcs.8 src/ipc/ipcrm.8
+	src/ipc/ipcs.8 src/ipc/ipcrm.8 src/lpr/README
 
 licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
 
-EXTRA_DIST = config.rpath PROGLIST bootstrap common.h HOW-TO-CONTRIBUTE \
-   $(licenses) $(po_files) $(extra_docs) $(man_MANS)
+EXTRA_DIST = config.rpath PROGLIST bootstrap common.h \
+   HOW-TO-CONTRIBUTE BRANCHES \
+   $(licenses) $(po_files) $(extra_docs)
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool
