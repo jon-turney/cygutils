@@ -1,3 +1,8 @@
+1.0.0:
+  rearrange directory structure to cut down on clutter
+  (first insure that every .c and .h file has the correct
+  license notice)
+
 0.9.9:
   add explicit license information to each .c and .h file.
   move (almost all) #includes into common.h

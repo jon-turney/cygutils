@@ -1,3 +1,97 @@
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src: new directory
+	* src/Makefile.am: new file
+	* src/Makefile.in: new file
+	* src-gpl/Makefile.am: removed
+	* src-gpl/Makefile.in: removed
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/ascii: new directory
+	* src-gpl/ascii.c: moved to src/ascii/ascii.c
+	* src/ascii/ascii.c: moved from src-gpl/ascii.c
+	* src/ascii/Makefile.am: new file
+	* src/ascii/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/banner: new directory
+	* src-gpl/banner.c: moved to src/banner/banner.c
+	* src/banner/banner.c: moved from src-gpl/banner.c
+	* src/banner/Makefile.am: new file
+	* src/banner/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/cal: new directory
+	* src-bsd/cal.c: moved to src/cal/cal.c
+	* src/cal/cal.c: moved from src-bsd/cal.c
+	* src-bsd/cal.1: moved to src/cal/cal.1
+	* src/cal/cal.1: moved from src-bsd/cal.1
+	* src-bsd/err.c: moved to src/cal/err.c
+	* src/cal/err.c: moved from src-bsd/err.c
+	* src-bsd/errs.h: moved to src/cal/errs.h
+	* src/cal/errs.h: moved from src-bsd/errs.h
+	* src-bsd/widechar.h: moved to src/cal/widechar.h
+	* src/cal/widechar.h: moved from src-bsd/widechar.h
+	* src-bsd/README.cal: moved to src/cal/README.cal
+	* src/cal/README.cal: moved from src-bsd/README.cal
+	* src/cal/Makefile.am: new file
+	* src/cal/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/clip: new directory
+	* src-gpl/putclip.c: moved to src/clip/putclip.c
+	* src/clip/putclip.c: moved from src-gpl/putclip.c
+	* src-gpl/getclip.c: moved to src/clip/getclip.c
+	* src/clip/getclip.c: moved from src-gpl/getclip.c
+	* src/clip/Makefile.am: new file
+	* src/clip/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/conv: new directory
+	* src-gpl/conv.c: moved to src/conv/conv.c
+	* src/conv/conv.c: moved from src-gpl/conv.c
+	* src/conv/Makefile.am: new file
+	* src/conv/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/ddate: new directory
+	* src-pd/ddate.c: moved to src/ddate/ddate.c
+	* src/ddate/ddate.c: moved from src-pd/ddate.c
+	* src-pd/ddate.1: moved to src/ddate/ddate.1
+	* src/ddate/ddate.1: moved from src-pd/ddate.1
+	* src-pd/ddate.doc: moved to src/ddate/ddate.doc
+	* src/ddate/ddate.doc: moved from src-pd/ddate.doc
+	* src/ddate/Makefile.am: new file
+	* src/ddate/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/dump: new directory
+	* src-gpl/dump.c: moved to src/dump/dump.c
+	* src/dump/dump.c: moved from src-gpl/dump.c
+	* src/dump/Makefile.am: new file
+	* src/dump/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/ipc: new directory
+	* src-gpl/msgtool.c: moved to src/ipc/msgtool.c
+	* src/ipc/msgtool.c: moved from src-gpl/msgtool.c
+	* src-gpl/semstat.c: moved to src/ipc/semstat.c
+	* src/ipc/semstat.c: moved from src-gpl/semstat.c
+	* src-gpl/semtool.c: moved to src/ipc/semtool.c
+	* src/ipc/semtool.c: moved from src-gpl/semtool.c
+	* src-gpl/shmtool.c: moved to src/ipc/shmtool.c
+	* src/ipc/shmtool.c: moved from src-gpl/shmtool.c
+	* src/ipc/Makefile.am: new file
+	* src/ipc/Makefile.in: new file
+
 2002-02-23  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* src-gpl/Makefile.am: add lpr and mkshortcut 

@@ -36,7 +36,7 @@ oldincludedir = /usr/include
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -71,24 +71,42 @@ install_sh = @install_sh@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-bin_PROGRAMS = cal
-man_MANS = cal.1
-cal_SOURCES = cal.c err.c errs.h
+@WITH_CYGIPC_PROGRAMS_TRUE@cygipc_progs = semtool shmtool msgtool semstat
+bin_PROGRAMS = $(cygipc_progs)
 
-noinst_HEADERS = errs.h widechar.h
-EXTRA_DIST = README.cal
-subdir = src-bsd
+EXTRA_PROGRAMS = semtool shmtool msgtool semstat 
+subdir = src/ipc
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-bin_PROGRAMS = cal$(EXEEXT)
+EXTRA_PROGRAMS = semtool$(EXEEXT) shmtool$(EXEEXT) msgtool$(EXEEXT) \
+	semstat$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@bin_PROGRAMS = semtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@	shmtool$(EXEEXT) msgtool$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@	semstat$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@bin_PROGRAMS =
 PROGRAMS = $(bin_PROGRAMS)
 
-am_cal_OBJECTS = cal.$(OBJEXT) err.$(OBJEXT)
-cal_OBJECTS = $(am_cal_OBJECTS)
-cal_LDADD = $(LDADD)
-cal_DEPENDENCIES =
-cal_LDFLAGS =
+msgtool_SOURCES = msgtool.c
+msgtool_OBJECTS = msgtool.$(OBJEXT)
+msgtool_LDADD = $(LDADD)
+msgtool_DEPENDENCIES =
+msgtool_LDFLAGS =
+semstat_SOURCES = semstat.c
+semstat_OBJECTS = semstat.$(OBJEXT)
+semstat_LDADD = $(LDADD)
+semstat_DEPENDENCIES =
+semstat_LDFLAGS =
+semtool_SOURCES = semtool.c
+semtool_OBJECTS = semtool.$(OBJEXT)
+semtool_LDADD = $(LDADD)
+semtool_DEPENDENCIES =
+semtool_LDFLAGS =
+shmtool_SOURCES = shmtool.c
+shmtool_OBJECTS = shmtool.$(OBJEXT)
+shmtool_LDADD = $(LDADD)
+shmtool_DEPENDENCIES =
+shmtool_LDFLAGS =
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -96,20 +114,16 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/cal.Po $(DEPDIR)/err.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/msgtool.Po $(DEPDIR)/semstat.Po \
+@AMDEP_TRUE@	$(DEPDIR)/semtool.Po $(DEPDIR)/shmtool.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = $(cal_SOURCES)
-
-NROFF = nroff
-MANS = $(man_MANS)
-HEADERS = $(noinst_HEADERS)
-
-DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = $(cal_SOURCES)
+DIST_SOURCES = msgtool.c semstat.c semtool.c shmtool.c
+DIST_COMMON = Makefile.am Makefile.in
+SOURCES = msgtool.c semstat.c semtool.c shmtool.c
 
 all: all-am
 
@@ -117,7 +131,7 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src-bsd/Makefile
+	  $(AUTOMAKE) --gnu  src/ipc/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -145,9 +159,18 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-cal$(EXEEXT): $(cal_OBJECTS) $(cal_DEPENDENCIES) 
-	@rm -f cal$(EXEEXT)
-	$(LINK) $(cal_LDFLAGS) $(cal_OBJECTS) $(cal_LDADD) $(LIBS)
+msgtool$(EXEEXT): $(msgtool_OBJECTS) $(msgtool_DEPENDENCIES) 
+	@rm -f msgtool$(EXEEXT)
+	$(LINK) $(msgtool_LDFLAGS) $(msgtool_OBJECTS) $(msgtool_LDADD) $(LIBS)
+semstat$(EXEEXT): $(semstat_OBJECTS) $(semstat_DEPENDENCIES) 
+	@rm -f semstat$(EXEEXT)
+	$(LINK) $(semstat_LDFLAGS) $(semstat_OBJECTS) $(semstat_LDADD) $(LIBS)
+semtool$(EXEEXT): $(semtool_OBJECTS) $(semtool_DEPENDENCIES) 
+	@rm -f semtool$(EXEEXT)
+	$(LINK) $(semtool_LDFLAGS) $(semtool_OBJECTS) $(semtool_LDADD) $(LIBS)
+shmtool$(EXEEXT): $(shmtool_OBJECTS) $(shmtool_DEPENDENCIES) 
+	@rm -f shmtool$(EXEEXT)
+	$(LINK) $(shmtool_LDFLAGS) $(shmtool_OBJECTS) $(shmtool_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -155,8 +178,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/cal.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/err.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semtool.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/shmtool.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -174,45 +199,6 @@ distclean-depend:
 	$(COMPILE) -c `cygpath -w $<`
 CCDEPMODE = @CCDEPMODE@
 uninstall-info-am:
-
-man1dir = $(mandir)/man1
-install-man1: $(man1_MANS) $(man_MANS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(man1dir)
-	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.1*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
-	  else file=$$i; fi; \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst"; \
-	  $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst; \
-	done
-uninstall-man1:
-	@$(NORMAL_UNINSTALL)
-	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
-	l2='$(man_MANS) $(dist_man_MANS) $(nodist_man_MANS)'; \
-	for i in $$l2; do \
-	  case "$$i" in \
-	    *.1*) list="$$list $$i" ;; \
-	  esac; \
-	done; \
-	for i in $$list; do \
-	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
-	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
-	  inst=`echo $$inst | sed -e 's/^.*\///'`; \
-	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
-	  echo " rm -f $(DESTDIR)$(man1dir)/$$inst"; \
-	  rm -f $(DESTDIR)$(man1dir)/$$inst; \
-	done
 
 tags: TAGS
 
@@ -248,7 +234,7 @@ distclean-tags:
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ..
+top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -269,10 +255,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(MANS) $(HEADERS)
+all-am: Makefile $(PROGRAMS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(man1dir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 
 install: install-am
 install-exec: install-exec-am
@@ -314,13 +300,13 @@ info: info-am
 
 info-am:
 
-install-data-am: install-man
+install-data-am:
 
 install-exec-am: install-binPROGRAMS
 
 install-info: install-info-am
 
-install-man: install-man1
+install-man:
 
 installcheck-am:
 
@@ -332,21 +318,18 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-man
-
-uninstall-man: uninstall-man1
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
 .PHONY: GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic distclean distclean-compile distclean-depend \
 	distclean-generic distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-binPROGRAMS install-data \
 	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-man1 install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-info-am install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic tags uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am uninstall-man \
-	uninstall-man1
+	uninstall-binPROGRAMS uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

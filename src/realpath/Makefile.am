@@ -2,7 +2,5 @@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-bin_PROGRAMS = namei ddate
-man_MANS = namei.1 ddate.1
+bin_PROGRAMS = realpath 
 
-EXTRA_DIST = README.namei README1.namei ddate.doc

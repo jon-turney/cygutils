@@ -36,7 +36,7 @@ oldincludedir = /usr/include
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -71,148 +71,27 @@ install_sh = @install_sh@
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
-@WITH_WINDOWS_PROGRAMS_TRUE@windows_progs = getclip putclip banner mkshortcut lpr
-@WITH_CYGIPC_PROGRAMS_TRUE@cygipc_progs = semtool shmtool msgtool semstat
-bin_PROGRAMS = conv ascii dump \
-	last utmpdump realpath $(windows_progs) \
-	$(cygipc_progs)
+bin_PROGRAMS = last utmpdump 
 
-
-man_MANS = last.1 lastb.1 mkshortcut.1
+man_MANS = last.1 lastb.1 
 last_SOURCES = last.c oldutmp.h
-banner_LDADD = -lkernel32 -lgdi32
-mkshortcut_LDADD = -lole32 -luuid
-lpr_LDADD = -lwinspool
+utmpdump_SOURCES = utmpdump.c oldutmp.h
 
 noinst_HEADERS = oldutmp.h
-
-EXTRA_PROGRAMS = semtool shmtool msgtool semstat \
-	getclip putclip banner mkshortcut lpr
-
-subdir = src-gpl
+subdir = src/last
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-EXTRA_PROGRAMS = semtool$(EXEEXT) shmtool$(EXEEXT) msgtool$(EXEEXT) \
-	semstat$(EXEEXT) getclip$(EXEEXT) putclip$(EXEEXT) \
-	banner$(EXEEXT) mkshortcut$(EXEEXT) lpr$(EXEEXT)
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	conv$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	ascii$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	dump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	last$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	utmpdump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	getclip$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	putclip$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	banner$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	mkshortcut$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	lpr$(EXEEXT)
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	conv$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	ascii$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	dump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	last$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	utmpdump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	realpath$(EXEEXT)
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	conv$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	ascii$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	dump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	last$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	utmpdump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	getclip$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	putclip$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	banner$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	mkshortcut$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	lpr$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	semtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	shmtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	msgtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	semstat$(EXEEXT)
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	conv$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	ascii$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	dump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	last$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	utmpdump$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	semtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	shmtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	msgtool$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	semstat$(EXEEXT)
+bin_PROGRAMS = last$(EXEEXT) utmpdump$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-ascii_SOURCES = ascii.c
-ascii_OBJECTS = ascii.$(OBJEXT)
-ascii_LDADD = $(LDADD)
-ascii_DEPENDENCIES =
-ascii_LDFLAGS =
-banner_SOURCES = banner.c
-banner_OBJECTS = banner.$(OBJEXT)
-banner_DEPENDENCIES =
-banner_LDFLAGS =
-conv_SOURCES = conv.c
-conv_OBJECTS = conv.$(OBJEXT)
-conv_LDADD = $(LDADD)
-conv_DEPENDENCIES =
-conv_LDFLAGS =
-dump_SOURCES = dump.c
-dump_OBJECTS = dump.$(OBJEXT)
-dump_LDADD = $(LDADD)
-dump_DEPENDENCIES =
-dump_LDFLAGS =
-getclip_SOURCES = getclip.c
-getclip_OBJECTS = getclip.$(OBJEXT)
-getclip_LDADD = $(LDADD)
-getclip_DEPENDENCIES =
-getclip_LDFLAGS =
 am_last_OBJECTS = last.$(OBJEXT)
 last_OBJECTS = $(am_last_OBJECTS)
 last_LDADD = $(LDADD)
 last_DEPENDENCIES =
 last_LDFLAGS =
-lpr_SOURCES = lpr.c
-lpr_OBJECTS = lpr.$(OBJEXT)
-lpr_DEPENDENCIES =
-lpr_LDFLAGS =
-mkshortcut_SOURCES = mkshortcut.c
-mkshortcut_OBJECTS = mkshortcut.$(OBJEXT)
-mkshortcut_DEPENDENCIES =
-mkshortcut_LDFLAGS =
-msgtool_SOURCES = msgtool.c
-msgtool_OBJECTS = msgtool.$(OBJEXT)
-msgtool_LDADD = $(LDADD)
-msgtool_DEPENDENCIES =
-msgtool_LDFLAGS =
-putclip_SOURCES = putclip.c
-putclip_OBJECTS = putclip.$(OBJEXT)
-putclip_LDADD = $(LDADD)
-putclip_DEPENDENCIES =
-putclip_LDFLAGS =
-realpath_SOURCES = realpath.c
-realpath_OBJECTS = realpath.$(OBJEXT)
-realpath_LDADD = $(LDADD)
-realpath_DEPENDENCIES =
-realpath_LDFLAGS =
-semstat_SOURCES = semstat.c
-semstat_OBJECTS = semstat.$(OBJEXT)
-semstat_LDADD = $(LDADD)
-semstat_DEPENDENCIES =
-semstat_LDFLAGS =
-semtool_SOURCES = semtool.c
-semtool_OBJECTS = semtool.$(OBJEXT)
-semtool_LDADD = $(LDADD)
-semtool_DEPENDENCIES =
-semtool_LDFLAGS =
-shmtool_SOURCES = shmtool.c
-shmtool_OBJECTS = shmtool.$(OBJEXT)
-shmtool_LDADD = $(LDADD)
-shmtool_DEPENDENCIES =
-shmtool_LDFLAGS =
-utmpdump_SOURCES = utmpdump.c
-utmpdump_OBJECTS = utmpdump.$(OBJEXT)
+am_utmpdump_OBJECTS = utmpdump.$(OBJEXT)
+utmpdump_OBJECTS = $(am_utmpdump_OBJECTS)
 utmpdump_LDADD = $(LDADD)
 utmpdump_DEPENDENCIES =
 utmpdump_LDFLAGS =
@@ -223,29 +102,20 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ascii.Po $(DEPDIR)/banner.Po \
-@AMDEP_TRUE@	$(DEPDIR)/conv.Po $(DEPDIR)/dump.Po \
-@AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/last.Po \
-@AMDEP_TRUE@	$(DEPDIR)/lpr.Po $(DEPDIR)/mkshortcut.Po \
-@AMDEP_TRUE@	$(DEPDIR)/msgtool.Po $(DEPDIR)/putclip.Po \
-@AMDEP_TRUE@	$(DEPDIR)/realpath.Po $(DEPDIR)/semstat.Po \
-@AMDEP_TRUE@	$(DEPDIR)/semtool.Po $(DEPDIR)/shmtool.Po \
-@AMDEP_TRUE@	$(DEPDIR)/utmpdump.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/last.Po $(DEPDIR)/utmpdump.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) \
-	lpr.c mkshortcut.c msgtool.c putclip.c realpath.c semstat.c \
-	semtool.c shmtool.c utmpdump.c
+DIST_SOURCES = $(last_SOURCES) $(utmpdump_SOURCES)
 
 NROFF = nroff
 MANS = $(man_MANS)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) lpr.c mkshortcut.c msgtool.c putclip.c realpath.c semstat.c semtool.c shmtool.c utmpdump.c
+SOURCES = $(last_SOURCES) $(utmpdump_SOURCES)
 
 all: all-am
 
@@ -253,7 +123,7 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src-gpl/Makefile
+	  $(AUTOMAKE) --gnu  src/last/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -281,48 +151,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-ascii$(EXEEXT): $(ascii_OBJECTS) $(ascii_DEPENDENCIES) 
-	@rm -f ascii$(EXEEXT)
-	$(LINK) $(ascii_LDFLAGS) $(ascii_OBJECTS) $(ascii_LDADD) $(LIBS)
-banner$(EXEEXT): $(banner_OBJECTS) $(banner_DEPENDENCIES) 
-	@rm -f banner$(EXEEXT)
-	$(LINK) $(banner_LDFLAGS) $(banner_OBJECTS) $(banner_LDADD) $(LIBS)
-conv$(EXEEXT): $(conv_OBJECTS) $(conv_DEPENDENCIES) 
-	@rm -f conv$(EXEEXT)
-	$(LINK) $(conv_LDFLAGS) $(conv_OBJECTS) $(conv_LDADD) $(LIBS)
-dump$(EXEEXT): $(dump_OBJECTS) $(dump_DEPENDENCIES) 
-	@rm -f dump$(EXEEXT)
-	$(LINK) $(dump_LDFLAGS) $(dump_OBJECTS) $(dump_LDADD) $(LIBS)
-getclip$(EXEEXT): $(getclip_OBJECTS) $(getclip_DEPENDENCIES) 
-	@rm -f getclip$(EXEEXT)
-	$(LINK) $(getclip_LDFLAGS) $(getclip_OBJECTS) $(getclip_LDADD) $(LIBS)
 last$(EXEEXT): $(last_OBJECTS) $(last_DEPENDENCIES) 
 	@rm -f last$(EXEEXT)
 	$(LINK) $(last_LDFLAGS) $(last_OBJECTS) $(last_LDADD) $(LIBS)
-lpr$(EXEEXT): $(lpr_OBJECTS) $(lpr_DEPENDENCIES) 
-	@rm -f lpr$(EXEEXT)
-	$(LINK) $(lpr_LDFLAGS) $(lpr_OBJECTS) $(lpr_LDADD) $(LIBS)
-mkshortcut$(EXEEXT): $(mkshortcut_OBJECTS) $(mkshortcut_DEPENDENCIES) 
-	@rm -f mkshortcut$(EXEEXT)
-	$(LINK) $(mkshortcut_LDFLAGS) $(mkshortcut_OBJECTS) $(mkshortcut_LDADD) $(LIBS)
-msgtool$(EXEEXT): $(msgtool_OBJECTS) $(msgtool_DEPENDENCIES) 
-	@rm -f msgtool$(EXEEXT)
-	$(LINK) $(msgtool_LDFLAGS) $(msgtool_OBJECTS) $(msgtool_LDADD) $(LIBS)
-putclip$(EXEEXT): $(putclip_OBJECTS) $(putclip_DEPENDENCIES) 
-	@rm -f putclip$(EXEEXT)
-	$(LINK) $(putclip_LDFLAGS) $(putclip_OBJECTS) $(putclip_LDADD) $(LIBS)
-realpath$(EXEEXT): $(realpath_OBJECTS) $(realpath_DEPENDENCIES) 
-	@rm -f realpath$(EXEEXT)
-	$(LINK) $(realpath_LDFLAGS) $(realpath_OBJECTS) $(realpath_LDADD) $(LIBS)
-semstat$(EXEEXT): $(semstat_OBJECTS) $(semstat_DEPENDENCIES) 
-	@rm -f semstat$(EXEEXT)
-	$(LINK) $(semstat_LDFLAGS) $(semstat_OBJECTS) $(semstat_LDADD) $(LIBS)
-semtool$(EXEEXT): $(semtool_OBJECTS) $(semtool_DEPENDENCIES) 
-	@rm -f semtool$(EXEEXT)
-	$(LINK) $(semtool_LDFLAGS) $(semtool_OBJECTS) $(semtool_LDADD) $(LIBS)
-shmtool$(EXEEXT): $(shmtool_OBJECTS) $(shmtool_DEPENDENCIES) 
-	@rm -f shmtool$(EXEEXT)
-	$(LINK) $(shmtool_LDFLAGS) $(shmtool_OBJECTS) $(shmtool_LDADD) $(LIBS)
 utmpdump$(EXEEXT): $(utmpdump_OBJECTS) $(utmpdump_DEPENDENCIES) 
 	@rm -f utmpdump$(EXEEXT)
 	$(LINK) $(utmpdump_LDFLAGS) $(utmpdump_OBJECTS) $(utmpdump_LDADD) $(LIBS)
@@ -333,20 +164,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ascii.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/banner.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/conv.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/dump.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/getclip.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/last.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lpr.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/mkshortcut.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgtool.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/putclip.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/realpath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semtool.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/shmtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/utmpdump.Po@am__quote@
 
 distclean-depend:
@@ -439,7 +257,7 @@ distclean-tags:
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ..
+top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -508,8 +326,6 @@ info-am:
 install-data-am: install-man
 
 install-exec-am: install-binPROGRAMS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-am
 
@@ -541,15 +357,6 @@ uninstall-man: uninstall-man1
 	uninstall-binPROGRAMS uninstall-info-am uninstall-man \
 	uninstall-man1
 
-install-exec-hook: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	@for p in d2u u2d dos2unix unix2dos; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
-	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
-	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
