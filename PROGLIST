@@ -139,6 +139,12 @@ colcrt.exe
   placed on new lines in between the normal output lines.
   (BSD-no-advert *)
 
+colrm.exe
+  remove columns from a file
+  Colrm removes selected columns from a file.  Input is taken from standard
+  input.  Output is sent to standard output.
+  (BSD-no-advert *)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

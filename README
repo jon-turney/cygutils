@@ -46,6 +46,6 @@ PublicDomain-now-GPL:
  namei    ddate
 
 BSD-no-advert:
- cal	col  colcrt  column  readlink  rev
+ cal	col  colcrt  colrm  column  readlink  rev
 
 

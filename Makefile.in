@@ -118,19 +118,19 @@ bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
 	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col \
 	src/getopt/getopt src/readlink/readlink src/rev/rev src/column/column \
-	src/colcrt/colcrt
+	src/colcrt/colcrt src/colrm/colrm
 
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
 	src/col/err.h src/rev/widechar.h src/column/widechar.h src/column/errs.h \
-	src/colcrt/widechar.h
+	src/colcrt/widechar.h src/colrm/widechar.h
 
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
 	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
-	src/colcrt/colcrt.1
+	src/colcrt/colcrt.1 src/colrm/colrm.1
 
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
@@ -163,6 +163,7 @@ src_col_col_SOURCES = src/col/col.c src/col/err.c src/col/err.h
 src_rev_rev_SOURCES = src/rev/rev.c src/rev/widechar.h
 src_column_column_SOURCES = src/column/column.c src/column/err.c src/column/errs.h src/column/widechar.h
 src_colcrt_colcrt_SOURCES = src/colcrt/colcrt.c src/colcrt/widechar.h
+src_colrm_colrm_SOURCES = src/colrm/colrm.c src/colrm/widechar.h
 
 ACLOCAL_AMFLAGS = -I m4
 subdir = .
@@ -196,7 +197,8 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/readlink/readlink$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/rev/rev$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/column/column$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colcrt/colcrt$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colcrt/colcrt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colrm/colrm$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
@@ -212,7 +214,8 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/readlink/readlink$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/rev/rev$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/column/column$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colcrt/colcrt$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colcrt/colcrt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colrm/colrm$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/banner/banner$(EXEEXT) \
@@ -238,7 +241,8 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/readlink/readlink$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/rev/rev$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/column/column$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colcrt/colcrt$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colcrt/colcrt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/colrm/colrm$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
@@ -258,7 +262,8 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/readlink/readlink$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/rev/rev$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/column/column$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colcrt/colcrt$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colcrt/colcrt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/colrm/colrm$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 src_ascii_ascii_SOURCES = src/ascii/ascii.c
@@ -293,6 +298,11 @@ am_src_colcrt_colcrt_OBJECTS = src/colcrt/colcrt.$(OBJEXT)
 src_colcrt_colcrt_OBJECTS = $(am_src_colcrt_colcrt_OBJECTS)
 src_colcrt_colcrt_DEPENDENCIES =
 src_colcrt_colcrt_LDFLAGS =
+am_src_colrm_colrm_OBJECTS = src/colrm/colrm.$(OBJEXT)
+src_colrm_colrm_OBJECTS = $(am_src_colrm_colrm_OBJECTS)
+src_colrm_colrm_LDADD = $(LDADD)
+src_colrm_colrm_DEPENDENCIES =
+src_colrm_colrm_LDFLAGS =
 am_src_column_column_OBJECTS = src/column/column.$(OBJEXT) \
 	src/column/err.$(OBJEXT)
 src_column_column_OBJECTS = $(am_src_column_column_OBJECTS)
@@ -393,6 +403,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	src/clip/$(DEPDIR)/putclip.Po \
 @AMDEP_TRUE@	src/col/$(DEPDIR)/col.Po src/col/$(DEPDIR)/err.Po \
 @AMDEP_TRUE@	src/colcrt/$(DEPDIR)/colcrt.Po \
+@AMDEP_TRUE@	src/colrm/$(DEPDIR)/colrm.Po \
 @AMDEP_TRUE@	src/column/$(DEPDIR)/column.Po \
 @AMDEP_TRUE@	src/column/$(DEPDIR)/err.Po \
 @AMDEP_TRUE@	src/conv/$(DEPDIR)/conv.Po \
@@ -420,12 +431,12 @@ CFLAGS = @CFLAGS@
 DIST_SOURCES = src/ascii/ascii.c src/banner/banner.c \
 	$(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c \
 	$(src_col_col_SOURCES) $(src_colcrt_colcrt_SOURCES) \
-	$(src_column_column_SOURCES) src/conv/conv.c \
-	src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c \
-	src/getopt/getopt.c src/ipc/msgtool.c src/ipc/semstat.c \
-	src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) \
-	$(src_last_utmpdump_SOURCES) src/lpr/lpr.c \
-	src/mkshortcut/mkshortcut.c src/namei/namei.c \
+	$(src_colrm_colrm_SOURCES) $(src_column_column_SOURCES) \
+	src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c \
+	src/dump/dump.c src/getopt/getopt.c src/ipc/msgtool.c \
+	src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c \
+	$(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) \
+	src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c \
 	src/readlink/readlink.c src/realpath/realpath.c \
 	$(src_rev_rev_SOURCES)
 
@@ -443,7 +454,7 @@ DIST_COMMON = README $(noinst_HEADERS) ABOUT-NLS AUTHORS COPYING \
 	acinclude.m4 aclocal.m4 compile config.guess config.h.in \
 	config.rpath config.sub configure configure.ac depcomp \
 	install-sh missing mkinstalldirs
-SOURCES = src/ascii/ascii.c src/banner/banner.c $(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c $(src_col_col_SOURCES) $(src_colcrt_colcrt_SOURCES) $(src_column_column_SOURCES) src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c src/getopt/getopt.c src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c src/readlink/readlink.c src/realpath/realpath.c $(src_rev_rev_SOURCES)
+SOURCES = src/ascii/ascii.c src/banner/banner.c $(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c $(src_col_col_SOURCES) $(src_colcrt_colcrt_SOURCES) $(src_colrm_colrm_SOURCES) $(src_column_column_SOURCES) src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c src/getopt/getopt.c src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c src/readlink/readlink.c src/realpath/realpath.c $(src_rev_rev_SOURCES)
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -585,6 +596,17 @@ src/colcrt/colcrt.$(OBJEXT): src/colcrt/colcrt.c src/colcrt/.dirstamp \
 src/colcrt/colcrt$(EXEEXT): $(src_colcrt_colcrt_OBJECTS) $(src_colcrt_colcrt_DEPENDENCIES) src/colcrt/.dirstamp
 	@rm -f src/colcrt/colcrt$(EXEEXT)
 	$(LINK) $(src_colcrt_colcrt_LDFLAGS) $(src_colcrt_colcrt_OBJECTS) $(src_colcrt_colcrt_LDADD) $(LIBS)
+src/colrm/.dirstamp:
+	@$(mkinstalldirs) src/colrm
+	@: > src/colrm/.dirstamp
+src/colrm/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/colrm/$(DEPDIR)
+	@: > src/colrm/$(DEPDIR)/.dirstamp
+src/colrm/colrm.$(OBJEXT): src/colrm/colrm.c src/colrm/.dirstamp \
+	src/colrm/$(DEPDIR)/.dirstamp
+src/colrm/colrm$(EXEEXT): $(src_colrm_colrm_OBJECTS) $(src_colrm_colrm_DEPENDENCIES) src/colrm/.dirstamp
+	@rm -f src/colrm/colrm$(EXEEXT)
+	$(LINK) $(src_colrm_colrm_LDFLAGS) $(src_colrm_colrm_OBJECTS) $(src_colrm_colrm_LDADD) $(LIBS)
 src/column/.dirstamp:
 	@$(mkinstalldirs) src/column
 	@: > src/column/.dirstamp
@@ -773,6 +795,7 @@ mostlyclean-compile:
 	-rm -f src/col/col.$(OBJEXT)
 	-rm -f src/col/err.$(OBJEXT)
 	-rm -f src/colcrt/colcrt.$(OBJEXT)
+	-rm -f src/colrm/colrm.$(OBJEXT)
 	-rm -f src/column/column.$(OBJEXT)
 	-rm -f src/column/err.$(OBJEXT)
 	-rm -f src/conv/conv.$(OBJEXT)
@@ -807,6 +830,8 @@ distclean-compile:
 	-rm -f src/col/.dirstamp
 	-rm -f src/colcrt/$(DEPDIR)/.dirstamp
 	-rm -f src/colcrt/.dirstamp
+	-rm -f src/colrm/$(DEPDIR)/.dirstamp
+	-rm -f src/colrm/.dirstamp
 	-rm -f src/column/$(DEPDIR)/.dirstamp
 	-rm -f src/column/.dirstamp
 	-rm -f src/conv/$(DEPDIR)/.dirstamp
@@ -845,6 +870,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/col/$(DEPDIR)/col.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/col/$(DEPDIR)/err.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/colcrt/$(DEPDIR)/colcrt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/colrm/$(DEPDIR)/colrm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/column/$(DEPDIR)/column.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/column/$(DEPDIR)/err.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/conv/$(DEPDIR)/conv.Po@am__quote@
@@ -866,7 +892,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/rev/$(DEPDIR)/rev.Po@am__quote@
 
 distclean-depend:
-	-rm -rf src/ascii/$(DEPDIR) src/banner/$(DEPDIR) src/cal/$(DEPDIR) src/clip/$(DEPDIR) src/col/$(DEPDIR) src/colcrt/$(DEPDIR) src/column/$(DEPDIR) src/conv/$(DEPDIR) src/cygstart/$(DEPDIR) src/ddate/$(DEPDIR) src/dump/$(DEPDIR) src/getopt/$(DEPDIR) src/ipc/$(DEPDIR) src/last/$(DEPDIR) src/lpr/$(DEPDIR) src/mkshortcut/$(DEPDIR) src/namei/$(DEPDIR) src/readlink/$(DEPDIR) src/realpath/$(DEPDIR) src/rev/$(DEPDIR)
+	-rm -rf src/ascii/$(DEPDIR) src/banner/$(DEPDIR) src/cal/$(DEPDIR) src/clip/$(DEPDIR) src/col/$(DEPDIR) src/colcrt/$(DEPDIR) src/colrm/$(DEPDIR) src/column/$(DEPDIR) src/conv/$(DEPDIR) src/cygstart/$(DEPDIR) src/ddate/$(DEPDIR) src/dump/$(DEPDIR) src/getopt/$(DEPDIR) src/ipc/$(DEPDIR) src/last/$(DEPDIR) src/lpr/$(DEPDIR) src/mkshortcut/$(DEPDIR) src/namei/$(DEPDIR) src/readlink/$(DEPDIR) src/realpath/$(DEPDIR) src/rev/$(DEPDIR)
 
 .c.o:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
@@ -987,6 +1013,18 @@ src/colcrt/colcrt.obj: src/colcrt/colcrt.c
 @AMDEP_TRUE@	depfile='src/colcrt/$(DEPDIR)/colcrt.Po' tmpdepfile='src/colcrt/$(DEPDIR)/colcrt.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/colcrt/colcrt.obj `cygpath -w src/colcrt/colcrt.c`
+
+src/colrm/colrm.o: src/colrm/colrm.c
+@AMDEP_TRUE@	source='src/colrm/colrm.c' object='src/colrm/colrm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/colrm/$(DEPDIR)/colrm.Po' tmpdepfile='src/colrm/$(DEPDIR)/colrm.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/colrm/colrm.o `test -f 'src/colrm/colrm.c' || echo '$(srcdir)/'`src/colrm/colrm.c
+
+src/colrm/colrm.obj: src/colrm/colrm.c
+@AMDEP_TRUE@	source='src/colrm/colrm.c' object='src/colrm/colrm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/colrm/$(DEPDIR)/colrm.Po' tmpdepfile='src/colrm/$(DEPDIR)/colrm.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/colrm/colrm.obj `cygpath -w src/colrm/colrm.c`
 
 src/column/column.o: src/column/column.c
 @AMDEP_TRUE@	source='src/column/column.c' object='src/column/column.o' libtool=no @AMDEPBACKSLASH@
@@ -1372,7 +1410,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/intl $(distdir)/po $(distdir)/src/cal $(distdir)/src/col $(distdir)/src/colcrt $(distdir)/src/column $(distdir)/src/ddate $(distdir)/src/getopt $(distdir)/src/last $(distdir)/src/namei $(distdir)/src/rev
+	$(mkinstalldirs) $(distdir)/intl $(distdir)/po $(distdir)/src/cal $(distdir)/src/col $(distdir)/src/colcrt $(distdir)/src/colrm $(distdir)/src/column $(distdir)/src/ddate $(distdir)/src/getopt $(distdir)/src/last $(distdir)/src/namei $(distdir)/src/rev
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

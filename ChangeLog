@@ -1,5 +1,19 @@
 2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	Add 'colrm' program.  Tag "v1_1_1c"
+
+	* src/colrm: new directory
+	* src/colrm/colrm.c: new file
+	* src/colrm/colrm.1: new file
+	* src/colrm/widechar.h: new file
+	* Makefile.am: add program 'colrm'
+	* Makefile.in: regenerate
+	* PROGLIST: add colrm
+	* README: add colrm
+	* NEWS: hasn't been updated in a while...
+
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	Add 'colcrt' program.  Tag "v1_1_1b"
 
 	* src/colcrt: new directory

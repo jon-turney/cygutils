@@ -1,3 +1,9 @@
+  Add rev, column, colcrt, colrm.  Use GNU gettext (add
+  gettext source, as well).
+
+1.1.1:
+  Add getopt and readlink
+
 1.1.0:
   change to one-big-makefile (cf. "Recursive Make Considered
   Harmful").  Update documentation (esp. "HOW-TO-CONTRIBUTE" to
