@@ -1,0 +1,80 @@
+#!/bin/sh
+# $Id$
+
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+`
+
+syntaxe()
+{
+ echo ""
+ echo "IPC destruction"
+ echo "---------------"
+ echo ""
+ echo "    ipck [all | allsem | allmsg | allshm]"
+ echo ""
+}
+
+if test $# -eq 1
+then
+ case $1 in
+ all)
+ echo "kill all ipc"
+ a=`ipcs | grep "_sem" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm sem $a
+ fi
+ a=`ipcs | grep "_shm" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm shm $a
+ fi
+ a=`ipcs | grep "_msg" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm msg $a
+ fi
+ ;;
+ allsem)
+ echo "kill all sem"
+ a=`ipcs | grep "_sem" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm sem $a
+ fi
+ ;;
+ allmsg)
+ echo "kill all msg"
+ a=`ipcs | grep "_msg" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm msg $a
+ fi
+ ;;
+ allshm)
+ echo "kill all shm"
+ a=`ipcs | grep "_shm" | awk '{print $2}'`
+ if test " $a" != " " 
+ then
+  ipcrm shm $a
+ fi
+ ;;
+ *)
+ syntaxe
+ ;;
+ esac
+else
+ syntaxe
+fi

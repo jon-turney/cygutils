@@ -1,3 +1,18 @@
+2003-06-13  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* Makefile.am: add ipcs, ipcrm, and ipck
+	* configure.ac: change search method for libcygipc,
+	bump version number.
+	* src/ipc/ipcs.c: new file
+	* src/ipc/ipcs.8: new file
+	* src/ipc/ipcrm.c: new file
+	* src/ipc/ipcrm.8: new file
+	* src/ipc/ipck: new file
+	* NEWS: add info about ipcs, ipcrm, ipck
+	* PROGLIST: ditto
+	* README: ditto
+	* config.h.in: regenerate
+	
 2003-06-12  gilles civario  <gilles.civario@cea.fr>
 
 	* src/lpr/Printer.cc (Printer::open): correct

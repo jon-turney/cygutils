@@ -143,6 +143,10 @@ mcookie.exe
     xauth add :0 . `mcookie`
   (GPL - originally public domain)
 
+ipcs.exe, ipcrm.exe, ipck:
+  IPC utilities brought over from cygipc.
+  (GPL)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

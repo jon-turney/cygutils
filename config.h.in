@@ -47,9 +47,6 @@
 /* Define to 1 if you have the <langinfo.h> header file. */
 #undef HAVE_LANGINFO_H
 
-/* Define to 1 if you have the `cygipc' library (-lcygipc). */
-#undef HAVE_LIBCYGIPC
-
 /* Define to 1 if you have the `popt' library (-lpopt). */
 #undef HAVE_LIBPOPT
 
@@ -124,6 +121,9 @@
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
 #undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/ipc.h> header file. */
+#undef HAVE_SYS_IPC_H
 
 /* Define to 1 if you have the <sys/msg.h> header file. */
 #undef HAVE_SYS_MSG_H

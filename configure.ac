@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.57)
-AC_INIT(cygutils, 1.1.4, cwilson@ece.gatech.edu)
+AC_INIT(cygutils, 1.2.0, cwilson@ece.gatech.edu)
 AC_CONFIG_SRCDIR([config.h.in])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
@@ -14,7 +14,12 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 AC_CHECK_LIB(popt, poptPrintHelp) 
-AC_CHECK_LIB(cygipc, semget)
+AC_SEARCH_LIBS(semget, cygipc,[
+  cygutils_have_ipc="yes"
+  ],[
+  cygutils_have_ipc="no"
+  ])
+
 # AC_CHECK_LIB(intl, gettext)
 AM_GNU_GETTEXT(external,[],[])
 BUILD_INCLUDED_LIBINTL=no
@@ -29,7 +34,7 @@ AC_CHECK_HEADERS([stdlib.h stddef.h errno.h limits.h malloc.h \
 ctype.h getopt.h popt.h windows.h])
 AC_CHECK_HEADERS([string.h strings.h], break)
 AC_CHECK_HEADERS([stdarg.h varargs.h], break)
-AC_CHECK_HEADERS([sys/sem.h sys/shm.h sys/msg.h ])
+AC_CHECK_HEADERS([sys/ipc.h sys/sem.h sys/shm.h sys/msg.h])
 AC_CHECK_HEADERS([langinfo.h sys/param.h fcntl.h unistd.h \
 termios.h sys/ioctl.h])
 AC_CHECK_HEADERS([wchar.h])
@@ -53,7 +58,7 @@ AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *])
 
 dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
-AM_CONDITIONAL(WITH_CYGIPC_PROGRAMS, test "$ac_cv_lib_cygipc_semget" = yes)
+AM_CONDITIONAL(WITH_IPC_PROGRAMS, test "$cygutils_have_ipc" = yes)
 
 AC_CONFIG_FILES([Makefile po/Makefile.in])
 

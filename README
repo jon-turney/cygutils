@@ -35,12 +35,12 @@ files included in this package that fall under his edict.
 What's in this package:
 -------------------------------
 GPL:
- ascii    banner   conv     cygstart  dump
- getclip  getopt   lpr      mkshortcut
- msgtool  putclip  realpath semstat   semtool  
- shmtool
+ ascii    banner      conv     cygstart  dump
+ getclip  getopt      ipck     ipcrm     ipcs
+ lpr      mkshortcut  msgtool  putclip   realpath 
+ semstat  semtool     shmtool
 
- d2u      dos2unix  u2d       unix2dos
+ d2u      dos2unix    u2d       unix2dos
 
 PublicDomain-now-GPL:
  namei    ddate    mcookie
