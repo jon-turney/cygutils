@@ -3,6 +3,7 @@
 	* TODO: remove 'reorg' note
 	* configure.ac: mark as version 1.0.0
 	* configure: regenerate
+	* HOW-TO-CONTRIBUTE: new file
 
 2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
 
