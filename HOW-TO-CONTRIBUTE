@@ -167,10 +167,11 @@ The simple 12 step program:
      The configuration process will replace @LIBINTL@ with the 
      appropriate -lintl -liconv invocation.
 
-     Note that you do NOT need to include the following libraries in
-     a 'src_foo_foo_LDADD' line; these will be added automatically...
+     Note that you do NOT need to include the popt library in
+     a 'src_foo_foo_LDADD' line; -lpopt will be added automatically...
 
-     -lcygipc -lpopt  (that is, cygipc or popt)
+     If your app depends on IPC functions, then add @IPCLIBS@ 
+     to the 'src_foo_foo_LDADD' line.
 
   c) man pages and other documentation
 

@@ -47,13 +47,9 @@ msgtool.exe / shmtool.exe / semtool.exe / semstat.exe
   with the '-?' option.  Also, see the Linux Programmer's
   Guide -- the IPC chapter is included with the cygipc 
   distribution.
-    These tools can only be built if cygipc is installed
-  and thus are not portable to non-cygwin platforms.  Also,
-  they can only operate properly if ipc-daemon is running.
-  Eventually I'll figure out how to get autotools to NOT 
-  try to build them if IPC services are not available, and
-  I'll figure out how to link/test for libcygipc.a on cygwin
-  and just -lc on linux, etc.
+    These tools can only be built if IPC functions are 
+  available.  On cygwin, that (currently) means "only if
+  the cygipc package is installed".
   (GPL)
   
 banner.exe

@@ -77,6 +77,12 @@ src_rev_rev_LDADD = @LIBINTL@
 src_column_column_LDADD = @LIBINTL@
 src_colcrt_colcrt_LDADD = @LIBINTL@
 src_mcookie_mcookie_LDADD = @LIBINTL@
+src_ipc_semtool_LDADD = @IPCLIBS@
+src_ipc_shmtool_LDADD = @IPCLIBS@
+src_ipc_msgtool_LDADD = @IPCLIBS@
+src_ipc_semstat_LDADD = @IPCLIBS@
+src_ipc_ipcrm_LDADD = @IPCLIBS@
+src_ipc_ipcs_LDADD = @IPCLIBS@
 
 src_cal_cal_SOURCES = src/cal/cal.c src/cal/err.c src/cal/errs.h
 src_col_col_SOURCES = src/col/col.c src/col/err.c src/col/err.h

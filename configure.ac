@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.57)
-AC_INIT(cygutils, 1.2.0, cwilson@ece.gatech.edu)
+AC_INIT(cygutils, 1.2.1, cwilson@ece.gatech.edu)
 AC_CONFIG_SRCDIR([config.h.in])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
@@ -14,11 +14,17 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 AC_CHECK_LIB(popt, poptPrintHelp) 
+SAVELIBS=$LIBS
 AC_SEARCH_LIBS(semget, cygipc,[
   cygutils_have_ipc="yes"
   ],[
   cygutils_have_ipc="no"
   ])
+LIBS=$SAVELIBS
+if test "$ac_cv_search_semget" != no; then
+  test "$ac_cv_search_semget" = "none required" || IPCLIBS="$ac_cv_search_semget"
+fi
+AC_SUBST(IPCLIBS)
 
 # AC_CHECK_LIB(intl, gettext)
 AM_GNU_GETTEXT(external,[],[])
