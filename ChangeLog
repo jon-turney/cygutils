@@ -1,6 +1,12 @@
 
 2003-07-13  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	tag and release v1_2_0
+
+	* BRANCHES: add v1_2_0
+
+2003-07-13  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* Makefile.am: correct some mistakes with
 	optionally-built progs.
 
