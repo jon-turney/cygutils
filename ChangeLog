@@ -1,3 +1,23 @@
+2002-03-15  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* Makefile.in: rebootstrap
+	* aclocal.m4: ditto
+	* configure: ditto
+	* src/Makefile.in: ditto
+	* src/ascii/Makefile.in: ditto
+	* src/banner/Makefile.in: ditto
+	* src/cal/Makefile.in: ditto
+	* src/clip/Makefile.in: ditto
+	* src/conv/Makefile.in: ditto
+	* src/ddate/Makefile.in: ditto
+	* src/dump/Makefile.in: ditto
+	* src/ipc/Makefile.in: ditto
+	* src/last/Makefile.in: ditto
+	* src/lpr/Makefile.in: ditto
+	* src/mkshortcut/Makefile.in: ditto
+	* src/namei/Makefile.in: ditto
+	* src/realpath/Makefile.in: ditto
+
 2002-03-15  Michael Schaap  <cygwin_start@mscha.org>
 
 	* src/cygstart: new directory
