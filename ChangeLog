@@ -1,3 +1,9 @@
+2003-05-17  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* configure.ac: correct a problem with newer 
+	autoconf
+	* config.h.in: regenerate
+
 2003-02-05  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* NEWS: announce mkshortcut changes

@@ -32,7 +32,8 @@ AC_CHECK_HEADERS([sys/sem.h sys/shm.h sys/msg.h ])
 AC_CHECK_HEADERS([langinfo.h sys/param.h fcntl.h unistd.h \
 termios.h sys/ioctl.h])
 AC_CHECK_HEADERS([wchar.h])
-AC_CHECK_HEADERS(locale.h, AC_CHECK_FUNCS(setlocale))
+AC_CHECK_HEADERS([locale.h])
+AC_CHECK_FUNCS([setlocale])
 AC_HEADER_TIOCGWINSZ
 
 # Checks for typedefs, structures, and compiler characteristics.
