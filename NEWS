@@ -1,3 +1,9 @@
+1.2.2:
+  Add readshortcut (Rob Siklos)
+
+1.2.1:
+  Fix some configury errors, update documenation
+
 1.2.0:
   Added ipcs, ipcrm, and ipck programs from cygipc.
 

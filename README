@@ -37,8 +37,8 @@ What's in this package:
 GPL:
  ascii    banner      conv     cygstart  dump
  getclip  getopt      ipck     ipcrm     ipcs
- lpr      mkshortcut  msgtool  putclip   realpath 
- semstat  semtool     shmtool
+ lpr      mkshortcut  msgtool  putclip   readshortcut
+ realpath semstat  semtool     shmtool
 
  d2u      dos2unix    u2d       unix2dos
 

@@ -1,3 +1,17 @@
+2003-09-04  Chalres Wilson  <cwilson@ece.gatech.edu>
+
+	* NEWS: update
+
+2003-09-04  Rob Siklos <rob3@siklos.ca>
+
+	* src/readshortcut: new directory
+	* src/readshortcut/readshortcut.c: new file
+	* src/readshortcut/readshortcut.1: new file
+	* Makefile.am: add program 'readshortcut'
+	* AUTHORS: add Rob Siklos for readshortcut
+	* PROGLIST: add readshortcut
+	* README: add readshortcut
+
 2003-08-02  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	tag and release v1_2_1

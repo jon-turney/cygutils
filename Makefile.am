@@ -9,7 +9,8 @@ INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 if WITH_WINDOWS_PROGRAMS
 windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
-	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut
+	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut \
+	src/readshortcut/readshortcut
 endif
 
 if WITH_IPC_PROGRAMS
@@ -35,6 +36,7 @@ noinst_HEADERS = src/cal/errs.h src/cal/widechar.h \
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/mkshortcut/mkshortcut.1 \
+	src/readshortcut/readshortcut.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
 	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
 	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1 \
@@ -43,7 +45,7 @@ man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
 	src/ipc/msgtool src/ipc/semstat src/ipc/ipcrm src/ipc/ipcs \
-	src/lpr/lpr src/mkshortcut/mkshortcut
+	src/lpr/lpr src/mkshortcut/mkshortcut src/readshortcut/readshortcut
 
 EXTRA_SCRIPTS = src/ipc/ipck
 
@@ -70,6 +72,7 @@ EXTRA_DIST = config.rpath PROGLIST bootstrap common.h \
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool
 src_mkshortcut_mkshortcut_LDADD = -lole32 -luuid
+src_readshortcut_readshortcut_LDADD = -lole32 -luuid
 src_cal_cal_LDADD = @LIBINTL@
 src_ddate_ddate_LDADD = @LIBINTL@
 src_namei_namei_LDADD = @LIBINTL@

@@ -26,6 +26,10 @@ Joshua Danial Franklin  <joshuadfranklin@yahoo.com>
   mkshortcut.c, mkshortcut.1
   (GPL)
 
+Rob Siklos <rob3@siklos.ca>
+  readshortcut.c, readshortcut.1
+  (GPL)
+
 Michael Schaap  <cygwin_start@mscha.org>
   cygstart.c, cygstart.1
 
