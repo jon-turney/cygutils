@@ -4,6 +4,7 @@
 	Convert to one-big-makefile style.  cf "Recursive make
 	considered harmful"
 
+	* HOW-TO-CONTRIBUTE: update to reflect one-big-makefile style.
 	* Makefile.am: consolidate from src/*/Makefile.am
 	* configure.ac: remove src/*/Makefile from AC_CONFIG_FILES list.
 	bump version.

@@ -125,7 +125,7 @@ The simple 12 step program:
      If your contribution is windows-specific, then you should add it
      to BOTH the "windows_progs" and the EXTRA_PROGRAMS variables:
 
-	  windows_progs = ... src/foo/foo ...
+     windows_progs = ... src/foo/foo ...
      EXTRA_PROGRAMS = ... src/foo/foo ...
 
   b) Special link libraries
@@ -148,10 +148,10 @@ The simple 12 step program:
      or libncurses -- then you'll need to do a little more work. 
      For your initial submission, just create an LDADD variable in 
      Makefile.am with -lreadline (or whatever).  We'll figure out how
-	  to handle it better further down the road.  However, make sure
+     to handle it better further down the road.  However, make sure
      to let me know about your special link requirements.
 
-	  src_foo_foo_LDADD = -lreadline
+     src_foo_foo_LDADD = -lreadline
 
      Note that you do NOT need to include the following libraries in
      a 'src_foo_foo_LDADD' line; these will be added automatically...
@@ -161,7 +161,7 @@ The simple 12 step program:
   c) man pages and other documentation
 
      If you got 'em, copy 'em to your src/foo directory, and add the
-	  manpage to the man_MANS variable in Makefile.am like this:
+     manpage to the man_MANS variable in Makefile.am like this:
 
      man_MANS = ... src/foo/foo.1 ...
 
@@ -181,9 +181,9 @@ The simple 12 step program:
 
      src_foo_foo_SOURCES = foo.c otherfoo.c foo.h
 
-	  Note that this variable should NOT be specified if your program 
-	  consists merely of a single .c file whose name is the same as
-	  your program + '.c'.
+     Note that this variable should NOT be specified if your program 
+     consists merely of a single .c file whose name is the same as
+     your program + '.c'.
 
      If there are .h files in your SOURCES list, then you need to 
      add those .h files to the noinst_HEADERS variable, or the headers 
@@ -226,7 +226,7 @@ The simple 12 step program:
 
    If you haven't made any mistakes, you should (a) see no
    errors, and (b) see some new rules in Makefile.in that
-	correspond to your program.
+   correspond to your program.
 
 9) Build and test
 
