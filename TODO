@@ -8,6 +8,3 @@ to accomodate those results -- make will just fail.  This is surely
 not the right way to do things.
 
 what to do about wacky windows includes?  <shlobj.h> etc?
-
-convert mkshortcut to popt.
-
