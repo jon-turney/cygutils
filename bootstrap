@@ -1,5 +1,5 @@
 #!/bin/sh -x
-aclocal -I m4 && \
-automake --gnu --add-missing --copy && \
-autoconf
+aclocal && \
+automake --gnu --add-missing --copy --force-missing && \
+autoconf --force
 

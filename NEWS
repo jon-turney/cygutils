@@ -1,3 +1,9 @@
+1.1.3:
+  Removed last, utmpdump (now provided by the sysvinit package)
+  Updated to latest autotools and gettext -- but remove gettext
+    source; no longer necessary with AM_GETTEXT_GNU([external])
+
+1.1.2:
   Add rev, column, colcrt, colrm, mcookie.  Use GNU gettext (add
   gettext source, as well).
 

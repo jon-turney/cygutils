@@ -11,6 +11,3 @@ what to do about wacky windows includes?  <shlobj.h> etc?
 
 convert mkshortcut to popt.
 
-Figure out some way to remove local copy of gettext.  Probably 
-needs bugfix in automake and gettext, so this may take a while.
-

@@ -68,15 +68,6 @@ cal.exe
   displays a calendar
   (BSD-no-advert *)
 
-last.exe
-  show a listing of the last logged in users
-  (GPL)
-
-utmpdump.exe
-  give raw output of a utmp (/var/run/utmp) or wtmp 
-  (/var/log/wtmp) file.
-  (GPL)
-
 realpath.exe
   Convert pathname argumen to absolute path, with all 
   references to `.', `..', and symlinks resolved.
@@ -162,3 +153,8 @@ mcookie.exe
     University of California on July 22 1999. He states 
     that clause 3 is "hereby deleted in its entirety."
 
+Note: "last.exe" and "utmpdump.exe" were previously provided by
+cygutils.  However, once the `sysvinit' package was added to
+the cygwin distribution, they were removed.  They are now
+provided by `sysvinit' -- which is where we took them from
+in the first place.

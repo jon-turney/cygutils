@@ -36,9 +36,9 @@ What's in this package:
 -------------------------------
 GPL:
  ascii    banner   conv     cygstart  dump
- getclip  getopt   last     lpr       mkshortcut
+ getclip  getopt   lpr      mkshortcut
  msgtool  putclip  realpath semstat   semtool  
- shmtool  utmpdump 
+ shmtool
 
  d2u      dos2unix  u2d       unix2dos
 

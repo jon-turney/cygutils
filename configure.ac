@@ -1,9 +1,9 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
-AC_INIT(cygutils, 1.1.2, cwilson@ece.gatech.edu)
+AC_INIT(cygutils, 1.1.3, cwilson@ece.gatech.edu)
 AC_CONFIG_SRCDIR([config.h.in])
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE(cygutils, 1.1.2)
 AM_MAINTAINER_MODE
 
 # Checks for programs.
@@ -28,8 +28,6 @@ AC_CHECK_HEADERS([stdlib.h stddef.h errno.h limits.h malloc.h \
 ctype.h getopt.h popt.h windows.h])
 AC_CHECK_HEADERS([string.h strings.h], break)
 AC_CHECK_HEADERS([stdarg.h varargs.h], break)
-AC_CHECK_HEADERS([utmp.h signal.h netinet/in.h netdb.h arpa/inet.h \
-sys/socket.h])
 AC_CHECK_HEADERS([sys/sem.h sys/shm.h sys/msg.h ])
 AC_CHECK_HEADERS([langinfo.h sys/param.h fcntl.h unistd.h \
 termios.h sys/ioctl.h])
@@ -55,6 +53,6 @@ dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
 AM_CONDITIONAL(WITH_CYGIPC_PROGRAMS, test "$ac_cv_lib_cygipc_semget" = yes)
 
-AC_CONFIG_FILES([Makefile intl/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile po/Makefile.in])
 
 AC_OUTPUT

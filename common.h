@@ -77,34 +77,15 @@
 
 #if HAVE_MALLOC_H
 #  include <malloc.h>
-#endif /*HAVE_LIMITS_H*/
+#endif /*HAVE_MALLOC_H*/
 
-/* Geez, last.c/utmpdump.c have a lot of special requirements */
 #if HAVE_CTYPE_H
 #  include <ctype.h>
-#endif
+#endif /*HAVE_CTYPE_H*/
+
 #if HAVE_GETOPT_H
 #  include <getopt.h>
-#endif
-#if HAVE_UTMP_H
-#  include <utmp.h>
-#endif /* HAVE_UTMP_H */
-#if HAVE_SIGNAL_H
-#  include <signal.h>
-#endif /* HAVE_SIGNAL_H */
-#if HAVE_NETINET_IN_H
-#  include <netinet/in.h>
-#endif /* HAVE_NETINET_IN_H */
-#if HAVE_NETDB_H
-#  include <netdb.h>
-#endif /* HAVE_NETDB_H */
-#if HAVE_ARPA_INET_H
-#  include <arpa/inet.h>
-#endif /* HAVE_ARPA_INET_H */
-#if HAVE_SYS_SOCKET_H
-#  include <sys/socket.h>
-#endif /* HAVE_SYS_SOCKET_H */
-/* End: last.c/utmpdump.c stuff */
+#endif /*HAVE_GETOPT_H*/
 
 /* column needs TIOCGWINSZ */
 #if HAVE_TERMIOS_H

@@ -1,4 +1,4 @@
-/*
+/* && HAVE_NL_LANGINFO
  * Copyright (c) 1989, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -107,7 +107,7 @@ int main __P((int argc, char *argv[]));
 # define N_(Text) (Text)
 #endif
 
-#ifdef HAVE_LANGINFO_H
+#if defined HAVE_LANGINFO_H && HAVE_NL_LANGINFO
 # include <langinfo.h>
 #else
 struct time_info_struct {
@@ -249,7 +249,7 @@ main(int argc, char **argv) {
 	textdomain(PACKAGE);
 
 #if 0				/* setting week1stday is against man page */
-#ifdef HAVE_LANGINFO_H
+#if defined HAVE_LANGINFO_H && HAVE_NL_LANGINFO
 	week1stday = (int)(nl_langinfo(_NL_TIME_FIRST_WEEKDAY))[0];
 #endif
 #endif
@@ -339,7 +339,7 @@ void headers_init(void)
   wcscpy(j_day_headings_wc,L"");
 #endif
 
-#ifdef HAVE_LANGINFO_H
+#if defined HAVE_LANGINFO_H && HAVE_NL_LANGINFO
 # define weekday(wd)	nl_langinfo(ABDAY_1+wd)
 #else
 # define weekday(wd)	_time_info->abbrev_wkday[wd]
@@ -373,7 +373,7 @@ void headers_init(void)
 #undef weekday
   
   for (i = 0; i < 12; i++) {
-#ifdef HAVE_LANGINFO_H
+#if defined HAVE_LANGINFO_H && HAVE_NL_LANGINFO
      full_month[i] = nl_langinfo(MON_1+i);
 #else
      full_month[i] = _time_info->full_month[i];
