@@ -4,6 +4,8 @@
  * Copyright 2001,... by Charles Wilson <cwilson@ece.gatech.edu>.
  * All rights reserved.
  *
+ * Additions by Rob Siklos <rob3@siklos.ca>
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -24,13 +26,21 @@
 #if HAVE_CONFIG_H
 #  include "config.h"
 #endif
+#include <io.h>
 
 #include "common.h"
 #define CLIPCHUNK 1024
 
+#define ENDLMODE_UNIX   0
+#define ENDLMODE_DOS    1
+#define ENDLMODE_NOCONV 2
+
+#define PUTCLIP_OK     0
+#define PUTCLIP_ERR    1
+#define PUTCLIP_ARGERR 2
+
 static const char versionID[] = 
-    "0.1.1";
-/* for future CVS */
+    "0.2.0";
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -38,8 +48,10 @@ static const char copyrightID[] =
 
 typedef struct
 {
-  int unixflag;
-  int dosflag;
+  int endl_mode; /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
+  int unixflag;  /* indicates that the user specified -u or --unix    */
+  int dosflag;   /* indicates that the user specified -d or --dos     */
+  int noconvflag;/* indicates that the user specified -n or --no-conv */
 } flags_struct;
 
 static void printTopDescription(FILE * f, char * name);
@@ -58,14 +70,16 @@ int main(int argc, const char ** argv)
   poptContext optCon;
   const char ** rest;
   int rc;
-  int ec = 0;
-  flags_struct flags = { FALSE, FALSE };
+  int ec = PUTCLIP_OK;
+  flags_struct flags = { ENDLMODE_NOCONV, FALSE, FALSE, FALSE };
 
   struct poptOption generalOptionsTable[] = {
     { "dos",  'd',  POPT_ARG_NONE, NULL, 'd', \
         "Clipboard text will have DOS line endings.", NULL},
     { "unix", 'u', POPT_ARG_NONE, NULL, 'U', \
         "Clipboard text will have UNIX line endings.", NULL},
+    { "no-conv", 'n', POPT_ARG_NONE, NULL, 'n', \
+        "Do not translate line endings.", NULL},
     { NULL, '\0', 0, NULL, 0, NULL, NULL }
   };
 
@@ -106,8 +120,13 @@ int main(int argc, const char ** argv)
       case 'l':  license(optCon, stderr, program_name);
                  goto exit;
       case 'd':  flags.dosflag = TRUE;
+                 flags.endl_mode = ENDLMODE_DOS;
                  break;
       case 'U':  flags.unixflag = TRUE;
+                 flags.endl_mode = ENDLMODE_UNIX;
+                 break;
+      case 'n':  flags.noconvflag = TRUE;
+                 flags.endl_mode = ENDLMODE_NOCONV;
                  break;
     }
   }
@@ -115,19 +134,31 @@ int main(int argc, const char ** argv)
     fprintf(stderr, "%s: bad argument %s: %s\n",
       program_name, poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
       poptStrerror(rc));
-    ec = 2;
+    ec = PUTCLIP_ARGERR;
     goto exit;
   }
   if (flags.dosflag && flags.unixflag) {
     fprintf(stderr, "%s: can't specify both --unix and --dos (-u and -d)\n", program_name);
-    ec = 2;
+    ec = PUTCLIP_ARGERR;
     goto exit;
   }
+  if (flags.dosflag && flags.noconvflag) {
+    fprintf(stderr, "%s: can't specify both --dos  and --no-conv (-d and -n)\n", program_name);
+    ec = PUTCLIP_ARGERR;
+    goto exit;
+  }              
+  if (flags.unixflag && flags.noconvflag) {
+    fprintf(stderr, "%s: can't specify both --unix  and --no-conv (-u and -n)\n", program_name);
+    ec = PUTCLIP_ARGERR;
+    goto exit;
+  } 
+
   rest = poptGetArgs(optCon);
 
   if (rest == NULL)
     ec |= putclip(stdin, flags, stderr, program_name);
-  else {
+  else
+  {
     fprintf(stderr, "Extra args ignored: ");
     while (*rest) 
       fprintf(stderr, "%s ", *rest++);
@@ -154,8 +185,7 @@ static void printTopDescription(FILE * f, char * name)
 
 static void printBottomDescription(FILE * f, char * name)
 {
-  fprintf(f, "\nWARNING: --dos and --unix are not yet implemented.  Pipe input\n");
-  fprintf(f,   "through d2u or u2d as a workaround for now.\n");
+  fprintf(f, "NOTE: by default, no line ending conversion is performed.\n");
 }
 
 static printLicense(FILE * f, char * name)
@@ -202,74 +232,237 @@ static void license(poptContext optCon, FILE * f, char * name)
 
 int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
 {
-   HANDLE hData;  /* handle to clip data */
-   LPSTR lpData;  /* pointer to clip data */
-   LPSTR lpszText;
-   char chunk[CLIPCHUNK+1];
-   char *buf = NULL;
-   char *buf_old = NULL;
-   char *ptr;
-   int len = 0;
-   int numread;
+  HANDLE hData;            /* handle to clip data */
+  char* clipbuf = NULL;    /* pointer to clip data */
+  char chunk[CLIPCHUNK+1];
+  char *buf = NULL;
+  char *convbuf = NULL;
+  char *buf_old = NULL;
+  char *ptr;
+  int len = 0;
+  int convlen = 0;
+  int numread;
 
-   /* Since we have to copy to the clipboard all in one step,
-      read entire stream into memory. However, let's try to 
-      do this using the minimum amount of memory, but keep 
-      allocating more if needed.
-   */
-   do
-   {
-      numread = fread(chunk,sizeof(char),CLIPCHUNK,in);
-      if(numread > 0)
+  /* Since we have to copy to the clipboard all in one step,
+     read entire stream into memory. However, let's try to 
+     do this using the minimum amount of memory, but keep 
+     allocating more if needed.
+  */
+  do
+  {
+    numread = fread(chunk,sizeof(char),CLIPCHUNK,in);
+    if(numread > 0)
+    {
+      if (buf)
       {
-	 if (buf)
-	 {
-	    if ((buf_old = malloc (len * sizeof(char))) == NULL)
-	    {
-               fprintf(stderr, "%s: memory allocation error\n", name);
-	       return(FALSE);
-	    }
-	    memcpy(buf_old, buf, len);
-	    free(buf);
-	 }
-         if ((buf = malloc ((len+numread) * sizeof(char))) == NULL)
-	 {
-            fprintf(stderr, "%s: memory allocation error\n", name);
-	    return(FALSE);
-	 }
-	 if (buf_old)
-	 {
-	    memcpy(buf,buf_old,len);
-	    free(buf_old);
-	 }
-	 ptr = &(buf[len]);
-	 memcpy(ptr,chunk,numread);
-	 len += numread;
+        if ((buf_old = malloc (len * sizeof(char))) == NULL)
+        {
+          fprintf(stderr, "%s: memory allocation error\n", name);
+          return(PUTCLIP_ERR);
+        }
+        memcpy(buf_old, buf, len);
+        free(buf);
       }
-   }
-   while(!feof(in) && !ferror(in));
+      if ((buf = malloc ((len+numread) * sizeof(char))) == NULL)
+      {
+        fprintf(stderr, "%s: memory allocation error\n", name);
+        return(PUTCLIP_ERR);
+      }
+      if (buf_old)
+      {
+        memcpy(buf,buf_old,len);
+        free(buf_old);
+      }
+      ptr = &(buf[len]);
+      memcpy(ptr,chunk,numread);
+      len += numread;
+    }
+  }
+  while(!feof(in) && !ferror(in));
 
-   /* Allocate memory and copy the string to it */
-   if (!(hData 
-	 = GlobalAlloc(GHND, len+1))) {
-      return (TRUE);
-   }
-   if (!(lpData = GlobalLock(hData))) {
-      return (TRUE);
-   }
-
-   strcpy((char *)lpData, buf);
-   GlobalUnlock(hData);
+  /* format the string according to flags */
+  if (buf)
+  {
+    const char* CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
+    UINT cygnativeformat;
     
-   /* Clear the current contents of the clipboard, and set
-    * the data handle to the new string.
-    */
+    OpenClipboard(0);
+    cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
+    CloseClipboard();
    
-   if (OpenClipboard(0)) {
-      EmptyClipboard();
-      SetClipboardData(CF_TEXT, hData);
-      CloseClipboard();
-   }
-   hData = NULL;
-   return (TRUE);
+    // if flags.endl_mode == ENDLMODE_NOCONV 
+    convbuf = buf;
+    convlen = len;
+
+    if (flags.endl_mode == ENDLMODE_UNIX)
+    {
+      /* remove all instances of '\r' */
+      int i, cnt;
+      char *newStr = NULL;
+      char* prev;
+      char* curr;
+      char* pos;
+
+      /* allocate memory for a new string */
+      if ((newStr = (char*)malloc(convlen * sizeof(char))) == NULL) {
+        fprintf(stderr, "%s: memory allocation error\n", name);
+        return (PUTCLIP_ERR);
+      }
+
+      cnt = 0;      /* # of occurrences of \r\n */
+      pos = newStr; /* the current position in the new string */
+      prev = buf;
+      curr = buf;
+      for (i = 1; i < convlen; i++) {
+        ++curr;
+        if ((*prev == '\r') && *curr == '\n') {
+          cnt++;
+        } else {
+          *pos++ = *prev;
+        }
+        prev = curr;
+      }
+      /* always copy the last char -- it can't be the '\r' of a '\r\n' pair */
+      *pos++ = *prev;
+      convbuf = newStr;
+      convlen -= cnt;
+    }
+
+    if (flags.endl_mode == ENDLMODE_DOS)
+    {
+      /* change all instances of [!\r]\n to \r\n */
+      int i, cnt;
+      char *newStr = NULL;
+      char* prev;
+      char* curr;
+      char* pos;
+
+      /* count the instances [!\r]\n */
+      cnt = 0;
+      prev = buf;
+      curr = buf;
+      if (buf[0] == '\n') { cnt++; }
+      for (i = 1; i < convlen; i++) {
+        ++curr;
+        if ((*curr == '\n') && (*prev != '\r')) {
+          cnt++;
+        }
+        prev = curr;
+      }
+
+      /* allocate memory for a new string */
+      if ((newStr = (char*)malloc((convlen+cnt+1)* sizeof(char))) == NULL) {
+        fprintf(stderr,"%s: memory allocation error\n", name);
+        return (PUTCLIP_ERR);
+      }
+
+      /* do the search and replace */
+      pos = newStr;
+      prev = buf;
+      curr = buf;
+      if (buf[0] == '\n') {
+        *pos++ = '\r';
+        *pos++ = '\n';
+      } else {
+        *pos++ = buf[0];
+      }
+      for (i = 1; i < convlen; i++) {
+        ++curr;
+        if ((*curr == '\n') && (*prev != '\r')) {
+          *pos++ = '\r';
+          *pos++ = '\n';
+        } else {
+          *pos++ = *curr;
+        }
+        prev = curr;
+      }
+      convbuf = newStr;
+      convlen += cnt;
+    }
+
+    if (buf != convbuf) free(buf);
+    /* Now, the only buffer left to be freed is convbuf */
+
+    /* Allocate memory and copy the string to it */
+    /* cygwin native format */
+    OpenClipboard(0);
+    if (!(hData = GlobalAlloc(GMEM_MOVEABLE, convlen + sizeof (size_t))))
+    {
+      fprintf(f, "Couldn't allocate global buffer for write.\n");
+      if (convbuf) free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    if (!(clipbuf = (char*) GlobalLock(hData)))
+    {
+      fprintf(f, "Couldn't lock global buffer.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+
+    *(size_t *) (clipbuf) = convlen;
+    memcpy(clipbuf + sizeof (size_t), convbuf, convlen);
+    GlobalUnlock (hData);
+    EmptyClipboard();
+    if (! SetClipboardData (cygnativeformat, hData))
+    {
+      fprintf(f, "Couldn't write native format to the clipboard %04x %x\n",
+              cygnativeformat, hData);
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    CloseClipboard();    
+    if (GlobalFree(hData))
+    { 
+      fprintf(f, "Couldn't free global buffer after write to clipboard.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    hData = NULL;
+    clipbuf = NULL;
+ 
+    /* CF_TEXT format */
+    OpenClipboard(0);
+    if (!(hData = GlobalAlloc(GMEM_MOVEABLE, convlen + 2)))
+    {
+      fprintf(f, "Couldn't allocate global buffer for write.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    if (!(clipbuf = (char*) GlobalLock(hData)))
+    {
+      fprintf(f, "Couldn't lock global buffer.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    
+    memcpy(clipbuf, convbuf, convlen);
+    *(clipbuf + convlen) = '\0';
+    *(clipbuf + convlen + 1) = '\0';
+
+    GlobalUnlock (hData);
+    if (! SetClipboardData (CF_TEXT, hData))
+    {
+      fprintf(f, "Couldn't write CF_TEXT format to the clipboard.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    CloseClipboard();    
+    if (GlobalFree(hData))
+    { 
+      fprintf(f, "Couldn't free global buffer after write to clipboard.\n");
+      free(convbuf);
+      return (PUTCLIP_ERR);
+    }
+    hData = NULL;
+    clipbuf = NULL;
+
+    free(convbuf);
+  }
+  else /* if (buf) */
+  {
+    OpenClipboard(0);
+    EmptyClipboard();
+    CloseClipboard();    
+  }
+  return (PUTCLIP_OK);
 }

@@ -1,5 +1,8 @@
 1.2.2:
   Add readshortcut (Rob Siklos)
+  Actually implement the --dos/--unix options to putclip
+    and getclip (Rob Siklos)
+  Add the --no-conv option to putclip and getclip
 
 1.2.1:
   Fix some configury errors, update documenation

@@ -1,3 +1,22 @@
+2003-09-13  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/clip/getclip.c: Handle /dev/clipboard
+	native format.  Add --no-conv option.  Make it
+	the default.
+	* src/clip/putclip.c: Handle /dev/clipboard
+	native format.  Add --no-conv option.  Make it
+	the default.
+
+2003-09-12  Rob Siklos  <rob3@siklos.ca>
+
+	* src/clip/getclip.c: implemented --dos and --unix,
+	renamed putclip() to getclip()
+	* src/clip/putclip.c: implemented --dos and --unix,
+	fixed segfault on null input,
+	fixed indentation spacing,
+	return FALSE instead of TRUE on failed GlobalAlloc and GlobalLock
+	* TODO: removed --unix --dos flag item for getclip and putclip
+
 2003-09-04  Chalres Wilson  <cwilson@ece.gatech.edu>
 
 	* NEWS: update
