@@ -24,7 +24,10 @@
 	* aclocal.m4: regenerate
 	* Makefile.in: regenerate
 	* configure: regenerate
-	* bootstrap: add -I m4 to aclocal command
+	* bootstrap: add -I m4 to aclocal command; copy files
+	* config.guess: new file
+	* config.sub: new file
+	* compile: new file
 	* config.h.in: regenerate
 	* TODO: note to remove all this garbage when it becomes
 	possible; need bugfix to automake and gettext.m4
