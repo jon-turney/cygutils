@@ -12,6 +12,7 @@ mkshortcut \- create a Windows shortcut
 .RB "[\-\fBa\fP \fIARGS\fP]"
 .RB "[\-\fBi\fP \fIiconfile\fP [\-\fBj\fP \fIINT\fP] ]"
 .RB "[\-\fBn\fP \fINAME\fP ]"
+.RB "[\-\fBs\fP \fInorm|min|max\fP ]"
 .RB "[\-\fBw\fP \fIPATH\fP ]"
 .RB "[\-A] [\-D|\-P] \fITARGET\fP"
 .br
@@ -43,6 +44,15 @@ to 0.
 Name to use for the shortcut file. Note that \fI"NAME"\fP can contain spaces, but in
 that case must be enclosed in quotes. The Windows extention \fB.lnk\fP is automatically
 appended to \fI"NAME"\fP if not present.
+
+.TP 
+\fB\-s\fR, \fB\-\-show\fR=\fInorm|min|max\fP
+For norm, min, and max the new window will be normal, minimized, and 
+maximized, respectively.  Note that if you use the properties dialog to
+inspect properties of shortcuts for which you request minimized windows 
+the dialog may indicate that normal windows will be displayed.  Fortunately,
+that indicator is often wrong.
+
 
 .TP 
 \fB\-w\fR, \fB\-\-workingdir\fR=\fI"PATH"\fP

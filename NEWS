@@ -1,10 +1,19 @@
-1.2.3:
-  Bugfix for lpr
-  Bugfix for ipck
+1.2.5:
+  Add new -s (startup norm|max|min mode) option for 
+    mkshortcut
+
+
+1.2.4:
   Remove ipcs, ipcrm which are now provided by cygwin itself
   Remove support for building ipc tools against cygipc; build
     only against cygserver.  CygIPC versions are now (again)
     provided by the cygipc package itself.
+
+1.2.3 (unreleased):
+  Bugfix for lpr
+  Bugfix for ipck
+  Adapt ipck for cygserver compatibility
+  Fix docs for mkshortcut to reflect new -w/--workingdir option
 
 1.2.2:
   Add readshortcut (Rob Siklos)

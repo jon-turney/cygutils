@@ -58,6 +58,7 @@ typedef struct optvals_s {
   int allusers_flag;
   int desktop_flag;
   int smprograms_flag;
+  int show_flag;
   int offset;
   char * name_arg;
   char * dir_name_arg;
@@ -112,6 +113,8 @@ main (int argc, const char **argv)
         "offset of icon in icon file (default is 0)", NULL},
     { "name", 'n', POPT_ARG_STRING, NULL, 'n', \
         "name for link (defaults to TARGET)", "NAME"},
+    { "show", 's', POPT_ARG_STRING, NULL, 's', \
+        "window to show: normal, minimized, maximized", "norm|min|max"},
     { "workingdir", 'w', POPT_ARG_STRING, NULL, 'w', \
         "set working directory (defaults to directory path of TARGET)", "PATH"},
     { "allusers", 'A', POPT_ARG_VAL, &(opts.allusers_flag), 1, \
@@ -154,6 +157,7 @@ main (int argc, const char **argv)
   opts.allusers_flag = 0;
   opts.desktop_flag = 0;
   opts.smprograms_flag = 0;
+  opts.show_flag = SW_SHOWNORMAL;
   opts.target_arg = NULL;
   opts.argument_arg = NULL;
   opts.name_arg = NULL;
@@ -190,6 +194,21 @@ main (int argc, const char **argv)
                      fprintf(stderr, "%s: memory allocation error\n", program_name);
                      ec=2;                                            
                      goto exit;
+                   }
+                 }
+                 break;
+      case 's':  if (arg = poptGetOptArg(optCon)) {
+                   if (strcmp(arg, "min") == 0) {
+                     opts.show_flag = SW_SHOWMINNOACTIVE;
+                   } else if (strcmp(arg, "max") == 0) {
+                     opts.show_flag = SW_SHOWMAXIMIZED;
+                   } else if (strcmp(arg, "norm") == 0) {
+                     opts.show_flag = SW_SHOWNORMAL;
+                   } else {
+                         fprintf(stderr, "%s: %s not valid for show window\n",
+                               program_name, arg);
+                         ec=2;                                            
+                         goto exit;
                    }
                  }
                  break;
@@ -460,6 +479,9 @@ int mkshortcut(optvals opts, poptContext optCon)
 	  if (opts.icon_flag)
 	    shell_link->lpVtbl->SetIconLocation (shell_link, opts.icon_name_arg,
 						 opts.offset);
+          if (opts.show_flag != SW_SHOWNORMAL)
+            shell_link->lpVtbl->SetShowCmd(shell_link, opts.show_flag);
+
 
 	  /*  Make link name Unicode-compliant  */
 	  hres =

@@ -1,3 +1,12 @@
+2004-02-14  Dick Repansky  <rrepasky@....>
+            Joshua Danial Franklin  <joshuadfranklin@....>
+
+	* src/mkshortcut/mkshortcut.c: add -s option 	
+	to control normal|minimized|maximized state
+	of the launched application.
+	* src/mkshortcut/mkshortcut.1: document it.
+	* NEWS: document it
+
 2004-01-31  Charles Wilson  <cwilson@....>
 
 	bump version number
