@@ -1,10 +1,20 @@
 2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	* configure.ac: build Makefiles in new directories
+	* configure.in: regenerate
+	* Makefile.am: change subdirs
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* src: new directory
 	* src/Makefile.am: new file
 	* src/Makefile.in: new file
 	* src-gpl/Makefile.am: removed
 	* src-gpl/Makefile.in: removed
+	* src-pd/Makefile.am: removed
+	* src-pd/Makefile.in: removed
+	* src-bsd/Makefile.am: removed
+	* src-bsd/Makefile.in: removed
 
 2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
 
@@ -91,6 +101,63 @@
 	* src/ipc/shmtool.c: moved from src-gpl/shmtool.c
 	* src/ipc/Makefile.am: new file
 	* src/ipc/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/last: new directory
+	* src-gpl/last.c: moved to src/last/last.c
+	* src/last/last.c: moved from src-gpl/last.c
+	* src-gpl/last.1: moved to src/last/last.1
+	* src/last/last.1: moved from src-gpl/last.1
+	* src-gpl/lastb.1: moved to src/last/lastb.1
+	* src/last/lastb.1: moved from src-gpl/lastb.1
+	* src-gpl/oldutmp.h: moved to src/last/oldutmp.h
+	* src/last/oldutmp.h: moved from src-gpl/oldutmp.h
+	* src-gpl/utmpdump.c: moved to src/last/utmpdump.c
+	* src/last/utmpdump.c: moved from src-gpl/utmpdump.c
+	* src/last/Makefile.am: new file
+	* src/last/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/lpr: new directory
+	* src-gpl/lpr.c: moved to src/lpr/lpr.c
+	* src/lpr/lpr.c: moved from src-gpl/lpr.c
+	* src/lpr/Makefile.am: new file
+	* src/lpr/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/mkshortcut: new directory
+	* src-gpl/mkshortcut.c: moved to src/mkshortcut/mkshortcut.c
+	* src/mkshortcut/mkshortcut.c: moved from src-gpl/mkshortcut.c
+	* src-gpl/mkshortcut.1: moved to src/mkshortcut/mkshortcut.1
+	* src/mkshortcut/mkshortcut.1: moved from src-gpl/mkshortcut.1
+	* src/mkshortcut/Makefile.am: new file
+	* src/mkshortcut/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/namei: new directory
+	* src-pd/namei.c: moved to src/namei/namei.c
+	* src/namei/namei.c: moved from src-pd/namei.c
+	* src-pd/namei.1: moved to src/namei/namei.1
+	* src/namei/namei.1: moved from src-pd/namei.1
+	* src-pd/README.namei: moved to src/namei/README.namei
+	* src/namei/README.namei: moved from src-pd/README.namei
+	* src-pd/README1.namei: moved to src/namei/README1.namei
+	* src/namei/README1.namei: moved from src-pd/README1.namei
+	* src/namei/Makefile.am: new file
+	* src/namei/Makefile.in: new file
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src/realpath: new directory
+	* src-gpl/realpath.c: moved to src/realpath/realpath.c
+	* src/realpath/realpath.c: moved from src-gpl/realpath.c
+	* src/realpath/Makefile.am: new file
+	* src/realpath/Makefile.in: new file
+
 
 2002-02-23  Charles Wilson  <cwilson@ece.gatech.edu>
 

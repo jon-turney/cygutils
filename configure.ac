@@ -47,7 +47,7 @@ dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
 AM_CONDITIONAL(WITH_CYGIPC_PROGRAMS, test "$ac_cv_lib_cygipc_semget" = yes)
 
-AC_CONFIG_FILES([Makefile src/Makefile src-windows/Makefile
+AC_CONFIG_FILES([Makefile src/Makefile
 src/ascii/Makefile
 src/banner/Makefile
 src/cal/Makefile
