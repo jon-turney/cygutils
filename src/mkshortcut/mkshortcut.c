@@ -491,7 +491,7 @@ static void printTopDescription(FILE * f, char * name)
 }
 static void printBottomDescription(FILE * f, char * name)
 {
-  fprintf(f, "NOTE: All filename arguments must be in unix (POSIX) format\n");
+  fprintf(f, "\nNOTE: All filename arguments must be in unix (POSIX) format\n");
 }
 static printLicense(FILE * f, char * name)
 {
@@ -520,6 +520,7 @@ static void help(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   poptPrintHelp(optCon, f, 0);
+  printBottomDescription(f, name);
 }
 
 static void version(poptContext optCon, FILE * f, char * name)
@@ -532,6 +533,5 @@ static void license(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-  printBottomDescription(f, name);
 }  
 
