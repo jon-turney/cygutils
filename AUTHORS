@@ -36,3 +36,13 @@ David A. Willis <dawillis1214@yahoo.com>
 Robert Collins:
   demonstrated how to consolidate the build process
   to "one Makefile to build them all".
+
+Kenneth Stailey:
+  original author of readlink.c
+
+Frodo Looijaard <frodol@dds.nl>
+  original author of getopt.c
+
+Egor Duda
+  initial "port" of readlink and getopt to cygwin
+

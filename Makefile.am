@@ -18,14 +18,15 @@ endif
 
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
-	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col
+	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col \
+	src/getopt/getopt src/readlink/readlink
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
 	src/col/err.h
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
-	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1
-	src/namei/namei.1 src/col/col.1
+	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1 \
+	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 src/readlink/readlink.1
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
@@ -33,7 +34,9 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/mkshortcut/mkshortcut
 
 EXTRA_DIST = src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
-  	src/namei/README1.namei src/col/README.col
+  	src/namei/README1.namei src/col/README.col \
+	src/getopt/parse.bash src/getopt/parse.tcsh \
+	src/getopt/test.bash src/getopt/test.tcsh
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool

@@ -108,6 +108,15 @@ col.exe
   white-space characters with tabs where possible.
   (BSD-no-advert *)
 
+getopt.exe
+  an enhanced command option parser for use in shell scripts. Taken from
+  util-linux.
+  (GPL)
+
+readlink.exe
+  follow symbolic links.  Taken from OpenBSD CVS.
+  (BSD-no-advert)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

@@ -90,7 +90,8 @@ INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
-	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col
+	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col \
+	src/getopt/getopt src/readlink/readlink
 
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
@@ -98,7 +99,8 @@ noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
 
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
-	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1
+	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1 \
+	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 src/readlink/readlink.1
 
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
@@ -108,7 +110,9 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 
 
 EXTRA_DIST = src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
-  	src/namei/README1.namei src/col/README.col
+  	src/namei/README1.namei src/col/README.col \
+	src/getopt/parse.bash src/getopt/parse.tcsh \
+	src/getopt/test.bash src/getopt/test.tcsh
 
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
@@ -145,7 +149,9 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/utmpdump$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/namei/namei$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/realpath/realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/getopt/getopt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/readlink/readlink$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
@@ -156,7 +162,9 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/utmpdump$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/namei/namei$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/realpath/realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/getopt/getopt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_FALSE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/readlink/readlink$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/banner/banner$(EXEEXT) \
@@ -177,7 +185,9 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/last/utmpdump$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/namei/namei$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/realpath/realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/col/col$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/getopt/getopt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_TRUE@	src/readlink/readlink$(EXEEXT)
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@bin_PROGRAMS = \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/ascii/ascii$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/cal/cal$(EXEEXT) \
@@ -192,7 +202,9 @@ EXTRA_PROGRAMS = src/banner/banner$(EXEEXT) src/clip/getclip$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/last/utmpdump$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/namei/namei$(EXEEXT) \
 @WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/realpath/realpath$(EXEEXT) \
-@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT)
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/col/col$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/getopt/getopt$(EXEEXT) \
+@WITH_CYGIPC_PROGRAMS_TRUE@@WITH_WINDOWS_PROGRAMS_FALSE@	src/readlink/readlink$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 src_ascii_ascii_SOURCES = src/ascii/ascii.c
@@ -244,6 +256,11 @@ src_dump_dump_OBJECTS = src/dump/dump.$(OBJEXT)
 src_dump_dump_LDADD = $(LDADD)
 src_dump_dump_DEPENDENCIES =
 src_dump_dump_LDFLAGS =
+src_getopt_getopt_SOURCES = src/getopt/getopt.c
+src_getopt_getopt_OBJECTS = src/getopt/getopt.$(OBJEXT)
+src_getopt_getopt_LDADD = $(LDADD)
+src_getopt_getopt_DEPENDENCIES =
+src_getopt_getopt_LDFLAGS =
 src_ipc_msgtool_SOURCES = src/ipc/msgtool.c
 src_ipc_msgtool_OBJECTS = src/ipc/msgtool.$(OBJEXT)
 src_ipc_msgtool_LDADD = $(LDADD)
@@ -287,6 +304,11 @@ src_namei_namei_OBJECTS = src/namei/namei.$(OBJEXT)
 src_namei_namei_LDADD = $(LDADD)
 src_namei_namei_DEPENDENCIES =
 src_namei_namei_LDFLAGS =
+src_readlink_readlink_SOURCES = src/readlink/readlink.c
+src_readlink_readlink_OBJECTS = src/readlink/readlink.$(OBJEXT)
+src_readlink_readlink_LDADD = $(LDADD)
+src_readlink_readlink_DEPENDENCIES =
+src_readlink_readlink_LDFLAGS =
 src_realpath_realpath_SOURCES = src/realpath/realpath.c
 src_realpath_realpath_OBJECTS = src/realpath/realpath.$(OBJEXT)
 src_realpath_realpath_LDADD = $(LDADD)
@@ -310,6 +332,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	src/cygstart/$(DEPDIR)/cygstart.Po \
 @AMDEP_TRUE@	src/ddate/$(DEPDIR)/ddate.Po \
 @AMDEP_TRUE@	src/dump/$(DEPDIR)/dump.Po \
+@AMDEP_TRUE@	src/getopt/$(DEPDIR)/getopt.Po \
 @AMDEP_TRUE@	src/ipc/$(DEPDIR)/msgtool.Po \
 @AMDEP_TRUE@	src/ipc/$(DEPDIR)/semstat.Po \
 @AMDEP_TRUE@	src/ipc/$(DEPDIR)/semtool.Po \
@@ -319,6 +342,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	src/lpr/$(DEPDIR)/lpr.Po \
 @AMDEP_TRUE@	src/mkshortcut/$(DEPDIR)/mkshortcut.Po \
 @AMDEP_TRUE@	src/namei/$(DEPDIR)/namei.Po \
+@AMDEP_TRUE@	src/readlink/$(DEPDIR)/readlink.Po \
 @AMDEP_TRUE@	src/realpath/$(DEPDIR)/realpath.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -328,11 +352,12 @@ CFLAGS = @CFLAGS@
 DIST_SOURCES = src/ascii/ascii.c src/banner/banner.c \
 	$(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c \
 	$(src_col_col_SOURCES) src/conv/conv.c src/cygstart/cygstart.c \
-	src/ddate/ddate.c src/dump/dump.c src/ipc/msgtool.c \
-	src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c \
-	$(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) \
-	src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c \
-	src/realpath/realpath.c
+	src/ddate/ddate.c src/dump/dump.c src/getopt/getopt.c \
+	src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c \
+	src/ipc/shmtool.c $(src_last_last_SOURCES) \
+	$(src_last_utmpdump_SOURCES) src/lpr/lpr.c \
+	src/mkshortcut/mkshortcut.c src/namei/namei.c \
+	src/readlink/readlink.c src/realpath/realpath.c
 
 NROFF = nroff
 MANS = $(man_MANS)
@@ -347,7 +372,7 @@ DIST_COMMON = README $(noinst_HEADERS) AUTHORS COPYING ChangeLog \
 	INSTALL Makefile.am Makefile.in NEWS TODO acinclude.m4 \
 	aclocal.m4 compile config.h.in configure configure.ac depcomp \
 	install-sh missing mkinstalldirs
-SOURCES = src/ascii/ascii.c src/banner/banner.c $(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c $(src_col_col_SOURCES) src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c src/realpath/realpath.c
+SOURCES = src/ascii/ascii.c src/banner/banner.c $(src_cal_cal_SOURCES) src/clip/getclip.c src/clip/putclip.c $(src_col_col_SOURCES) src/conv/conv.c src/cygstart/cygstart.c src/ddate/ddate.c src/dump/dump.c src/getopt/getopt.c src/ipc/msgtool.c src/ipc/semstat.c src/ipc/semtool.c src/ipc/shmtool.c $(src_last_last_SOURCES) $(src_last_utmpdump_SOURCES) src/lpr/lpr.c src/mkshortcut/mkshortcut.c src/namei/namei.c src/readlink/readlink.c src/realpath/realpath.c
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -518,6 +543,17 @@ src/dump/dump.$(OBJEXT): src/dump/dump.c src/dump/.dirstamp \
 src/dump/dump$(EXEEXT): $(src_dump_dump_OBJECTS) $(src_dump_dump_DEPENDENCIES) src/dump/.dirstamp
 	@rm -f src/dump/dump$(EXEEXT)
 	$(LINK) $(src_dump_dump_LDFLAGS) $(src_dump_dump_OBJECTS) $(src_dump_dump_LDADD) $(LIBS)
+src/getopt/.dirstamp:
+	@$(mkinstalldirs) src/getopt
+	@: > src/getopt/.dirstamp
+src/getopt/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/getopt/$(DEPDIR)
+	@: > src/getopt/$(DEPDIR)/.dirstamp
+src/getopt/getopt.$(OBJEXT): src/getopt/getopt.c src/getopt/.dirstamp \
+	src/getopt/$(DEPDIR)/.dirstamp
+src/getopt/getopt$(EXEEXT): $(src_getopt_getopt_OBJECTS) $(src_getopt_getopt_DEPENDENCIES) src/getopt/.dirstamp
+	@rm -f src/getopt/getopt$(EXEEXT)
+	$(LINK) $(src_getopt_getopt_LDFLAGS) $(src_getopt_getopt_OBJECTS) $(src_getopt_getopt_LDADD) $(LIBS)
 src/ipc/.dirstamp:
 	@$(mkinstalldirs) src/ipc
 	@: > src/ipc/.dirstamp
@@ -593,6 +629,17 @@ src/namei/namei.$(OBJEXT): src/namei/namei.c src/namei/.dirstamp \
 src/namei/namei$(EXEEXT): $(src_namei_namei_OBJECTS) $(src_namei_namei_DEPENDENCIES) src/namei/.dirstamp
 	@rm -f src/namei/namei$(EXEEXT)
 	$(LINK) $(src_namei_namei_LDFLAGS) $(src_namei_namei_OBJECTS) $(src_namei_namei_LDADD) $(LIBS)
+src/readlink/.dirstamp:
+	@$(mkinstalldirs) src/readlink
+	@: > src/readlink/.dirstamp
+src/readlink/$(DEPDIR)/.dirstamp:
+	@$(mkinstalldirs) src/readlink/$(DEPDIR)
+	@: > src/readlink/$(DEPDIR)/.dirstamp
+src/readlink/readlink.$(OBJEXT): src/readlink/readlink.c \
+	src/readlink/.dirstamp src/readlink/$(DEPDIR)/.dirstamp
+src/readlink/readlink$(EXEEXT): $(src_readlink_readlink_OBJECTS) $(src_readlink_readlink_DEPENDENCIES) src/readlink/.dirstamp
+	@rm -f src/readlink/readlink$(EXEEXT)
+	$(LINK) $(src_readlink_readlink_LDFLAGS) $(src_readlink_readlink_OBJECTS) $(src_readlink_readlink_LDADD) $(LIBS)
 src/realpath/.dirstamp:
 	@$(mkinstalldirs) src/realpath
 	@: > src/realpath/.dirstamp
@@ -619,6 +666,7 @@ mostlyclean-compile:
 	-rm -f src/cygstart/cygstart.$(OBJEXT)
 	-rm -f src/ddate/ddate.$(OBJEXT)
 	-rm -f src/dump/dump.$(OBJEXT)
+	-rm -f src/getopt/getopt.$(OBJEXT)
 	-rm -f src/ipc/msgtool.$(OBJEXT)
 	-rm -f src/ipc/semstat.$(OBJEXT)
 	-rm -f src/ipc/semtool.$(OBJEXT)
@@ -628,6 +676,7 @@ mostlyclean-compile:
 	-rm -f src/lpr/lpr.$(OBJEXT)
 	-rm -f src/mkshortcut/mkshortcut.$(OBJEXT)
 	-rm -f src/namei/namei.$(OBJEXT)
+	-rm -f src/readlink/readlink.$(OBJEXT)
 	-rm -f src/realpath/realpath.$(OBJEXT)
 
 distclean-compile:
@@ -650,6 +699,8 @@ distclean-compile:
 	-rm -f src/ddate/.dirstamp
 	-rm -f src/dump/$(DEPDIR)/.dirstamp
 	-rm -f src/dump/.dirstamp
+	-rm -f src/getopt/$(DEPDIR)/.dirstamp
+	-rm -f src/getopt/.dirstamp
 	-rm -f src/ipc/$(DEPDIR)/.dirstamp
 	-rm -f src/ipc/.dirstamp
 	-rm -f src/last/$(DEPDIR)/.dirstamp
@@ -660,6 +711,8 @@ distclean-compile:
 	-rm -f src/mkshortcut/.dirstamp
 	-rm -f src/namei/$(DEPDIR)/.dirstamp
 	-rm -f src/namei/.dirstamp
+	-rm -f src/readlink/$(DEPDIR)/.dirstamp
+	-rm -f src/readlink/.dirstamp
 	-rm -f src/realpath/$(DEPDIR)/.dirstamp
 	-rm -f src/realpath/.dirstamp
 
@@ -675,6 +728,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/cygstart/$(DEPDIR)/cygstart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/ddate/$(DEPDIR)/ddate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/dump/$(DEPDIR)/dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/getopt/$(DEPDIR)/getopt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/msgtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/semstat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/ipc/$(DEPDIR)/semtool.Po@am__quote@
@@ -684,10 +738,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/lpr/$(DEPDIR)/lpr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/mkshortcut/$(DEPDIR)/mkshortcut.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/namei/$(DEPDIR)/namei.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/readlink/$(DEPDIR)/readlink.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/realpath/$(DEPDIR)/realpath.Po@am__quote@
 
 distclean-depend:
-	-rm -rf src/ascii/$(DEPDIR) src/banner/$(DEPDIR) src/cal/$(DEPDIR) src/clip/$(DEPDIR) src/col/$(DEPDIR) src/conv/$(DEPDIR) src/cygstart/$(DEPDIR) src/ddate/$(DEPDIR) src/dump/$(DEPDIR) src/ipc/$(DEPDIR) src/last/$(DEPDIR) src/lpr/$(DEPDIR) src/mkshortcut/$(DEPDIR) src/namei/$(DEPDIR) src/realpath/$(DEPDIR)
+	-rm -rf src/ascii/$(DEPDIR) src/banner/$(DEPDIR) src/cal/$(DEPDIR) src/clip/$(DEPDIR) src/col/$(DEPDIR) src/conv/$(DEPDIR) src/cygstart/$(DEPDIR) src/ddate/$(DEPDIR) src/dump/$(DEPDIR) src/getopt/$(DEPDIR) src/ipc/$(DEPDIR) src/last/$(DEPDIR) src/lpr/$(DEPDIR) src/mkshortcut/$(DEPDIR) src/namei/$(DEPDIR) src/readlink/$(DEPDIR) src/realpath/$(DEPDIR)
 
 .c.o:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
@@ -845,6 +900,18 @@ src/dump/dump.obj: src/dump/dump.c
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/dump/dump.obj `cygpath -w src/dump/dump.c`
 
+src/getopt/getopt.o: src/getopt/getopt.c
+@AMDEP_TRUE@	source='src/getopt/getopt.c' object='src/getopt/getopt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/getopt/$(DEPDIR)/getopt.Po' tmpdepfile='src/getopt/$(DEPDIR)/getopt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/getopt/getopt.o `test -f 'src/getopt/getopt.c' || echo '$(srcdir)/'`src/getopt/getopt.c
+
+src/getopt/getopt.obj: src/getopt/getopt.c
+@AMDEP_TRUE@	source='src/getopt/getopt.c' object='src/getopt/getopt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/getopt/$(DEPDIR)/getopt.Po' tmpdepfile='src/getopt/$(DEPDIR)/getopt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/getopt/getopt.obj `cygpath -w src/getopt/getopt.c`
+
 src/ipc/msgtool.o: src/ipc/msgtool.c
 @AMDEP_TRUE@	source='src/ipc/msgtool.c' object='src/ipc/msgtool.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='src/ipc/$(DEPDIR)/msgtool.Po' tmpdepfile='src/ipc/$(DEPDIR)/msgtool.TPo' @AMDEPBACKSLASH@
@@ -952,6 +1019,18 @@ src/namei/namei.obj: src/namei/namei.c
 @AMDEP_TRUE@	depfile='src/namei/$(DEPDIR)/namei.Po' tmpdepfile='src/namei/$(DEPDIR)/namei.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/namei/namei.obj `cygpath -w src/namei/namei.c`
+
+src/readlink/readlink.o: src/readlink/readlink.c
+@AMDEP_TRUE@	source='src/readlink/readlink.c' object='src/readlink/readlink.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/readlink/$(DEPDIR)/readlink.Po' tmpdepfile='src/readlink/$(DEPDIR)/readlink.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/readlink/readlink.o `test -f 'src/readlink/readlink.c' || echo '$(srcdir)/'`src/readlink/readlink.c
+
+src/readlink/readlink.obj: src/readlink/readlink.c
+@AMDEP_TRUE@	source='src/readlink/readlink.c' object='src/readlink/readlink.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='src/readlink/$(DEPDIR)/readlink.Po' tmpdepfile='src/readlink/$(DEPDIR)/readlink.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o src/readlink/readlink.obj `cygpath -w src/readlink/readlink.c`
 
 src/realpath/realpath.o: src/realpath/realpath.c
 @AMDEP_TRUE@	source='src/realpath/realpath.c' object='src/realpath/realpath.o' libtool=no @AMDEPBACKSLASH@
@@ -1117,7 +1196,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/src/cal $(distdir)/src/col $(distdir)/src/ddate $(distdir)/src/last $(distdir)/src/namei
+	$(mkinstalldirs) $(distdir)/src/cal $(distdir)/src/col $(distdir)/src/ddate $(distdir)/src/getopt $(distdir)/src/last $(distdir)/src/namei
 	@for file in $(DISTFILES); do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -1296,7 +1375,6 @@ uninstall-man: uninstall-man1
 	uninstall-info-recursive uninstall-man uninstall-man1 \
 	uninstall-recursive
 
-	src/namei/namei.1 src/col/col.1
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

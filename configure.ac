@@ -1,9 +1,9 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
-AC_INIT(cygutils, 1.1.0, cwilson@ece.gatech.edu)
+AC_INIT(cygutils, 1.1.1, cwilson@ece.gatech.edu)
 AC_CONFIG_SRCDIR([config.h.in])
 AM_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE(cygutils, 1.1.0)
+AM_INIT_AUTOMAKE(cygutils, 1.1.1)
 AM_MAINTAINER_MODE
 
 # Checks for programs.

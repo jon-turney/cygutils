@@ -1,8 +1,31 @@
+2002-06-06  Charles S. Wilson  <cwilson@ece.gatech.edu>
+            Egor Duda
+
+   Add getopt.exe, readlink.exe.  Bump to 1.1.1.
+
+	* AUTHORS: add Egor, Kenneth Stailey, and Frodo Looijaard
+	* configure.ac: bump to 1.1.1
+	* Makefile.am: add getopt and readlink
+	* PROGLIST: ditto
+	* README: ditto
+	* Makefile.in: regenerate
+	* configure: regenerate
+	* src/Makefile.am: delete (forgot to do so in previous commit)
+	* src/Makefile.in: delete (ditto)
+	* src/readlink/readlink.1: new file
+	* src/readlink/readlink.c: new file
+	* src/getopt/getopt.1: new file
+	* src/getopt/getopt.c: new file
+	* src/getopt/parse.bash: new file
+	* src/getopt/parse.tcsh: new file
+	* src/getopt/test.bash: new file
+	* src/getopt/test.tcsh: new file
+
 2002-06-05  Charles S. Wilson  <cwilson@ece.gatech.edu>
             Robert Collins  <robert.collins@itdomain.com.au>
 
 	Convert to one-big-makefile style.  cf "Recursive make
-	considered harmful"
+	considered harmful".  Bump to 1.1.0
 
 	* HOW-TO-CONTRIBUTE: update to reflect one-big-makefile style.
 	* Makefile.am: consolidate from src/*/Makefile.am
