@@ -1,19 +1,42 @@
 /* 
  * lpr for cygwin/windows
- * 
- * written by Rick Rankin, published 2000-Jul-10
+ *
+ * Copyright (C) 2000-2002 Rick Rankin
  * http://www.cygwin.com/ml/cygwin/2000-07/msg00320.html
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation in version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <windows.h>
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
+#include "common.h"
+/* moved into common.h */
+/*
 #include <getopt.h>
+*/
 
-char *        programName     = "lpr";
+static const char versionID[] =
+    "0.1.1";
+/* for CVS */
+static const char revID[] =
+    "$Id$";
+static const char copyrightID[] =
+    "Copyright (c) 2001,...\nRick Rankin. All rights reserved.\nLicensed under GPL v2.0\n";
+
+static char * program_name;
 char          deviceName[256] = "prn";
 HANDLE        deviceHandle;
 unsigned char buffer[1024];
@@ -23,9 +46,10 @@ int error(int sys, const char *control, ...)
 {
   va_list ap;
 
-  fprintf(stderr, "%s: ", programName);
+  fprintf(stderr, "%s: ", program_name);
     
-  va_start(ap, control);
+  VA_START (ap, control);
+
   vfprintf(stderr, control, ap);
   va_end(ap);
 
@@ -38,7 +62,7 @@ int error(int sys, const char *control, ...)
                   NULL, GetLastError(),
                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                   (LPTSTR) &msgBuf, 0, NULL);
-    fprintf(stderr, "%s: %s\n", programName, (char *) msgBuf);
+    fprintf(stderr, "%s: %s\n", program_name, (char *) msgBuf);
     /* Free the buffer. */
     LocalFree(msgBuf);
   }
@@ -116,6 +140,12 @@ int main(int argc, char *argv[])
   FILE *  inputFile;
   int     i;
   int     exitCode = 0;
+  
+  if( (program_name = strdup(argv[0])) == NULL ) {
+    /* can't use error() here, because error used program_name */
+    fprintf(stderr, "%s: memory allocation error\n", argv[0]);
+    exit(1);
+  }
 
   if ((envPtr = getenv("PRINTER")) != NULL)
   {

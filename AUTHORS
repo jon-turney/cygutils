@@ -18,3 +18,10 @@ Steven Barker  <scbarker@uiuc.edu>
 Druel the Chaotic (Jeremy Johnson)  <mpython@gnu.ai.mit.edu>
   ddate.c, ddate.1, ddate.doc
   -- adapted by Charles Wilson
+
+Rick Rankin  <rick_rankin@yahoo.com>
+  lpr.c
+
+Joshua Danial Franklin  <joshuadfranklin@yahoo.com>
+  mkshortcut.c, mkshortcut.1
+  (GPL)

@@ -86,6 +86,16 @@ ddate.exe
   converts boring normal dates to fun Discordian Date
   (GPL - originally public domain)
 
+lpr.exe
+  can be used to spool to a windows printer
+  (GPL)
+
+mkshortcut.exe
+  can be used to create "full featured" windows 
+  shortcuts (as opposed to cygwin-symlinks implemented
+  using .lnk files, which aren't really "full-featured")
+  (GPL)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

@@ -1,39 +1,54 @@
 /* mkshortcut.c -- create a Windows shortcut 
-
- Version 1.01
- Copyright (c) 2002 Joshua Daniel Franklin
-
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
- See the COPYING file for license information.
-
- Exit values
-	1: user error (syntax error)
-	2: system error (out of memory, etc.)
-	3: windows error (interface failed)
-
- Compile with: gcc -o prog.exe mkshortcut.c -lole32 -luuid
-
-*/
+ *
+ * Version 1.01
+ * Copyright (c) 2002 Joshua Daniel Franklin
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * See the COPYING file for license information.
+ *
+ * Exit values
+ *   1: user error (syntax error)
+ *   2: system error (out of memory, etc.)
+ *   3: windows error (interface failed)
+ * 
+ * Compile with: gcc -o prog.exe mkshortcut.c -lole32 -luuid
+ *
+ */
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
+#include "common.h"
 
 #define NOCOMATTRIBUTE
 
 #include <shlobj.h>
 #include <olectlid.h>
+/* moved to common.h */
+/*
 #include <stdio.h>
 #include <getopt.h>
+*/
+
+static const char versionID[] =
+    "1.01.0";
+/* for CVS */
+static const char revID[] =
+    "$Id$";
+static const char copyrightID[] =
+    "Copyright (c) 2001,...\nJoshua Daniel Franklin. All rights reserved.\nLicensed under GPL v2.0\n";
 
 static char *prog_name;
 static char *argument_arg, *name_arg;

@@ -1,6 +1,8 @@
 0.9.9:
   add explicit license information to each .c and .h file.
   move (almost all) #includes into common.h
+  add lpr
+  add mkshortcut
 
 0.9.8:
   add last, utmpdump implementations from Mark Bradshaw

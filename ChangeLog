@@ -1,5 +1,36 @@
 2002-02-23  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	* src-gpl/Makefile.am: add lpr and mkshortcut 
+	* src-gpl/Makefile.in: regenerate
+	* configure.ac: update version number
+	* configure: regenerate
+	* AUTHORS: add Rick and Joshua
+	* PROGLIST: add lpr and mkshortcut
+	* NEWS: add lpr and mkshortcut
+	* README: add lpr and mkshortcut
+	* TODO: add some notes...
+	* src-gpl/mkshortcut.c: Reformat comment block. Explicitly
+	include config.h and common.h.  Move other #inludes to
+	common.h.  Add some static strings for later use (version,
+	Id, copyright).
+	* src-gpl/lpr.c: Add license reference. Explicitly include
+	config.h and common.h.  Move other #includes to common.h.
+	Add some static strings for later use (version, Id, copyright).
+	Change programName to program_name (to match style of other
+	programs).  Strdup from argv[0] instead of hardcoding.  Use 
+	VA_START macro instead of va_start.
+
+2002-02-23  Rick Rankin  <rick_rankin@yahoo.com>
+
+	* src-gpl/lpr.c: new file
+
+2002-02-23  Joshua Daniel Franklin  <joshuadfranklin@yahoo.com>
+
+	* src-gpl/mkshortcut.c: new file
+	* src-gpl/mkshortcut.1: new file
+
+2002-02-23  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* src-pd/ddate.c: add explicit license reference
 	and move #includes to common.h.  Guard setlocale. 
 	Explicitly include config.h, common.h
