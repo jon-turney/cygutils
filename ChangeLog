@@ -1,3 +1,8 @@
+2003-10-23  Joshua Daniel Franklin  <joshuadfranklin@yahoo.com>
+
+	* src/mkshortcut/mkshortcut.1: update to reflect
+	new -w/--workingdir option.
+
 2003-09-13  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* src/clip/getclip.c: Handle /dev/clipboard

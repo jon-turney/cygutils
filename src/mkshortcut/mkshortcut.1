@@ -1,6 +1,6 @@
 .\"{{{}}}
 .\"{{{  Title
-.TH MKSHORTCUT 1 "23 Feb 2002" "mkshortcut 1.01 (cygutils)" "Cygutils"
+.TH MKSHORTCUT 1 "21 Oct 03" "mkshortcut 1.5 (cygutils)" "Cygutils"
 .\"}}}
 .\"{{{  Name
 .SH NAME
@@ -9,26 +9,12 @@ mkshortcut \- create a Windows shortcut
 .\"{{{  Synopsis
 .SH SYNOPSIS
 .B mkshorcut
-.RB "\-h|\-v" 
-.br
-.B mkshorcut
 .RB "[\-\fBa\fP \fIARGS\fP]"
-.RB "[\-\fBi\fP \fIiconfile\fP [\-\fBj\fP \fIoffset\fP] ]"
-.RB "[\-\fBn\fP \fIname\fP ]"
+.RB "[\-\fBi\fP \fIiconfile\fP [\-\fBj\fP \fIINT\fP] ]"
+.RB "[\-\fBn\fP \fINAME\fP ]"
+.RB "[\-\fBw\fP \fIPATH\fP ]"
 .RB "[\-A] [\-D|\-P] \fITARGET\fP"
 .br
-.\"}}}
-.\"{{{  Description
-.SH DESCRIPTION
-.B mkshortcut
-is a command-line tool for creating Windows shortcut files (also known as
-OLE links). It supports actions such as specifying arguments and setting the 
-icon to use for the shortcut. It can be easily run from a script or batch
-file for non-interactive use.
-.PP
-.B TARGET
-may be a file in the current directory, a full unix (POSIX) path, or a URL
-in the form \fBhttp://www.cygwin.com\fP
 .\"}}}
 .\"{{{  Options
 .SH OPTIONS
@@ -57,6 +43,10 @@ to 0.
 Name to use for the shortcut file. Note that \fI"NAME"\fP can contain spaces, but in
 that case must be enclosed in quotes. The Windows extention \fB.lnk\fP is automatically
 appended to \fI"NAME"\fP if not present.
+
+.TP 
+\fB\-w\fR, \fB\-\-workingdir\fR=\fI"PATH"\fP
+PATH to use for the working directory (defaults to directory path of TARGET).
 
 .TP
 \fB\-v\fR, \fB\-\-version\fR
