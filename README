@@ -38,7 +38,8 @@ GPL:
  ascii    u2d       unix2dos  putclip  shmtool 
  banner   d2u       getclip   semstat  last
  conv     dos2unix  msgtool   semtool  utmpdump
- 
+ realpath
+
 PublicDomain-now-GPL:
  namei
 

@@ -70,10 +70,17 @@ cal.exe
 
 last.exe
   show a listing of the last logged in users
+  (GPL)
 
 utmpdump.exe
   give raw output of a utmp (/var/run/utmp) or wtmp 
   (/var/log/wtmp) file.
+  (GPL)
+
+realpath.exe
+  Convert pathname argumen to absolute path, with all 
+  references to `.', `..', and symlinks resolved.
+  (GPL)
 
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally

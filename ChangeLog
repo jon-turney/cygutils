@@ -1,7 +1,16 @@
+2001-01-26  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* src-gpl/realpath.c: new file
+	* AUTHORS: add Steven Barker
+	* PROGLIST: add realpath
+	* README: mention realpath
+	* src-gpl/Makefile.am: add realpath to proglist
+	* src-gpl/Makefile.in: regenerate
+
 2001-01-18  Mark Bradshaw  <bradshaw@staff.crosswalk.com>
 
 	* src-gpl/utmpdump.c: new file
-	* AUTHORS: add utmpdump
+	* AUTHORS: add Mark Bradshaw
 	* PROGLIST: add utmpdump
 	* README: mention utmpdump
 	* src-gpl/Makefile.am: add utmpdump to proglist

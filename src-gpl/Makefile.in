@@ -73,7 +73,7 @@ INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = conv ascii dump getclip putclip \
 	semtool shmtool msgtool semstat banner \
-	last utmpdump
+	last utmpdump realpath
 
 man_MANS = last.1 lastb.1
 last_SOURCES = last.c oldutmp.h
@@ -86,7 +86,8 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = conv$(EXEEXT) ascii$(EXEEXT) dump$(EXEEXT) \
 	getclip$(EXEEXT) putclip$(EXEEXT) semtool$(EXEEXT) \
 	shmtool$(EXEEXT) msgtool$(EXEEXT) semstat$(EXEEXT) \
-	banner$(EXEEXT) last$(EXEEXT) utmpdump$(EXEEXT)
+	banner$(EXEEXT) last$(EXEEXT) utmpdump$(EXEEXT) \
+	realpath$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 ascii_SOURCES = ascii.c
@@ -128,6 +129,11 @@ putclip_OBJECTS = putclip.$(OBJEXT)
 putclip_LDADD = $(LDADD)
 putclip_DEPENDENCIES =
 putclip_LDFLAGS =
+realpath_SOURCES = realpath.c
+realpath_OBJECTS = realpath.$(OBJEXT)
+realpath_LDADD = $(LDADD)
+realpath_DEPENDENCIES =
+realpath_LDFLAGS =
 semstat_SOURCES = semstat.c
 semstat_OBJECTS = semstat.$(OBJEXT)
 semstat_LDADD = $(LDADD)
@@ -159,22 +165,24 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/conv.Po $(DEPDIR)/dump.Po \
 @AMDEP_TRUE@	$(DEPDIR)/getclip.Po $(DEPDIR)/last.Po \
 @AMDEP_TRUE@	$(DEPDIR)/msgtool.Po $(DEPDIR)/putclip.Po \
-@AMDEP_TRUE@	$(DEPDIR)/semstat.Po $(DEPDIR)/semtool.Po \
-@AMDEP_TRUE@	$(DEPDIR)/shmtool.Po $(DEPDIR)/utmpdump.Po
+@AMDEP_TRUE@	$(DEPDIR)/realpath.Po $(DEPDIR)/semstat.Po \
+@AMDEP_TRUE@	$(DEPDIR)/semtool.Po $(DEPDIR)/shmtool.Po \
+@AMDEP_TRUE@	$(DEPDIR)/utmpdump.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 DIST_SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) \
-	msgtool.c putclip.c semstat.c semtool.c shmtool.c utmpdump.c
+	msgtool.c putclip.c realpath.c semstat.c semtool.c shmtool.c \
+	utmpdump.c
 
 NROFF = nroff
 MANS = $(man_MANS)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) Makefile.am Makefile.in
-SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) msgtool.c putclip.c semstat.c semtool.c shmtool.c utmpdump.c
+SOURCES = ascii.c banner.c conv.c dump.c getclip.c $(last_SOURCES) msgtool.c putclip.c realpath.c semstat.c semtool.c shmtool.c utmpdump.c
 
 all: all-am
 
@@ -234,6 +242,9 @@ msgtool$(EXEEXT): $(msgtool_OBJECTS) $(msgtool_DEPENDENCIES)
 putclip$(EXEEXT): $(putclip_OBJECTS) $(putclip_DEPENDENCIES) 
 	@rm -f putclip$(EXEEXT)
 	$(LINK) $(putclip_LDFLAGS) $(putclip_OBJECTS) $(putclip_LDADD) $(LIBS)
+realpath$(EXEEXT): $(realpath_OBJECTS) $(realpath_DEPENDENCIES) 
+	@rm -f realpath$(EXEEXT)
+	$(LINK) $(realpath_LDFLAGS) $(realpath_OBJECTS) $(realpath_LDADD) $(LIBS)
 semstat$(EXEEXT): $(semstat_OBJECTS) $(semstat_DEPENDENCIES) 
 	@rm -f semstat$(EXEEXT)
 	$(LINK) $(semstat_LDFLAGS) $(semstat_OBJECTS) $(semstat_LDADD) $(LIBS)
@@ -261,6 +272,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/last.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/msgtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/putclip.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/realpath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semstat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/semtool.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/shmtool.Po@am__quote@

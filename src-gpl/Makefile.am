@@ -4,7 +4,7 @@ INCLUDES = -I$(top_builddir) -I$(top_srcdir)
 
 bin_PROGRAMS = conv ascii dump getclip putclip \
 	semtool shmtool msgtool semstat banner \
-	last utmpdump
+	last utmpdump realpath
 man_MANS = last.1 lastb.1
 last_SOURCES = last.c oldutmp.h
 banner_LDADD = -lkernel32 -lgdi32
