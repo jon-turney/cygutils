@@ -1,3 +1,8 @@
+2005-03-03  Anthony Derosa  <anthony.derosa1@...>
+
+	* src/cygstart/cygstart.c: fix memory leak, and improve
+	handling of long command lines.
+
 2005-02-01  Charles Wilson  <cwilson@....>
 
 	bump version number - 1.2.6

@@ -340,14 +340,18 @@ int main(int argc, const char **argv)
 
     /* Retrieve any arguments */
     if (rest && *rest) {
-        if ((args = (char *) malloc(MAX_PATH+1)) == NULL) {
+        if ((args = (char *) malloc(strlen(*rest)+1)) == NULL) {
             fprintf(stderr, "%s: memory allocation error\n", argv[0]);
             exit(1);
-        }
-        strncpy(args, *rest, MAX_PATH);
+        }	 
+        strcpy(args, *rest);
         while (rest++ && *rest) {
-            strncat(args, " ", MAX_PATH-strlen(args));
-            strncat(args, *rest, MAX_PATH-strlen(args));
+            if ((args = (char *) realloc(args, strlen(args)+strlen(*rest)+2)) == NULL) {
+                fprintf(stderr, "%s: memory allocation error\n", argv[0]);
+                exit(1);
+            }		
+            strcat(args, " ");
+            strcat(args, *rest);
         }
     }
 
@@ -359,7 +363,7 @@ int main(int argc, const char **argv)
     if (action)
         free(action);
     if (args)
-        free(workDir);
+        free(args);
     if (workDir)
         free(workDir);
     if (file)

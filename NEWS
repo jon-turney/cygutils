@@ -1,3 +1,6 @@
+1.2.7
+  Updates to cygstart (Anthony Derosa)
+
 1.2.6
   Remove readlink (now provided by coreutils-5.3.0+)
   conv/d2u/u2d:  add --force/--safe options (defaults to safe).
