@@ -1,3 +1,10 @@
+2002-07-12  Charles Wilson  <cwilson@ece.gatech.edu>
+
+	* TODO: remove gettext reminder
+	* HOW-TO-CONTRIBUTE: explain how to handle programs
+	that need -lintl, given the gettextize changes below.
+	* Makefile.in: regenerate
+
 2002-07-12  gettextize  <bug-gnu-gettext@gnu.org>
 
 	Bug in automake means that we have to gettextize -- even tho

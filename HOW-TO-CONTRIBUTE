@@ -153,10 +153,19 @@ The simple 12 step program:
 
      src_foo_foo_LDADD = -lreadline
 
+     One special case is the gettext internationalization libraries.
+     If your program must link with -lintl, then all you need to
+     do is create an LDADD variable as follows:
+
+     src_foo_foo_LDADD = @INTLLIBS@
+
+     The configuration process will replace @INTLLIBS@ with the 
+     appropriate -lintl -liconv invocation.
+
      Note that you do NOT need to include the following libraries in
      a 'src_foo_foo_LDADD' line; these will be added automatically...
 
-     -lintl -lcygipc -lpopt  (that is, gettext, cygipc, or popt)
+     -lcygipc -lpopt  (that is, cygipc or popt)
 
   c) man pages and other documentation
 

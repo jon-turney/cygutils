@@ -14,5 +14,3 @@ convert mkshortcut to popt.
 Figure out some way to remove local copy of gettext.  Probably 
 needs bugfix in automake and gettext, so this may take a while.
 
-Add gettext changes to HOW-TO-CONTRIBUTE
-
