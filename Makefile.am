@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-SUBDIRS =
+SUBDIRS = intl m4 
 DIST_SUBDIRS =
 
 INCLUDES = -I$(top_builddir) -I$(top_srcdir)
@@ -19,28 +19,34 @@ endif
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(cygipc_progs) src/last/last \
 	src/last/utmpdump src/namei/namei src/realpath/realpath src/col/col \
-	src/getopt/getopt src/readlink/readlink
+	src/getopt/getopt src/readlink/readlink src/rev/rev
 
 noinst_HEADERS = src/cal/errs.h src/cal/widechar.h src/last/oldutmp.h \
-	src/col/err.h
+	src/col/err.h src/rev/widechar.h
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/last/last.1 src/last/lastb.1 src/mkshortcut/mkshortcut.1 \
-	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 src/readlink/readlink.1
+	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
+	src/readlink/readlink.1 src/rev/rev.1 
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/ipc/semtool src/ipc/shmtool \
 	src/ipc/msgtool src/ipc/semstat src/lpr/lpr \
 	src/mkshortcut/mkshortcut
 
-EXTRA_DIST = src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
+EXTRA_DIST = config.rpath \
+   src/cal/README.cal src/ddate/ddate.doc src/namei/README.namei \
   	src/namei/README1.namei src/col/README.col \
 	src/getopt/parse.bash src/getopt/parse.tcsh \
-	src/getopt/test.bash src/getopt/test.tcsh
+	src/getopt/test.bash src/getopt/test.tcsh 
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool
 src_mkshortcut_mkshortcut_LDADD = -lole32 -luuid
+src_cal_cal_LDADD = @INTLLIBS@
+src_ddate_ddate_LDADD = @INTLLIBS@
+src_namei_namei_LDADD = @INTLLIBS@
+src_rev_rev_LDADD = @INTLLIBS@
 
 src_cal_cal_SOURCES = src/cal/cal.c src/cal/err.c src/cal/errs.h
 src_last_last_SOURCES = src/last/last.c src/last/oldutmp.h
@@ -57,3 +63,5 @@ install-exec-hook: $(bin_PROGRAMS)
 	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
 	done
 	 
+
+ACLOCAL_AMFLAGS = -I m4

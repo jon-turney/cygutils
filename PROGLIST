@@ -117,6 +117,10 @@ readlink.exe
   follow symbolic links.  Taken from OpenBSD CVS.
   (BSD-no-advert)
 
+rev.exe
+  reverse lines of a file. 
+  (BSD-no-advert *)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

@@ -41,7 +41,7 @@ In addition to that, you need to check out the cygutils
 source and integrate yourfile into the whole system.  Instructions
 follow below.  However, you'll notice that it's quite a bit
 of work.  Again, are you SURE you want it to become part 
-of cygutils?  Making a standalong program is a lot easier...
+of cygutils?  Making a standalone program is a lot easier...
 
 Also, note that I will not fix your bugs.  If, at some time
 after your program is accepted into cygutils, I (as cygutils
@@ -267,8 +267,8 @@ The simple 12 step program:
 
          * src/foo: new directory
          * src/foo/foo.c: new file
-			* Makefile.am: add program 'foo'
-			* Makefile.in: regenerate
+         * Makefile.am: add program 'foo'
+         * Makefile.in: regenerate
          * AUTHORS: add yourname for foo
          * PROGLIST: add foo
          * README: add foo

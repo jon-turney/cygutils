@@ -1,3 +1,54 @@
+2002-07-12  gettextize  <bug-gnu-gettext@gnu.org>
+
+	Bug in automake means that we have to gettextize -- even tho
+	we will never actually build gettext ourselves ('external'
+	option in AM_GNU_GETTEXT).  Reported to automake list.
+
+	Bug in gettext means that we have to explicitly set and AC_SUBST
+	BUILD_INCLUDED_LIBINTL and USE_INCLUDED_LIBINTL in configure.ac.
+	Reported to Bruno.
+
+	* Makefile.am (SUBDIRS): Add intl, m4.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile, po/Makefile.in,
+	m4/Makefile.
+	* intl/: new directory
+	* intl/*: new files
+	* po/: new directory
+	* po/*: new files
+	* m4/: new directory
+	* m4/*: new files
+	* config.rpath: new file
+	* ABOUT-NLS: new file
+	* aclocal.m4: regenerate
+	* Makefile.in: regenerate
+	* configure: regenerate
+	* bootstrap: add -I m4 to aclocal command
+	* config.h.in: regenerate
+	* TODO: note to remove all this garbage when it becomes
+	possible; need bugfix to automake and gettext.m4
+
+2002-07-12  Charles S. Wilson  <cwilson@ece.gatech.edu>
+
+	Adjust to cygwin's libintl library now depending on libiconv.
+	Easiest way: remove explicit search for -lintl and libintl.h;
+	instead use AM_GNU_GETTEXT.
+
+	* configure.ac: don't look for -lintl and libintl.h 'by hand';
+	use AM_GNU_GETTEXT instead.  Unfortunately, even 'external'
+	option requires po/ and intl/ directories.  See gettextize above.
+	* src/rev: new directory
+	* src/rev/rev.c: new file
+	* src/rev/rev.1: new file
+	* src/rev/widechar.h: new file
+	* Makefile.am: add program 'rev'.  Add LDADD variables for
+	the programs that use gettext, since -lintl is no longer 
+	automatically included in LIBS (use @INTLLIBS@)
+	* Makefile.in: regenerate
+	* PROGLIST: add rev
+	* README: add rev
+
 2002-06-06  Charles S. Wilson  <cwilson@ece.gatech.edu>
             Egor Duda
 
