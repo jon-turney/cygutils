@@ -1,8 +1,15 @@
 2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
 
+	* TODO: remove 'reorg' note
+	* configure.ac: mark as version 1.0.0
+	* configure: regenerate
+
+2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
+
 	* configure.ac: build Makefiles in new directories
 	* configure.in: regenerate
 	* Makefile.am: change subdirs
+	* Makefile.in: regenerate
 
 2002-03-02  Charles Wilson  <cwilson@ece.gatech.edu>
 

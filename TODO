@@ -7,8 +7,6 @@ needed is checked for in configure, but no adjustments are made
 to accomodate those results -- make will just fail.  This is surely
 not the right way to do things.
 
-reorg into windows-specific and non-windows-specific
-
 what to do about wacky windows includes?  <shlobj.h> etc?
 
 convert mkshortcut to popt.
