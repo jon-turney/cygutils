@@ -34,7 +34,8 @@ Printer::Printer(const string &name, bool debugFlag)
     m_devMode(0),
     m_buffer(0),
     m_bufferSize(4096),
-    m_bufferIndex(0)
+    m_bufferIndex(0),
+    m_rawFlag(false)
 {
   m_buffer = new unsigned char[m_bufferSize];
   mapPortName();
@@ -105,6 +106,11 @@ void Printer::flush(void)
   }
 }
 
+bool Printer::getRawFlag() const
+{
+  return m_rawFlag;
+}
+
 void Printer::print(istream & in, const string & docName)
   throw(PrinterException)
 {
@@ -115,7 +121,7 @@ void Printer::print(istream & in, const string & docName)
   while (!in.eof())
   {
     in.get(ch);
-    if (ch == '\n' && lastCh != '\r')
+    if (!m_rawFlag && ch == '\n' && lastCh != '\r')
       put('\r');
     put(ch);
     lastCh = ch;
@@ -131,7 +137,12 @@ void Printer::put(unsigned char ch)
     flush();
   m_buffer[m_bufferIndex++] = ch;
 }
-  
+
+void Printer::setRawFlag(bool flag)
+{
+  m_rawFlag = flag;
+}
+
 void Printer::startDoc(const string & docName)
   throw(PrinterException)
 {

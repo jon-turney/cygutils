@@ -48,10 +48,12 @@ public:
     throw(PrinterException);
   void flush()
     throw(PrinterException);
+  bool getRawFlag() const;
   void print(istream & in, const string & docName)
     throw(PrinterException);
   void put(unsigned char ch)
     throw(PrinterException);
+  void setRawFlag(bool flag);
   void startDoc(const string & docName)
     throw(PrinterException);
   void startPage()
@@ -86,6 +88,7 @@ private:
   unsigned char * m_buffer;
   unsigned int    m_bufferSize;
   unsigned int    m_bufferIndex;
+  bool            m_rawFlag;
 };
 
 #endif /* Printer_hh */

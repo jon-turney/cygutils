@@ -88,9 +88,10 @@ int main(int argc, char *argv[])
     printerName = p;
 
   bool debugFlag = false;
+  bool rawFlag = false;
 
   int optionChar;
-  while ((optionChar = getopt(argc, argv, ":hDd:P:")) != EOF)
+  while ((optionChar = getopt(argc, argv, ":Dd:hlP:")) != EOF)
   {
     switch (optionChar)
     {
@@ -103,6 +104,9 @@ int main(int argc, char *argv[])
     case 'd':
     case 'P':
       printerName = optarg;
+      break;
+    case 'l':
+      rawFlag = true;
       break;
     default:
       usage(string("unknown option: -") + char(optionChar));
@@ -124,7 +128,8 @@ int main(int argc, char *argv[])
   try
   {
     Printer pr(winPrinter, debugFlag);
-
+    pr.setRawFlag(rawFlag);
+    
     if (optind >= argc)
       pr.print(cin, "stdin");
     else

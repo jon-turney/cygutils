@@ -4,25 +4,31 @@
 .SH NAME
 lpr \- Spool files to a printer
 .SH SYNOPSIS
-.BR "lpr " [ "\-h" "] [" "\-D" "] [" "\-d"
+.BR "lpr " [ "\-D" "] [" "\-d"
 .I device
-.RB "] [" "\-P"
+.RB "] [" "\-h" "] [" "\-l" "] [" "\-P"
 .I device
-.RB "]"
+.RB ]
 .SH DESCRIPTION
 \fBlpr\fP spools a file to the specified printer device. No formatting
 is done -- data is sent "raw". This is useful, for example, for sending
 Postscript data to a Postscript printer.
 .SH OPTIONS
 .TP
-\fB-h\fP
-does nothing and is accepted for compatibility only.
-.TP
 \fB-D\fP
 enables some debugging output.
 .TP
 \fB-d\fP \fIdevice\fP
 specifies the \fIdevice\fP to which to send the output.
+.TP
+\fB-h\fP
+does nothing and is accepted for compatibility only.
+.TP
+\fB-l\fP
+disables CR/LF translation. Normally, files are converted to DOS/Windows-style
+line endings (CR+LF) during the spooling process. Some drivers appear to
+require this translation, while most don't seem to care. Including this option
+on the lpr command line disables any such translations.
 .TP
 \fB-P\fP \fIdevice\fP
 an alias for \fB-d\fP.

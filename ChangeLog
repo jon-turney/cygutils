@@ -1,3 +1,12 @@
+2003-06-07  Rick Rankin  <rick_rankin@yahoo.com>
+
+	* src/lpr/Printer.hh: Added m_rawFlag attribute. If true, no CR/LF
+	translation is done. Defaults to false. Also added accessor 
+	operations getRawFlag(), setRawFlag().
+	* src/lpr/Printer.cc: ditto.
+	* src/lpr/lpr.cc: added -l option to suppress CR/LF translation.
+	* src/lpr/lpr.1: added documentation for -l option.
+
 2003-05-20  Charles Wilson  <cwilson@ece.gatech.edu>
 
 	* NEWS: update lpr entry
