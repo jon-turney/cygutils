@@ -22,7 +22,7 @@ endif
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(ipc_progs) \
 	src/namei/namei src/realpath/realpath src/col/col \
-	src/getopt/getopt src/readlink/readlink src/rev/rev src/column/column \
+	src/getopt/getopt src/rev/rev src/column/column \
 	src/colcrt/colcrt src/colrm/colrm src/mcookie/mcookie
 
 bin_SCRIPTS = $(ipc_scripts)
@@ -37,7 +37,7 @@ man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/mkshortcut/mkshortcut.1 \
 	src/readshortcut/readshortcut.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
-	src/readlink/readlink.1 src/rev/rev.1 src/column/column.1 \
+	src/rev/rev.1 src/column/column.1 \
 	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1 \
 	src/lpr/lpr.1
 

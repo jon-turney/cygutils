@@ -41,9 +41,6 @@ Robert Collins:
   demonstrated how to consolidate the build process
   to "one Makefile to build them all".
 
-Kenneth Stailey:
-  original author of readlink.c
-
 Frodo Looijaard <frodol@dds.nl>
   original author of getopt.c
 

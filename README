@@ -5,7 +5,7 @@ Many of these utilities require the popt
 library, available here:
   ftp://ftp.rpm.org/pub/rpm/test-4.0.1/popt-1.6.1.tar.gz
 
-A Note on Licenseing:
+A Note on Licensing:
 --------------------------------------
 Since this package consists of many small utilities taken
 from various sources, there are a mixture of licenses.
@@ -45,6 +45,6 @@ PublicDomain-now-GPL:
  namei    ddate    mcookie
 
 BSD-no-advert:
- cal	col  colcrt  colrm  column  readlink  rev
+ cal	col  colcrt  colrm  column  rev
 
 

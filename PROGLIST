@@ -108,10 +108,6 @@ getopt.exe
   util-linux.
   (GPL)
 
-readlink.exe
-  follow symbolic links.  Taken from OpenBSD CVS.
-  (BSD-no-advert)
-
 rev.exe
   reverse lines of a file. 
   The rev utility copies the specified files to the standard output,

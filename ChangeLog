@@ -1,3 +1,29 @@
+2005-02-01  Charles Wilson  <cwilson@....>
+
+	bump version number - 1.2.6
+
+	* configure.ac: bump version number
+	* src/conv/conv.c (exitOnZero): new function
+	(main): add new options --force, --safe
+	(conv): look for '\0' to signify binary files, not
+	"early" other-style line endings.  Always convert 
+	to specified type, unless '\0' found and --force not
+	given.  But if disobeying user, print reason.
+	See thread: http://www.cygwin.com/ml/cygwin/2004-04/msg00080.html
+	* NEWS: document new behavior
+	* BRANCHES: update
+
+2005-01-31  Charles Wilson  <cwilson@....>
+
+	* src/readlink/readlink.1: remove
+	* src/readlink/readlink.c: remove
+	* Makefile.am: remove readlink.1 and readlink.c
+	* NEWS: document it
+	* README: document it; also fix typo
+	* AUTHORS: remove references to readlink
+	* PROGLIST: remove readlink
+	* configure: regenerate
+
 2004-03-12  Charles Wilson  <cwilson@....>
 
 	bump version number

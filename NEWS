@@ -1,3 +1,12 @@
+1.2.6
+  Remove readlink (now provided by coreutils-5.3.0+)
+  conv/d2u/u2d:  add --force/--safe options (defaults to safe).
+     Identify binary files by presence of '\0' and bail if --safe.
+     Do not short circuit if first line ends in target style; keep
+     going.  Collapse sequences of '\r' without '\n' to a single
+     EOL of target style.  '--force' propagates '\0' from input to
+     output.
+
 1.2.5:
   Add new -s (startup norm|max|min mode) option for 
     mkshortcut
