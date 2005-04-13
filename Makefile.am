@@ -23,7 +23,8 @@ bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/cal/cal src/conv/conv \
 	src/ddate/ddate src/dump/dump $(ipc_progs) \
 	src/namei/namei src/realpath/realpath src/col/col \
 	src/getopt/getopt src/rev/rev src/column/column \
-	src/colcrt/colcrt src/colrm/colrm src/mcookie/mcookie
+	src/colcrt/colcrt src/colrm/colrm src/mcookie/mcookie \
+	src/rename/rename
 
 bin_SCRIPTS = $(ipc_scripts)
 
@@ -31,7 +32,8 @@ noinst_HEADERS = src/cal/errs.h src/cal/widechar.h \
 	src/col/err.h src/rev/widechar.h \
 	src/column/widechar.h src/column/errs.h \
 	src/colcrt/widechar.h src/colrm/widechar.h src/mcookie/md5.h \
-	src/lpr/Printer.hh src/lpr/PrinterException.hh src/lpr/Win32Utils.hh
+	src/lpr/Printer.hh src/lpr/PrinterException.hh src/lpr/Win32Utils.hh \
+	src/rename/nls.h
 
 man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/mkshortcut/mkshortcut.1 \
@@ -39,7 +41,7 @@ man_MANS = src/cal/cal.1 src/cygstart/cygstart.1 src/ddate/ddate.1 \
 	src/namei/namei.1 src/col/col.1 src/getopt/getopt.1 \
 	src/rev/rev.1 src/column/column.1 \
 	src/colcrt/colcrt.1 src/colrm/colrm.1 src/mcookie/mcookie.1 \
-	src/lpr/lpr.1
+	src/lpr/lpr.1 src/rename/rename.1
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart \

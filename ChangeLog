@@ -1,3 +1,10 @@
+2005-04-12  Christopher Faylor  <cgf@timesys.com>
+
+	* Makefile.am: Add rename.
+	* src/rename/rename.c: New file.
+	* src/rename/nls.h: Ditto.
+	* src/rename/rename.1: Ditto.
+
 2005-03-07  Michael Schaap  <cygstart@...>
 
 	* src/cygstart/cygstart.c: reorganize around previous
