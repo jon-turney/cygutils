@@ -1,5 +1,6 @@
 1.2.7
   Updates to cygstart (Anthony Derosa, Michael Schaap)
+  New 'rename' program (Christopher Faylor)
 
 1.2.6
   Remove readlink (now provided by coreutils-5.3.0+)

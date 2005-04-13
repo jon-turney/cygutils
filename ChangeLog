@@ -1,3 +1,13 @@
+2005-04-12  Charles Wilson <cwilson@...>
+
+	bump version number - 1.2.7
+
+	* configure.ac: bump version
+	* BRANCHES: update documentation
+	* NEWS: ditto
+	* AUTHORS: ditto
+	* PROGLIST: ditto
+
 2005-04-12  Christopher Faylor  <cgf@timesys.com>
 
 	* Makefile.am: Add rename.

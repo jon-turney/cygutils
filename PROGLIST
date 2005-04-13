@@ -65,7 +65,7 @@ namei.exe
 
 cal.exe 
   displays a calendar
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 realpath.exe
   Convert pathname argumen to absolute path, with all 
@@ -101,7 +101,7 @@ col.exe
   Filters out reverse (and half reverse) line feeds so that the output is in
   the correct order with only forward and half forward line feeds, and replaces
   white-space characters with tabs where possible.
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 getopt.exe
   an enhanced command option parser for use in shell scripts. Taken from
@@ -113,14 +113,14 @@ rev.exe
   The rev utility copies the specified files to the standard output,
   reversing the order of characters in every line.  If no files are speci-
   fied, the standard input is read.
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 column.exe
   columnate lists
   The column utility formats its input into multiple columns.  Rows are
   filled before columns.  Input is taken from file operands, or, by
   default, from the standard input.  Empty lines are ignored.
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 colcrt.exe
   filter nroff output for CRT previewing
@@ -128,13 +128,13 @@ colcrt.exe
   terminals without such capability, and on which overstriking is destruc-
   tive.  Half-line characters and underlining (changed to dashing `-') are
   placed on new lines in between the normal output lines.
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 colrm.exe
   remove columns from a file
   Colrm removes selected columns from a file.  Input is taken from standard
   input.  Output is sent to standard output.
-  (BSD-no-advert *)
+  (BSD-no-advert [*])
 
 mcookie.exe
   generate magic cookies for xauth
@@ -146,6 +146,10 @@ mcookie.exe
 ipck:
   IPC utility brought over from cygipc.
   (GPL)
+
+rename:
+  flexible file rename utility from util-linux package
+  (BSD-no-advert[*])
 
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally

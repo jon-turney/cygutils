@@ -47,3 +47,7 @@ Frodo Looijaard <frodol@dds.nl>
 Egor Duda
   initial "port" of readlink and getopt to cygwin
 
+Christopher Faylor <....>
+  rename.c, rename.1 (taken from util-linux)
+  (GPL)
+
