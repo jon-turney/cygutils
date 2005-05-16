@@ -1,3 +1,9 @@
+2005-05-16  Michael Schaap  >cygstart@...>
+
+	* src/cygstart/cygstart.c: improve compatibility with
+	'mount -X' by syncing env between cygwin and windows.
+	* NEWS: update documentation
+
 2005-04-12  Charles Wilson <cwilson@...>
 
 	bump version number - 1.2.7

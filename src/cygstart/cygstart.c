@@ -40,7 +40,7 @@
 #define MSDN_URL "http://msdn.microsoft.com/library/en-us/shellcc/platform/" \
                  "Shell/reference/functions/shellexecute.asp"
 
-static const char versionID[] = "1.0";
+static const char versionID[] = "1.2";
 /* for future CVS */
 static const char revID[] =
 	"$Id$";
@@ -64,6 +64,7 @@ static void usage(poptContext optCon, FILE *f, char *name);
 static void help(poptContext optCon, FILE *f, char *name);
 static void version(poptContext optCon, FILE *f, char *name);
 static void license(poptContext optCon, FILE *f, char *name);
+static void setup_win_environ(void);
 
 int main(int argc, const char **argv)
 {
@@ -404,6 +405,9 @@ static int winStart(const char *aPath, const char *action, const char *args,
 {
     int ret;
 
+    /* Need to sync the Windows environment when running under "mount -X" */
+    setup_win_environ();
+
     ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
     if (ret >= 32) {
         return TRUE;
@@ -511,3 +515,25 @@ static void license(poptContext optCon, FILE *f, char *name)
   printTopDescription(f, name);
   printLicense(f, name);
 }  
+
+/* Copy cygwin environment variables to the Windows environment if they're not
+ * already there. */
+static void setup_win_environ(void)
+{
+    char **envp = environ;
+    char *var, *val;
+    char curval[2];
+
+    while (envp && *envp) {
+        var = strdup(*envp++);
+        val = strchr(var, '=');
+        *val++ = '\0';
+        
+        if (GetEnvironmentVariable(var, curval, 2) == 0
+                    && GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+            SetEnvironmentVariable(var, val);
+        }
+
+        free(var);
+    }
+}
