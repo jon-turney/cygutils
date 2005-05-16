@@ -1,3 +1,9 @@
+2005-05-16  Charles Wilson  <cwilson@...>
+
+	bump version number - 1.2.8
+	* configure.ac: bump version
+	* BRANCHES: update documentation
+
 2005-05-16  Kees Zeelenberg  <kzlq@...>
 
 	* src/dump/dump.c: fixes for -mno-cygwin/mingw
