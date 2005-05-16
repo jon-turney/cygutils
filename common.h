@@ -1,6 +1,21 @@
 #ifndef CYGUTILS_COMMON_H
 #define CYGUTILS_COMMON_H 1
 
+#if defined(_WIN32) || defined(__WIN32) || defined(WIN32) || defined(__WIN32__)
+# ifndef WIN32
+#  define WIN32 1
+# endif
+# ifndef _WIN32
+#  define _WIN32 1
+# endif
+# ifndef __WIN32
+#  define __WIN32 1
+# endif
+# ifndef __WIN32__
+#  define __WIN32__ 1
+# endif
+#endif
+
 #if HAVE_CONFIG_H
 #  include <config.h>
 #endif

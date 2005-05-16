@@ -1,6 +1,6 @@
 1.2.8
   more updates to cygstart (Michael Schaap)
-
+  bugfix for dump under mingw (Kees Zeelenberg)
 
 1.2.7
   Updates to cygstart (Anthony Derosa, Michael Schaap)

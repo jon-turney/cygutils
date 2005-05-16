@@ -27,6 +27,11 @@
 
 #include "common.h"
 
+#if defined(__WIN32__) && !defined(__CYGWIN__)
+# include <io.h>
+# include <conio.h>
+#endif
+
 static const char versionID[] = 
     "0.1.1";
 /* for future CVS */
@@ -216,11 +221,13 @@ static void dumpfile(FILE *f) {
       if (isprint(c & 0x7f)) line[50+i] = c & 0x7f;
       if ((c=getc(f)) == EOF) break;
     }
-    if ((address % 256) == 0) {
-#if defined(WIN32) && !defined(__CYGWIN__)
-      while (kbhit())
+    if (address && ((address % 256) == 0)) {
+#if defined(__WIN32__) && !defined(__CYGWIN__)
+      if (isatty (STDOUT_FILENO)) {
+        while (kbhit())
+          getch();
         getch();
-      getch();
+      }
 #endif
       puts("");
       puts("  Addr     0 1  2 3  4 5  6 7  8 9  A B  C D  E F 0 2 4 6 8 A C E ");

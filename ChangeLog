@@ -1,4 +1,11 @@
-2005-05-16  Michael Schaap  >cygstart@...>
+2005-05-16  Kees Zeelenberg  <kzlq@...>
+
+	* src/dump/dump.c: fixes for -mno-cygwin/mingw
+	compatibility.
+	* common.h: ditto
+	* NEWS: update documentation
+
+2005-05-16  Michael Schaap  <cygstart@...>
 
 	* src/cygstart/cygstart.c: improve compatibility with
 	'mount -X' by syncing env between cygwin and windows.
