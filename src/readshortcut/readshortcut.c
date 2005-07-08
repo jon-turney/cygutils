@@ -91,7 +91,7 @@ static void version(poptContext optCon, FILE * f, char * name);
 static void license(poptContext optCon, FILE * f, char * name);
 
 void formatPath (char * strPath, int format);
-int readshortcut(optvals opts, poptContext optContext);
+int readshortcut(optvals *opts, poptContext optContext);
 
 static char *program_name;
 
@@ -201,7 +201,7 @@ int main (int argc, const char **argv) {
       result = ERR_USER;
     } else {
       /************** Main Program ***********/
-      result = readshortcut(opts, optContext);
+      result = readshortcut(&opts, optContext);
     }    
   } else {
     fprintf(stderr, "%s: SHORTCUT not specified\n", program_name);
@@ -216,7 +216,7 @@ exit:
   return result;
 }
 
-int readshortcut(optvals opts, poptContext optContext) {
+int readshortcut(optvals *opts, poptContext optContext) {
   HRESULT hres;
   IShellLink *shell_link;
   IPersistFile *persist_file;
@@ -227,36 +227,36 @@ int readshortcut(optvals opts, poptContext optContext) {
   int result = ERR_NONE;  /* the value to return on exit */
   
   /*  Add suffix to link name if necessary */
-  if (strlen (opts.target_fname) > 4) {
-    int tmp = strlen (opts.target_fname) - 4;
-    if (strncmp (opts.target_fname + tmp, ".lnk", 4) != 0) {
-      opts.target_fname = (char *)realloc(opts.target_fname, strlen(opts.target_fname) + 1 + 4);
-      if (opts.target_fname == NULL) {
+  if (strlen (opts->target_fname) > 4) {
+    int tmp = strlen (opts->target_fname) - 4;
+    if (strncmp (opts->target_fname + tmp, ".lnk", 4) != 0) {
+      opts->target_fname = (char *)realloc(opts->target_fname, strlen(opts->target_fname) + 1 + 4);
+      if (opts->target_fname == NULL) {
         fprintf(stderr, "%s: memory allocation error\n", program_name);
         return (ERR_SYS);
       }
-      strcat (opts.target_fname, ".lnk");
+      strcat (opts->target_fname, ".lnk");
     }
   }
   else {
-    opts.target_fname = (char *)realloc(opts.target_fname, strlen(opts.target_fname) + 1 + 4);
-    if (opts.target_fname == NULL) {
+    opts->target_fname = (char *)realloc(opts->target_fname, strlen(opts->target_fname) + 1 + 4);
+    if (opts->target_fname == NULL) {
       fprintf(stderr, "%s: memory allocation error\n", program_name);
       return (ERR_SYS);
     }
-    strcat (opts.target_fname, ".lnk");
+    strcat (opts->target_fname, ".lnk");
   }
 
   /* if there's no colon in the path, it's POSIX and we should convert to win32 */
-  if (strchr (opts.target_fname, ':') == NULL) {
+  if (strchr (opts->target_fname, ':') == NULL) {
     char *strTmpPath = (char*)malloc(MAX_PATH);
     if (strTmpPath == NULL) {
       fprintf(stderr, "%s: memory allocation error\n", program_name);
       return (ERR_SYS);
     }
-    cygwin_conv_to_full_win32_path (opts.target_fname, strTmpPath);
-    free (opts.target_fname);
-    opts.target_fname = strTmpPath;
+    cygwin_conv_to_full_win32_path (opts->target_fname, strTmpPath);
+    free (opts->target_fname);
+    opts->target_fname = strTmpPath;
   }
 
   hres = OleInitialize (NULL);
@@ -280,33 +280,33 @@ int readshortcut(optvals opts, poptContext optContext) {
     WCHAR wsz[MAX_PATH]; 
  
     /* Ensure that the string is Unicode. */
-    MultiByteToWideChar(CP_ACP, 0, (LPCSTR)opts.target_fname, -1, wsz, MAX_PATH); 
+    MultiByteToWideChar(CP_ACP, 0, (LPCSTR)opts->target_fname, -1, wsz, MAX_PATH); 
 
     /* Load the shortcut.  */
     hres = persist_file->lpVtbl->Load(persist_file, wsz, STGM_READ); 
 
     if (SUCCEEDED(hres)) {
       /* read stuff from the link object and print it to the screen */
-      if (opts.show_all || opts.show_target) {
+      if (opts->show_all || opts->show_target) {
         shell_link->lpVtbl->GetPath(shell_link, strPath, MAX_PATH, NULL, SLGP_RAWPATH);
-        if (opts.show_field_names) { printf("Target: "); }
-        formatPath(strPath, opts.pathType);
+        if (opts->show_field_names) { printf("Target: "); }
+        formatPath(strPath, opts->pathType);
         printf("%s\n", strPath);
       }
-      if (opts.show_all || opts.show_working_dir) {
+      if (opts->show_all || opts->show_working_dir) {
         shell_link->lpVtbl->GetWorkingDirectory(shell_link, strPath, MAX_PATH);
-        if (opts.show_field_names) { printf("Working Directory: "); }
-        formatPath(strPath, opts.pathType);
+        if (opts->show_field_names) { printf("Working Directory: "); }
+        formatPath(strPath, opts->pathType);
         printf("%s\n", strPath);
       }
-      if (opts.show_all || opts.show_args) {
+      if (opts->show_all || opts->show_args) {
         shell_link->lpVtbl->GetArguments(shell_link, strBuff, BUFF_SIZE);
-        if (opts.show_field_names) { printf("Arguments: "); }
+        if (opts->show_field_names) { printf("Arguments: "); }
         printf("%s\n", strBuff);
       }
-      if (opts.show_all || opts.show_showCmd) {
+      if (opts->show_all || opts->show_showCmd) {
         shell_link->lpVtbl->GetShowCmd(shell_link, &iBuff);
-        if (opts.show_field_names) { printf("Show Command: "); }
+        if (opts->show_field_names) { printf("Show Command: "); }
 
         switch (iBuff) {
           case SW_SHOWNORMAL:
@@ -321,26 +321,26 @@ int readshortcut(optvals opts, poptContext optContext) {
             break;
         }
       }
-      if (opts.show_all || opts.show_icon || opts.show_icon_offset) {
+      if (opts->show_all || opts->show_icon || opts->show_icon_offset) {
         shell_link->lpVtbl->GetIconLocation(shell_link, strPath, MAX_PATH, &iBuff);
-        if (opts.show_all || opts.show_icon) {
-          if (opts.show_field_names) { printf("Icon Library: "); }
-          formatPath(strPath, opts.pathType);
+        if (opts->show_all || opts->show_icon) {
+          if (opts->show_field_names) { printf("Icon Library: "); }
+          formatPath(strPath, opts->pathType);
           printf("%s\n", strPath);
       }
-        if (opts.show_all || opts.show_icon_offset) {
-          if (opts.show_field_names) { printf("Icon Library Offset: "); }
+        if (opts->show_all || opts->show_icon_offset) {
+          if (opts->show_field_names) { printf("Icon Library Offset: "); }
           printf("%d\n", iBuff);
         }
       }
-      if (opts.show_all || opts.show_desc) {
+      if (opts->show_all || opts->show_desc) {
         shell_link->lpVtbl->GetDescription(shell_link, strBuff, BUFF_SIZE);
-        if (opts.show_field_names) { printf("Description: "); }
+        if (opts->show_field_names) { printf("Description: "); }
         printf("%s\n", strBuff);
       }
     }
     else {
-      fprintf (stderr, "%s: Load failed on %s\n", program_name, opts.target_fname);
+      fprintf (stderr, "%s: Load failed on %s\n", program_name, opts->target_fname);
       result = ERR_WIN;
     }
 

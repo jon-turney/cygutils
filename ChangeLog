@@ -1,3 +1,9 @@
+2005-07-08  Christopher Faylor  <cgf@timesys.com>
+
+	* src/readshortcut.c (readshortcut): Pass opts by reference so that
+	changes made to the opts contents are reflected in the caller to
+	accommodate freeing of malloced fields.
+
 2005-05-16  Charles Wilson  <cwilson@...>
 
 	bump version number - 1.2.8
