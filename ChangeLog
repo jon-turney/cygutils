@@ -1,3 +1,10 @@
+2005-07-09  Charles Wilson  <cwilson@...>
+
+	bump version number - 1.2.9
+	* configure.ac: ditto
+	* NEWS: update documentation
+	* BRANCHES: ditto
+
 2005-07-08  Christopher Faylor  <cgf@timesys.com>
 
 	* src/readshortcut.c (readshortcut): Pass opts by reference so that
