@@ -1,3 +1,7 @@
+1.2.10
+  cygstart: properly convert environment variables to Win32 (Michael Schaap)
+  cygstart: don't parse options listed after the command (Eric Blake)
+
 1.2.9
   Fix memory leak/crash in readshortcut (cgf)
 

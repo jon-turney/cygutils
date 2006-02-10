@@ -40,7 +40,7 @@
 #define MSDN_URL "http://msdn.microsoft.com/library/en-us/shellcc/platform/" \
                  "Shell/reference/functions/shellexecute.asp"
 
-static const char versionID[] = "1.2";
+static const char versionID[] = "1.3";
 /* for future CVS */
 static const char revID[] =
 	"$Id$";
@@ -176,7 +176,7 @@ int main(int argc, const char **argv)
     }
 
     /* Parse options */
-    optCon = poptGetContext(NULL, argc, argv, opt, 0);
+    optCon = poptGetContext(NULL, argc, argv, opt, POPT_CONTEXT_POSIXMEHARDER);
     poptSetOtherOptionHelp(optCon, "[OPTION]... FILE [ARGUMENTS]");
     while ((rc = poptGetNextOpt(optCon)) > 0) {
         switch (rc) {
@@ -523,6 +523,8 @@ static void setup_win_environ(void)
     char **envp = environ;
     char *var, *val;
     char curval[2];
+    char *winpathlist;
+    char winpath[MAX_PATH+1];
 
     while (envp && *envp) {
         var = strdup(*envp++);
@@ -531,7 +533,25 @@ static void setup_win_environ(void)
         
         if (GetEnvironmentVariable(var, curval, 2) == 0
                     && GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
-            SetEnvironmentVariable(var, val);
+            /* Convert POSIX to Win32 where necessary */
+            if (!strcmp(var, "PATH") ||
+                        !strcmp(var, "LD_LIBRARY_PATH")) {
+                winpathlist = (char *)
+                      malloc(cygwin_posix_to_win32_path_list_buf_size(val)+1);
+                if (winpathlist) {
+                    cygwin_posix_to_win32_path_list(val, winpathlist);
+                    SetEnvironmentVariable(var, winpathlist);
+                    free(winpathlist);
+                }
+            } else if (!strcmp(var, "HOME") ||
+                        !strcmp(var, "TMPDIR") ||
+                        !strcmp(var, "TMP") ||
+                        !strcmp(var, "TEMP")) {
+                cygwin_conv_to_win32_path(val, winpath);
+                SetEnvironmentVariable(var, winpath);
+            } else {
+                SetEnvironmentVariable(var, val);
+            }
         }
 
         free(var);
