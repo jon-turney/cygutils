@@ -1,9 +1,21 @@
 This collection started life called the "misc" package, 
 but was renamed to "cygutils" at version 0.9.5.
 
-Many of these utilities require the popt 
-library, available here:
-  ftp://ftp.rpm.org/pub/rpm/test-4.0.1/popt-1.6.1.tar.gz
+Many of these utilities require the popt library.  Others
+may require the gettext and iconv libraries (libintl, libiconv). 
+
+Actually, all of the programs that required gettext have been
+removed from this package, as they are now provided by other
+packages (usually, the original source package from which they
+were once copied into THIS package!).  Thus, "last" is now
+in the `sysvinit' package, and `cal' (+ many more) are now in
+the `util-linux' package.
+
+However, I've kept the infrastructure for gettext-enabled 
+programs just because I don't want to have to regenerate it
+if ever we add a new utility to this package which requires
+gettext functionality.
+
 
 A Note on Licensing:
 --------------------------------------
@@ -35,16 +47,16 @@ files included in this package that fall under his edict.
 What's in this package:
 -------------------------------
 GPL:
- ascii    banner    conv         cygstart  dump
- getclip  getopt    ipck         lpr       mkshortcut
- msgtool  putclip   readshortcut realpath  semstat   
- semtool  shmtool   d2u          dos2unix  u2d
- unix2dos
+ ascii    banner      cygstart  dump          getclip
+ lpr      mkshortcut  putclip   readshortcut  realpath
+  
+ ipck     msgtool     semstat   semtool       shmtool
+ conv     unix2dos    dos2unix  d2u           u2d
 
 PublicDomain-now-GPL:
- namei    ddate    mcookie
+ <none>
 
 BSD-no-advert:
- cal	col  colcrt  colrm  column  rev
+ <none>
 
 

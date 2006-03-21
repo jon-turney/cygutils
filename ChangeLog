@@ -1,3 +1,62 @@
+2006-03-20  Charles Wilson  <cwilson@...>
+
+	bump version number to 1.3.0
+	
+	* Makefile.am: remove programs, code, and documentation for
+	cal, col, colcrt, colrm, column, ddate, getopt, mcookie,
+	namei, rename, and rev.  These programs now provided by
+	util-linux package.
+	* configure.ac: bump version number
+	* BRANCHES: update documentation
+	* NEWS: update documentation
+	* PROGLIST: update documentation
+	* README: update documentation
+	* src/cal/README.cal: removed
+	* src/cal/cal.1: removed
+	* src/cal/cal.c: removed
+	* src/cal/err.c: removed
+	* src/cal/errs.h: removed
+	* src/cal/widechar.h: removed
+	* src/col/README.col: removed
+	* src/col/col.1: removed
+	* src/col/col.c: removed
+	* src/col/err.c: removed
+	* src/col/err.h: removed
+	* src/colcrt/colcrt.1: removed
+	* src/colcrt/colcrt.c: removed
+	* src/colcrt/widechar.h: removed
+	* src/colrm/colrm.1: removed
+	* src/colrm/colrm.c: removed
+	* src/colrm/widechar.h: removed
+	* src/column/column.1: removed
+	* src/column/column.c: removed
+	* src/column/err.c: removed
+	* src/column/errs.h: removed
+	* src/column/widechar.h: removed
+	* src/ddate/ddate.1: removed
+	* src/ddate/ddate.c: removed
+	* src/ddate/ddate.doc: removed
+	* src/getopt/getopt.1: removed
+	* src/getopt/getopt.c: removed
+	* src/getopt/parse.bash: removed
+	* src/getopt/parse.tcsh: removed
+	* src/getopt/test.bash: removed
+	* src/getopt/test.tcsh: removed
+	* src/mcookie/mcookie.1: removed
+	* src/mcookie/mcookie.c: removed
+	* src/mcookie/md5.c: removed
+	* src/mcookie/md5.h: removed
+	* src/namei/README.namei: removed
+	* src/namei/README1.namei: removed
+	* src/namei/namei.1: removed
+	* src/namei/namei.c: removed
+	* src/rename/nls.h: removed
+	* src/rename/rename.1: removed
+	* src/rename/rename.c: removed
+	* src/rev/rev.1: removed
+	* src/rev/rev.c: removed
+	* src/rev/widechar.h: removed
+
 2006-02-10  Charles Wilson  <cwilson@...>
 
 	bump version number - 1.2.10

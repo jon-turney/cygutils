@@ -59,22 +59,10 @@ banner.exe
   prints a large banner to stdout.  From Joerg Schaible.
   (GPL)
   
-namei.exe
-  follow a pathname until a terminal point is found
-  (GPL - originally public domain)
-
-cal.exe 
-  displays a calendar
-  (BSD-no-advert [*])
-
 realpath.exe
   Convert pathname argumen to absolute path, with all 
   references to `.', `..', and symlinks resolved.
   (GPL)
-
-ddate.exe
-  converts boring normal dates to fun Discordian Date
-  (GPL - originally public domain)
 
 lpr.exe
   can be used to spool to a windows printer
@@ -97,59 +85,9 @@ cygstart.exe
   command-line start command.
   (GPL)
 
-col.exe
-  Filters out reverse (and half reverse) line feeds so that the output is in
-  the correct order with only forward and half forward line feeds, and replaces
-  white-space characters with tabs where possible.
-  (BSD-no-advert [*])
-
-getopt.exe
-  an enhanced command option parser for use in shell scripts. Taken from
-  util-linux.
-  (GPL)
-
-rev.exe
-  reverse lines of a file. 
-  The rev utility copies the specified files to the standard output,
-  reversing the order of characters in every line.  If no files are speci-
-  fied, the standard input is read.
-  (BSD-no-advert [*])
-
-column.exe
-  columnate lists
-  The column utility formats its input into multiple columns.  Rows are
-  filled before columns.  Input is taken from file operands, or, by
-  default, from the standard input.  Empty lines are ignored.
-  (BSD-no-advert [*])
-
-colcrt.exe
-  filter nroff output for CRT previewing
-  Colcrt provides virtual half-line and reverse line feed sequences for
-  terminals without such capability, and on which overstriking is destruc-
-  tive.  Half-line characters and underlining (changed to dashing `-') are
-  placed on new lines in between the normal output lines.
-  (BSD-no-advert [*])
-
-colrm.exe
-  remove columns from a file
-  Colrm removes selected columns from a file.  Input is taken from standard
-  input.  Output is sent to standard output.
-  (BSD-no-advert [*])
-
-mcookie.exe
-  generate magic cookies for xauth
-  mcookie  generates a 128-bit random hexadecimal number for
-  use with the X authority system.  Typical usage:
-    xauth add :0 . `mcookie`
-  (GPL - originally public domain)
-
 ipck:
   IPC utility brought over from cygipc.
   (GPL)
-
-rename:
-  flexible file rename utility from util-linux package
-  (BSD-no-advert[*])
 
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
@@ -161,8 +99,18 @@ rename:
     University of California on July 22 1999. He states 
     that clause 3 is "hereby deleted in its entirety."
 
-Note: "last.exe" and "utmpdump.exe" were previously provided by
+Note1: "last.exe" and "utmpdump.exe" were previously provided by
 cygutils.  However, once the `sysvinit' package was added to
 the cygwin distribution, they were removed.  They are now
 provided by `sysvinit' -- which is where we took them from
 in the first place.
+
+Note2: "cal.exe"   "col.exe"    "colcrt.exe"  "colrm.exe" "column.exe"
+       "ddate.exe" "getopt.exe" "mcookie.exe" "namei.exe" "rename.exe"
+       "rev.exe" 
+were previously provided by cygutils.  However, they were removed in
+version 1.3.10 because the `util-linux' package was added to the
+cygwin distribution, and it provides those utilities.  In fact,
+it was from util-linux that the versions in cygutils were originally
+derived.
+

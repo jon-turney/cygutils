@@ -59,4 +59,8 @@ v1_2_8
    |
 v1_2_9
    |
-v1_2_10
+v1_2_10                BRANCH_1_2_x
+BRANCHPT_1_2_x -------------+
+   |                        |
+v1_3_0           any future 1.2.x releases
+

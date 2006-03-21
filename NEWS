@@ -1,3 +1,16 @@
+1.3.0
+  cal      - remove
+  col      - remove
+  colcrt   - remove
+  colrm    - remove
+  column   - remove
+  ddate    - remove
+  getopt   - remove
+  mcookie  - remove
+  namei    - remove
+  rename   - remove
+  rev      - remove
+
 1.2.10
   cygstart: properly convert environment variables to Win32 (Michael Schaap)
   cygstart: don't parse options listed after the command (Eric Blake)
