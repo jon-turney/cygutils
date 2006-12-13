@@ -1,11 +1,12 @@
 ## Makefile.am -- Process this file with automake to produce Makefile.in
 
 AUTOMAKE_OPTIONS = subdir-objects
+ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = po
 DIST_SUBDIRS =
 
-INCLUDES = -I$(top_builddir) -I$(top_srcdir)
+AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
 
 if WITH_WINDOWS_PROGRAMS
 windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
@@ -42,7 +43,8 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 EXTRA_SCRIPTS = src/ipc/ipck
 
 po_files = \
-	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars po/POTFILES.in \
+	po/ChangeLog po/LINGUAS po/Makefile.in.in po/Makevars \
+	po/Makevars.template po/POTFILES.in \
 	po/Rules-quot po/boldquot.sed po/en@boldquot.header po/en@quot.header \
 	po/insert-header.sin po/quot.sed po/remove-potcdate.sin
 
@@ -51,9 +53,15 @@ extra_docs = \
 
 licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
 
-EXTRA_DIST = config.rpath PROGLIST bootstrap common.h \
+EXTRA_DIST = PROGLIST bootstrap common.h \
    HOW-TO-CONTRIBUTE BRANCHES $(man_MANS) $(EXTRA_SCRIPTS) \
    $(licenses) $(po_files) $(extra_docs)
+
+DISTCLEANFILES = \
+	po/Makefile    \
+	po/Makefile.in \
+	po/POTFILES    \
+	po/remove-potcdate.sed
 
 src_banner_banner_LDADD = -lkernel32 -lgdi32
 src_lpr_lpr_LDADD = -lwinspool
@@ -70,5 +78,14 @@ install-exec-hook: $(bin_PROGRAMS)
 	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
 	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
 	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
+	done
+
+uninstall-hook:
+	@$(NORMAL_UNINSTALL)
+	@for p in d2u u2d dos2unix unix2dos; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
 

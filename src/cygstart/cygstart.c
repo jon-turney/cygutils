@@ -25,6 +25,8 @@
 #endif
 #include "common.h"
 
+#include <sys/cygwin.h>
+
 /* The official name of this program (e.g., no `g' prefix).  */
 #define PROGRAM_NAME "cygstart"
 #define AUTHORS "Michael Schaap"
@@ -40,7 +42,7 @@
 #define MSDN_URL "http://msdn.microsoft.com/library/en-us/shellcc/platform/" \
                  "Shell/reference/functions/shellexecute.asp"
 
-static const char versionID[] = "1.3";
+static const char versionID[] = "1.4";
 /* for future CVS */
 static const char revID[] =
 	"$Id$";
@@ -53,9 +55,9 @@ static const char copyrightID[] =
 static char *program_name;
 
 static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show);
+                    const char *workDir, int show, int verbose);
 static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show);
+                    const char *workDir, int show, int verbose);
 static char *startError(int err);
 static const char *getVersion(void);
 static void printTopDescription(FILE *f, char *name);
@@ -64,7 +66,6 @@ static void usage(poptContext optCon, FILE *f, char *name);
 static void help(poptContext optCon, FILE *f, char *name);
 static void version(poptContext optCon, FILE *f, char *name);
 static void license(poptContext optCon, FILE *f, char *name);
-static void setup_win_environ(void);
 
 int main(int argc, const char **argv)
 {
@@ -80,6 +81,7 @@ int main(int argc, const char **argv)
     char *args = NULL;
     char *workDir = NULL;
     int show = SW_SHOWNORMAL;
+    int verbose = 0;
 
     /* Action options */
     struct poptOption actionOptionsTable[] = {
@@ -143,6 +145,13 @@ int main(int argc, const char **argv)
         { NULL, '\0', 0, NULL, 0, NULL, NULL }
     };
 
+    /* Troubleshooting options */
+    struct poptOption troubleOptionsTable[] = {
+        { "verbose",  'v',  POPT_ARG_NONE, NULL, 'E', \
+          "Show the actual ShellExecute call made", NULL},
+        { NULL, '\0', 0, NULL, 0, NULL, NULL }
+    };
+
     /* Help options */
     struct poptOption helpOptionsTable[] = {
         { "help",  '?',  POPT_ARG_NONE, NULL, '?', \
@@ -165,6 +174,8 @@ int main(int argc, const char **argv)
           "Directory options", NULL },
         { NULL, '\0', POPT_ARG_INCLUDE_TABLE, showOptionsTable, 0, \
           "Show options", NULL },
+        { NULL, '\0', POPT_ARG_INCLUDE_TABLE, troubleOptionsTable, 0, \
+          "Troubleshooting options", NULL },
         { NULL, '\0', POPT_ARG_INCLUDE_TABLE, helpOptionsTable, 0, \
           "Help options", NULL },
         { NULL, '\0', 0, NULL, 0, NULL, NULL }
@@ -218,7 +229,7 @@ int main(int argc, const char **argv)
                     free(workDir);
                 return(0);
             case 'r':
-                cygStart(MSDN_URL, NULL, NULL, NULL, SW_NORMAL);
+                cygStart(MSDN_URL, NULL, NULL, NULL, SW_NORMAL, verbose);
                 poptFreeContext(optCon);
                 free(program_name);
                 if (action)
@@ -313,6 +324,11 @@ int main(int argc, const char **argv)
             case 'O':
                 show = SW_SHOWNORMAL;
                 break;
+
+            /* Troubleshooting options */
+            case 'E':
+                verbose = 1;
+                break;
         }
     }
     if (rc < -1 ) {
@@ -360,7 +376,7 @@ int main(int argc, const char **argv)
     }
 
     /* Start it! */
-    ret = cygStart(file, action, args, workDir, show);
+    ret = cygStart(file, action, args, workDir, show, verbose);
 
     poptFreeContext(optCon);
     free(program_name);
@@ -378,7 +394,7 @@ int main(int argc, const char **argv)
 
 /* Start a program, or open a file or URL, using Cygwin POSIX paths */
 static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show)
+                    const char *workDir, int show, int verbose)
 {
     char winPath[MAX_PATH+1];
     char winDir[MAX_PATH+1];
@@ -393,20 +409,25 @@ static int cygStart(const char *aPath, const char *action, const char *args,
     /* Convert working directory, if any, from POSIX to Windows */
     if (workDir) {
         cygwin_conv_to_win32_path(workDir, winDir);
-        return winStart(winPath, action, args, winDir, show);
+        return winStart(winPath, action, args, winDir, show, verbose);
     } else {
-        return winStart(winPath, action, args, NULL, show);
+        return winStart(winPath, action, args, NULL, show, verbose);
     }
 }
 
 /* Start a program, or open a file or URL, using Windows paths */
 static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show)
+                    const char *workDir, int show, int verbose)
 {
     int ret;
 
-    /* Need to sync the Windows environment when running under "mount -X" */
-    setup_win_environ();
+    /* Need to sync the Windows environment */
+    cygwin_internal(CW_SYNC_WINENV);
+
+    if (verbose) {
+        printf("ShellExecute(NULL, \"%s\", \"%s\", \"%s\", \"%s\", %d)\n",
+               action, aPath, args, workDir, show);
+    }
 
     ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
     if (ret >= 32) {
@@ -515,45 +536,3 @@ static void license(poptContext optCon, FILE *f, char *name)
   printTopDescription(f, name);
   printLicense(f, name);
 }  
-
-/* Copy cygwin environment variables to the Windows environment if they're not
- * already there. */
-static void setup_win_environ(void)
-{
-    char **envp = environ;
-    char *var, *val;
-    char curval[2];
-    char *winpathlist;
-    char winpath[MAX_PATH+1];
-
-    while (envp && *envp) {
-        var = strdup(*envp++);
-        val = strchr(var, '=');
-        *val++ = '\0';
-        
-        if (GetEnvironmentVariable(var, curval, 2) == 0
-                    && GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
-            /* Convert POSIX to Win32 where necessary */
-            if (!strcmp(var, "PATH") ||
-                        !strcmp(var, "LD_LIBRARY_PATH")) {
-                winpathlist = (char *)
-                      malloc(cygwin_posix_to_win32_path_list_buf_size(val)+1);
-                if (winpathlist) {
-                    cygwin_posix_to_win32_path_list(val, winpathlist);
-                    SetEnvironmentVariable(var, winpathlist);
-                    free(winpathlist);
-                }
-            } else if (!strcmp(var, "HOME") ||
-                        !strcmp(var, "TMPDIR") ||
-                        !strcmp(var, "TMP") ||
-                        !strcmp(var, "TEMP")) {
-                cygwin_conv_to_win32_path(val, winpath);
-                SetEnvironmentVariable(var, winpath);
-            } else {
-                SetEnvironmentVariable(var, val);
-            }
-        }
-
-        free(var);
-    }
-}
