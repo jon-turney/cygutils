@@ -72,7 +72,7 @@ src_lpr_lpr_SOURCES = src/lpr/Printer.cc src/lpr/Win32Utils.cc src/lpr/lpr.cc sr
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkdir_p) $(DESTDIR)$(bindir)
 	@for p in d2u u2d dos2unix unix2dos; do \
 	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
 	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
