@@ -89,6 +89,10 @@ ipck:
   IPC utility brought over from cygipc.
   (GPL)
 
+cygicons:
+  DLL containing cygwin-related icons
+  (GPL)
+
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
 	 part of the UCB BSD distro. 

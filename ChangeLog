@@ -1,3 +1,50 @@
+2007-08-24  Charles Wilson  <cwilson@...>
+
+	Bump version number to 1.3.2
+
+	* bootstrap: copy libtool.m4 to m4/.
+	* configure.ac: Bumped version number. Created
+	VERSION_* AC_SUBSTS for use by cygicons.rc.in.
+	Created AC_SUBST value for cygicon dll vernum.
+	Added libtool. Don't force -lpopt into LIBS.
+	Added cygicons.rc to list of generated files.
+	* Makefile.am: Added rules for building cygicons
+	DLL (but only on win32). Added doc_DATA target for
+	installing documentation.  Added licenses_DATA
+	target for installing component licenses into 
+	subdir of $(docdir).  Added include_HEADERS target
+	for installing cygicons header (but only on win32).
+	Added lpr_doc_DATA and cygicons_doc_DATA targets 
+	for installing component documentation into separate
+	subdirs of $(docdir).  Added -lpopt to the *_LDADD
+	rules for the targets that need it, now that -lpopt
+	is not added to LIBS (created *_LDADD if not exist).
+	Added install-hook/uninstall-hook commands to force
+	the cygicons import and libtool libraries to have 
+	the desired name. Added necessary variables, targets,
+	flags, and custom rules for building cygicons (special
+	care needed to deal with .rc files).
+	* src/cygicons/README: new file.
+	* src/cygicons/cygicons.h: new file.
+	* src/cygicons/cygicons.rc.in: new file.
+	* src/cygicons/cygwin-kde.ico: new file.
+	* src/cygicons/cygwin.ico: new file.
+	* src/cygicons/cygwinblue.ico: new file.
+	* src/cygicons/cygwincyan.ico: new file.
+	* src/cygicons/cygwing.ico: new file.
+	* src/cygicons/cygwings.ico: new file.
+	* src/cygicons/cygwinpurple.ico: new file.
+	* src/cygicons/cygwinred.ico: new file.
+	* src/cygicons/cygwinshiny.ico: new file.
+	* src/cygicons/cygwinyellow.ico: new file.
+	* config.h.in: regenerated.
+	* AUTHORS: updated documentation.
+	* NEWS: updated documentation.
+	* PROGLIST: updated documentation.
+	* README: updated documentation.
+	* HOW-TO-INSTALL: updated documentation.
+	* BRANCHES: updated documentation.
+
 2006-12-12  Charles Wilson  <cwilson@...>
 	
 	Release 1.3.1

@@ -51,3 +51,10 @@ Christopher Faylor <....>
   rename.c, rename.1 (taken from util-linux)
   (GPL)
 
+unknown, Charles Wilson, Nicky H., August Mayer
+August Mayer, FBL
+  individual icons within the cygicons dll
+  See src/cygicons/README-cygicons
+  (GPL)
+
+

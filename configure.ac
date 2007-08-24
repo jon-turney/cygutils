@@ -1,11 +1,20 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT(cygutils, 1.3.1, cygwin@cygwin.com)
+AC_INIT(cygutils, 1.3.2, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2 no-dist-gzip])
 AM_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
+
+VERSION_MAJOR=`echo $VERSION | cut -f1 -d.`
+VERSION_MINOR=`echo $VERSION | cut -f2 -d.`
+VERSION_PATCH=`echo $VERSION | cut -f3 -d.`
+
+AC_SUBST(VERSION_MAJOR)
+AC_SUBST(VERSION_MINOR)
+AC_SUBST(VERSION_PATCH)
+
 
 # Checks for programs.
 AC_PROG_CC
@@ -13,8 +22,15 @@ AC_PROG_CXX
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
+AC_LIBTOOL_WIN32_DLL
+AC_DISABLE_STATIC
+AC_LIBTOOL_RC
+AC_LIBTOOL_DLOPEN
+AC_PROG_LIBTOOL
+
 # Checks for libraries.
-AC_CHECK_LIB(popt, poptPrintHelp) 
+AC_CHECK_LIB(popt, poptPrintHelp,[
+  AC_DEFINE(HAVE_LIBPOPT,1,[Define to 1 if you have the `popt' library (-lpopt).])])dnl '`
 AC_CHECK_FUNC(shmget,[
   HAVE_INTRINSIC_IPC="yes"
   ],[
@@ -28,6 +44,9 @@ BUILD_INCLUDED_LIBINTL=no
 USE_INCLUDED_LIBINTL=no
 AC_SUBST(BUILD_INCLUDED_LIBINTL)
 AC_SUBST(USE_INCLUDED_LIBINTL)
+
+CYGICONS_DLL_VERSION=0
+AC_SUBST(CYGICONS_DLL_VERSION)
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -62,6 +81,6 @@ dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
 AM_CONDITIONAL(WITH_NATIVE_IPC_PROGRAMS, test "$HAVE_INTRINSIC_IPC" = yes)
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile po/Makefile.in src/cygicons/cygicons.rc])
 
 AC_OUTPUT

@@ -1,0 +1,107 @@
+/**
+ * cygicons.rc : resource description for cygwin-related icons
+ *
+ * Copyright 2007 by Charles S. Wilson <cygwin@cygwin.com>
+ * All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * See the COPYING file for license information.
+ */
+
+#if HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <windows.h>
+#include "cygicons.h"
+
+/* Icons */
+IDI_CYGWIN        ICON "cygwin.ico"
+IDI_CYGWIN_RED    ICON "cygwinred.ico"
+IDI_CYGWIN_BLUE   ICON "cygwinblue.ico"
+IDI_CYGWIN_CYAN   ICON "cygwincyan.ico"
+IDI_CYGWIN_PURPLE ICON "cygwinpurple.ico"
+IDI_CYGWIN_YELLOW ICON "cygwinyellow.ico"
+IDI_CYGWIN_SHINY  ICON "cygwinshiny.ico"
+IDI_CYGWIN_G      ICON "cygwing.ico"
+IDI_CYGWIN_GS     ICON "cygwings.ico"
+IDI_CYGWIN_KDE    ICON "cygwin-kde.ico"
+
+#define VER_FILEVERSION         @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,@CYGICONS_DLL_VERSION@
+#define VER_FILEVERSION_STR     "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@.@CYGICONS_DLL_VERSION@\0"
+
+#define VER_PRODUCTVERSION      @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,0
+#define VER_PRODUCTVERSION_STR  "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@\0"
+
+#define VER_COMPANYNAME_STR       "Charles S. Wilson @PACKAGE_BUGREPORT@\0" 
+#define VER_FILEDESCRIPTION_STR   "Provides cygwin-related icons.\0"
+#define VER_INTERNALNAME_STR      "cygicons-@CYGICONS_DLL_VERSION@\0"
+#define VER_LEGALCOPYRIGHT_STR    "Copyright © 2007 Charles S. Wilson\0"
+#define VER_ORIGINALFILENAME_STR  "cygicons-@CYGICONS_DLL_VERSION@.dll\0"
+#define VER_PRODUCTNAME_STR       "@PACKAGE_NAME@\0"
+#define VER_GNU_COPYLEFT_STR      "Released under the GNU General Public License version 2 \
+-------------------------------- \
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. \
+-------------------------------- \
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. \
+-------------------------------- \
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\0"
+
+
+#ifndef DEBUG
+#define VER_DEBUG               0
+#else
+#define VER_DEBUG               VS_FF_DEBUG
+#endif
+
+VS_VERSION_INFO VERSIONINFO 
+  FILEVERSION        VER_FILEVERSION
+  PRODUCTVERSION     VER_PRODUCTVERSION
+  FILEFLAGSMASK      VS_FFI_FILEFLAGSMASK
+  FILEFLAGS          VER_DEBUG
+  FILEOS             VOS_NT_WINDOWS32
+  FILETYPE           VFT_DLL
+  FILESUBTYPE        VFT2_UNKNOWN
+BEGIN
+ BLOCK "StringFileInfo"
+ BEGIN
+  BLOCK "040904E4"
+  BEGIN
+   VALUE "CompanyName",      VER_COMPANYNAME_STR
+   VALUE "FileDescription",  VER_FILEDESCRIPTION_STR
+   VALUE "FileVersion",      VER_FILEVERSION_STR
+   VALUE "InternalName",     VER_INTERNALNAME_STR
+   VALUE "LegalCopyright",   VER_LEGALCOPYRIGHT_STR
+   VALUE "OriginalFilename", VER_ORIGINALFILENAME_STR
+   VALUE "ProductName",      VER_PRODUCTNAME_STR
+   VALUE "ProductVersion",   VER_PRODUCTVERSION_STR
+   VALUE "GPL Copyleft",     VER_GNU_COPYLEFT_STR
+  END
+ END
+ BLOCK "VarFileInfo"
+ BEGIN
+  /* The following line should only be modified for localized versions.     */
+  /* It consists of any number of WORD,WORD pairs, with each pair           */
+  /* describing a language,codepage combination supported by the file.      */
+  /*                                                                        */
+  /* For example, a file might have values "0x409,1252" indicating that it  */
+  /* supports English language (0x409) in the Windows ANSI codepage (1252)  */
+  /* where 1252 == 0x04E4 -- thus, the BLOCK above is 0x040904E4            */
+
+  VALUE "Translation", 0x0409, 1252
+ END
+END
+

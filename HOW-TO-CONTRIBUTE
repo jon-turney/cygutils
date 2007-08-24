@@ -180,14 +180,20 @@ The simple 12 step program:
 
      man_MANS = ... src/foo/foo.1 ...
 
-     If there are non-man-page documentation files, you should those
-     files to the extra_docs variable (which gets automatically 
-     included in EXTRA_DIST)
-
-     extra_docs = ... src/foo/foo.README ...
-
-     However, there is no provisiion for actually INSTALLING these
-     additional documentation files.  At least not yet.
+     If there are non-man-page documentation files, you should do 
+     one of the following:
+       i) if your app is windows-specific, then create a new
+          variable inside the 'if WITH_WINDOWS_PROGRAMS' section 
+          suffixed with '_docs', and list the documentation files
+             foo_docs = src/foo/README src/foo/TODO
+          Also, add those files to the extra_docs variable (which
+          gets automatically included in EXTRA_DIST)
+             extra_docs = src/foo/README src/foo/TODO
+      ii) otherwise, simply create the 'foo_docs' variable
+          outside of the 'if WITH_WINDOWS_PROGRAMS' section
+     These files will be installed into $(docdir)/foo/ so there
+     is no worry that your README will conflict with any other
+     component's README.
 
   d) Extra files
 
@@ -212,6 +218,10 @@ The simple 12 step program:
   follow the "patterns" established in it by the other programs, 
   or (gasp) read the automake documentation.
 
+  Libraries are quite complicated to deal with in the cygutils 
+  build framework. Fortunately I doubt there will be many of
+  these to worry about, other than cygicons.
+
 6) Simplify your #includes.
 
    Take a good look at the #include statements in your .c and .h
@@ -229,7 +239,8 @@ The simple 12 step program:
 
    Add a short blurb about your app to <cygutils>/PROGLIST
    Add your app to the list at the end of the README file
-   Add your name to the AUTHORS file.
+   Add your name to the AUTHORS file.  Don't worry about NEWS;
+   I do that before each release.
 
 8) Bootstrap
 
@@ -299,7 +310,7 @@ The simple 12 step program:
    the ChangeLog into that notice.  But do NOT send the patch or 
    tarball to the mailing list.  
 	
-   Instead, send that to ME, cwilson@ece.gatech.edu.  The patch
+   Instead, send that to ME, cygwin@cwilson.fastmail.fm.  The patch
    and tarball should be attachments, but paste the ChangeLog entry
 	into the body of the message.  Do NOT paste your patch into the 
 	body of the email; most mail programs will horrendously distort 
