@@ -150,7 +150,7 @@ int main(int argc, const char **argv)
           "for the first time", NULL},
         { NULL, '\0', 0, NULL, 0, NULL, NULL }
     };
-    
+
     /* Startup options */
     struct poptOption startupOptionsTable[] = {
         { "wait", 'w', POPT_ARG_NONE, NULL, 'w',
@@ -410,7 +410,7 @@ int main(int argc, const char **argv)
     if (file)
         free(file);
 
-    return (ret ? 0 : 1);
+    return ret;
 }
 
 /* Start a program, or open a file or URL, using Cygwin POSIX paths */
@@ -449,19 +449,19 @@ static int winStart(const char *aPath, const char *action, const char *args,
         printf("ShellExecute(NULL, \"%s\", \"%s\", \"%s\", \"%s\", %d)\n",
                action, aPath, args, workDir, show);
     }
-    
+
     if (!(startFlags & SF_WAIT)) {
         int ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
-        
+
         if (ret >= 32) {
-            return TRUE;
+            return 0;
         } else {
             fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError(ret));
-            return FALSE;
+            return 1;
         }
     } else {
         SHELLEXECUTEINFO sei;
-        
+
         memset(&sei, 0, sizeof(sei));
         sei.cbSize = sizeof(sei);
         sei.lpVerb = action;
@@ -470,25 +470,30 @@ static int winStart(const char *aPath, const char *action, const char *args,
         sei.lpDirectory = workDir;
         sei.nShow = show;
         sei.fMask |= SEE_MASK_NOCLOSEPROCESS | SEE_MASK_FLAG_NO_UI;
-        
+
         if (!ShellExecuteEx(&sei)) {
             if (((int) sei.hInstApp) < 32) {
                 fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError((int) sei.hInstApp));
-                return FALSE;
+                return 1;
             } else {
                 fprintf(stderr, "Unable to start '%s': ", aPath);
                 printLastError(stderr);
                 fprintf(stderr, "\n");
-                return FALSE;
+                return 1;
             }
         }
-        
+
         if (sei.hProcess) {
+            DWORD code;
             WaitForSingleObject(sei.hProcess, INFINITE);
+            if (!GetExitCodeProcess(sei.hProcess, &code)) {
+                code = 1;
+            }
             CloseHandle(sei.hProcess);
+            return (int) code;
         }
-        
-        return TRUE;
+
+        return 0;
     }
 }
 
@@ -497,7 +502,7 @@ static int winStart(const char *aPath, const char *action, const char *args,
 static void printLastError(FILE* file)
 {
     LPSTR buf = 0;
-    
+
     if (!FormatMessage(
         FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
         0,
@@ -511,9 +516,9 @@ static void printLastError(FILE* file)
         fprintf(file, "Couldn't retrieve error message");
         return;
     }
-    
+
     fputs(buf, file);
-    
+
     LocalFree(buf);
 }
 
@@ -614,4 +619,4 @@ static void license(poptContext optCon, FILE *f, char *name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-}  
+}

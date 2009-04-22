@@ -1,5 +1,14 @@
+2008-09-04  Alex Smith  <madalexonline@yahoo.co.uk>
+
+	If cygstart -w, then propagate child exit status.
+	* src/cygstart/cygstart.c (main): exit with
+	value returned by cygStart().
+	(cygStart): If -w/--wait, then get exit status
+	of child process and return it.
+
 2008-08-10  Barry Kelly  <bkelly.ie@gmail.com>
 
+	Add -w/--wait option to cygstart.
 	* src/cygstart/cygstart.c: New enum StartFlags.
 	(main): Add startup options category, containing
 	new -w/--wait option. Use it to set StartFlags.
