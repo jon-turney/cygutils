@@ -1,3 +1,13 @@
+2009-04-21  Charles Wilson  <cwilson@...>
+
+	* src/cygicons/README: Remove trailing spaces.
+	* NEWS: Update.
+	* PROGLIST: Fix typos.
+	* BRANCHES: Update.
+	* configure.ac: Bump version number. Update
+	to libtool-2.2 idioms. Require ac-2.63. Modify
+	dist to use lzma.
+
 2008-09-04  Alex Smith  <madalexonline@yahoo.co.uk>
 
 	If cygstart -w, then propagate child exit status.

@@ -1,9 +1,9 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.59)
-AC_INIT(cygutils, 1.3.2, cygwin@cygwin.com)
+AC_PREREQ(2.63)
+AC_INIT(cygutils, 1.3.3, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE([-Wall -Werror dist-bzip2 no-dist-gzip])
+AM_INIT_AUTOMAKE([-Wall -Werror dist-lzma no-dist-gzip])
 AM_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
@@ -22,11 +22,8 @@ AC_PROG_CXX
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
-AC_LIBTOOL_WIN32_DLL
-AC_DISABLE_STATIC
-AC_LIBTOOL_RC
-AC_LIBTOOL_DLOPEN
-AC_PROG_LIBTOOL
+LT_INIT([win32-dll dlopen disable-static])
+LT_LANG([Windows Resource])
 
 # Checks for libraries.
 AC_CHECK_LIB(popt, poptPrintHelp,[
@@ -75,7 +72,7 @@ AC_FUNC_LSTAT
 AC_FUNC_STAT
 AC_FUNC_VPRINTF
 dnl should only exist on windows, I hope
-AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *]) 
+AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *])
 
 dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)

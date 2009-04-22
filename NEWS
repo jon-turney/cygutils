@@ -1,3 +1,7 @@
+1.3.3
+  cygstart: Add new -w/--wait option (Barry Kelly)
+            Propagate exit status of child process when -w (Alex Smith)
+
 1.3.2
   cygicons: a new DLL that provides cygwin-related icons
             original images were obtained from various (free

@@ -9,13 +9,13 @@ dump.exe [file]
 putclip.exe
   copies stdin to the Windows clipboard
   does NOT use Cygwin's /dev/clipboard 
-  Not build unless on a WIN32 platform
+  Not built unless on a WIN32 platform
   (GPL)
   
 getclip.exe
   copies the Windows clipboard to stdout
   does NOT use Cygwin's /dev/clipboard
-  Not build unless on a WIN32 platform
+  Not built unless on a WIN32 platform
   (GPL)
   
 conv.exe / d2u.exe / u2d.exe / dos2unix.exe / unix2dos.exe
@@ -24,7 +24,7 @@ conv.exe / d2u.exe / u2d.exe / dos2unix.exe / unix2dos.exe
   (GPL)
   
   HEAVILY modified, but core routine is based on 
-  the hd2d-0.5.12 distribution, available here:
+  the hd2u-0.5.12 distribution, available here:
   http://www.megaloman.com/~hany/_data/hd2u/
   by Peter Hanecak.
 
@@ -60,7 +60,7 @@ banner.exe
   (GPL)
   
 realpath.exe
-  Convert pathname argumen to absolute path, with all 
+  Convert pathname argument to absolute path, with all 
   references to `.', `..', and symlinks resolved.
   (GPL)
 

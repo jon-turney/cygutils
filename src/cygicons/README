@@ -1,6 +1,6 @@
 Provenance, licensing, and resolution, Oh My!
 
-Windows icons come in many flavors: size, number 
+Windows icons come in many flavors: size, number
 of colors, transparency mechanism, etc.
 
 The format of a single .ico image:
@@ -43,10 +43,10 @@ pixel.
 
 The XOR mask allows a few fancy effects: transparency, but
 also "inverting" the background.  For transparency to work,
-you have to choose one of your 16 (or 256, or 16M) colors 
-as the "transparent" color, and then make sure the XOR mask 
+you have to choose one of your 16 (or 256, or 16M) colors
+as the "transparent" color, and then make sure the XOR mask
 has 1's everywhere the transparent color is used in the AND
-mask, and 0's everywhere else. 
+mask, and 0's everywhere else.
    For all the nitty-gritty, see
    http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/dnargdi/html/msdn_transblt.asp
 By setting up places in the image where the XOR mask has 1's,
@@ -190,8 +190,8 @@ cygwing.ico
     Author    : August Mayer
     Provenance: posted to cygwin mailing list
                 http://cygwin.com/ml/cygwin/2001-07/msg01099.html
-    Comments  : While I'm not a graphic designer or the like, 
-                I have created a slightly improved version of 
+    Comments  : While I'm not a graphic designer or the like,
+                I have created a slightly improved version of
                 the Cygwin icon. Enjoy! -- A. Mayer
     Contents  :
       32x32 16 color
