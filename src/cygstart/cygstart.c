@@ -54,10 +54,16 @@ static const char copyrightID[] =
 /* The name this program was run with. */
 static char *program_name;
 
+typedef enum StartFlags {
+    SF_NONE = 0,
+    SF_VERBOSE = 1 << 0,
+    SF_WAIT = 1 << 1,
+} StartFlags;
+
 static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, int verbose);
+                    const char *workDir, int show, StartFlags startFlags);
 static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, int verbose);
+                    const char *workDir, int show, StartFlags startFlags);
 static char *startError(int err);
 static const char *getVersion(void);
 static void printTopDescription(FILE *f, char *name);
@@ -81,7 +87,7 @@ int main(int argc, const char **argv)
     char *args = NULL;
     char *workDir = NULL;
     int show = SW_SHOWNORMAL;
-    int verbose = 0;
+    StartFlags startFlags = SF_NONE;
 
     /* Action options */
     struct poptOption actionOptionsTable[] = {
@@ -144,6 +150,14 @@ int main(int argc, const char **argv)
           "for the first time", NULL},
         { NULL, '\0', 0, NULL, 0, NULL, NULL }
     };
+    
+    /* Startup options */
+    struct poptOption startupOptionsTable[] = {
+        { "wait", 'w', POPT_ARG_NONE, NULL, 'w',
+          "Waits until the started application terminates before exiting.",
+          NULL },
+        { NULL, '\0', 0, NULL, 0, NULL, NULL }
+    };
 
     /* Troubleshooting options */
     struct poptOption troubleOptionsTable[] = {
@@ -174,6 +188,8 @@ int main(int argc, const char **argv)
           "Directory options", NULL },
         { NULL, '\0', POPT_ARG_INCLUDE_TABLE, showOptionsTable, 0, \
           "Show options", NULL },
+        { NULL, '\0', POPT_ARG_INCLUDE_TABLE, startupOptionsTable, 0,
+          "Startup options", NULL },
         { NULL, '\0', POPT_ARG_INCLUDE_TABLE, troubleOptionsTable, 0, \
           "Troubleshooting options", NULL },
         { NULL, '\0', POPT_ARG_INCLUDE_TABLE, helpOptionsTable, 0, \
@@ -229,7 +245,7 @@ int main(int argc, const char **argv)
                     free(workDir);
                 return(0);
             case 'r':
-                cygStart(MSDN_URL, NULL, NULL, NULL, SW_NORMAL, verbose);
+                cygStart(MSDN_URL, NULL, NULL, NULL, SW_NORMAL, startFlags);
                 poptFreeContext(optCon);
                 free(program_name);
                 if (action)
@@ -325,9 +341,14 @@ int main(int argc, const char **argv)
                 show = SW_SHOWNORMAL;
                 break;
 
+            /* Startup options */
+            case 'w':
+                startFlags |= SF_WAIT;
+                break;
+
             /* Troubleshooting options */
             case 'E':
-                verbose = 1;
+                startFlags |= SF_VERBOSE;
                 break;
         }
     }
@@ -376,7 +397,7 @@ int main(int argc, const char **argv)
     }
 
     /* Start it! */
-    ret = cygStart(file, action, args, workDir, show, verbose);
+    ret = cygStart(file, action, args, workDir, show, startFlags);
 
     poptFreeContext(optCon);
     free(program_name);
@@ -394,7 +415,7 @@ int main(int argc, const char **argv)
 
 /* Start a program, or open a file or URL, using Cygwin POSIX paths */
 static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, int verbose)
+                    const char *workDir, int show, StartFlags startFlags)
 {
     char winPath[MAX_PATH+1];
     char winDir[MAX_PATH+1];
@@ -409,33 +430,91 @@ static int cygStart(const char *aPath, const char *action, const char *args,
     /* Convert working directory, if any, from POSIX to Windows */
     if (workDir) {
         cygwin_conv_to_win32_path(workDir, winDir);
-        return winStart(winPath, action, args, winDir, show, verbose);
+        return winStart(winPath, action, args, winDir, show, startFlags);
     } else {
-        return winStart(winPath, action, args, NULL, show, verbose);
+        return winStart(winPath, action, args, NULL, show, startFlags);
     }
 }
 
+static void printLastError(FILE* file);
+
 /* Start a program, or open a file or URL, using Windows paths */
 static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, int verbose)
+                    const char *workDir, int show, StartFlags startFlags)
 {
-    int ret;
-
     /* Need to sync the Windows environment */
     cygwin_internal(CW_SYNC_WINENV);
 
-    if (verbose) {
+    if (startFlags & SF_VERBOSE) {
         printf("ShellExecute(NULL, \"%s\", \"%s\", \"%s\", \"%s\", %d)\n",
                action, aPath, args, workDir, show);
     }
-
-    ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
-    if (ret >= 32) {
-        return TRUE;
+    
+    if (!(startFlags & SF_WAIT)) {
+        int ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
+        
+        if (ret >= 32) {
+            return TRUE;
+        } else {
+            fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError(ret));
+            return FALSE;
+        }
     } else {
-        printf("Unable to start '%s': %s\n", aPath, startError(ret));
-        return FALSE;
+        SHELLEXECUTEINFO sei;
+        
+        memset(&sei, 0, sizeof(sei));
+        sei.cbSize = sizeof(sei);
+        sei.lpVerb = action;
+        sei.lpFile = aPath;
+        sei.lpParameters = args;
+        sei.lpDirectory = workDir;
+        sei.nShow = show;
+        sei.fMask |= SEE_MASK_NOCLOSEPROCESS | SEE_MASK_FLAG_NO_UI;
+        
+        if (!ShellExecuteEx(&sei)) {
+            if (((int) sei.hInstApp) < 32) {
+                fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError((int) sei.hInstApp));
+                return FALSE;
+            } else {
+                fprintf(stderr, "Unable to start '%s': ", aPath);
+                printLastError(stderr);
+                fprintf(stderr, "\n");
+                return FALSE;
+            }
+        }
+        
+        if (sei.hProcess) {
+            WaitForSingleObject(sei.hProcess, INFINITE);
+            CloseHandle(sei.hProcess);
+        }
+        
+        return TRUE;
     }
+}
+
+/* Print a correctly-localized error message for GetLastError() to the given 
+   file descriptor. */
+static void printLastError(FILE* file)
+{
+    LPSTR buf = 0;
+    
+    if (!FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+        0,
+        GetLastError(),
+        0,
+        (LPSTR) &buf,
+        0, // min size
+        0))
+    {
+        // avoid recursion getting message - possible but infinite-prone
+        fprintf(file, "Couldn't retrieve error message");
+        return;
+    }
+    
+    fputs(buf, file);
+    
+    LocalFree(buf);
 }
 
 /* Return an error message, given a ShellExecute return code */
