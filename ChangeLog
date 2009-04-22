@@ -3,10 +3,14 @@
 	* src/cygicons/README: Remove trailing spaces.
 	* NEWS: Update.
 	* PROGLIST: Fix typos.
-	* BRANCHES: Update.
+	* BRANCHES: Updated.
 	* configure.ac: Bump version number. Update
-	to libtool-2.2 idioms. Require ac-2.63. Modify
-	dist to use lzma.
+	to libtool-2.2 idioms. Require ac-2.63. Require
+	gettext-0.17. Modify dist to use lzma. 
+	* ABOUT-NLS: Regenerated.
+	* INSTALL: Regenerated.
+	* config.h.in: Regenerated.
+	* po/Makefile.in.in: Regenerated.
 
 2008-09-04  Alex Smith  <madalexonline@yahoo.co.uk>
 

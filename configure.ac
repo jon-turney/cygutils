@@ -3,6 +3,7 @@ AC_PREREQ(2.63)
 AC_INIT(cygutils, 1.3.3, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror dist-lzma no-dist-gzip])
 AM_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
@@ -36,7 +37,7 @@ AC_CHECK_FUNC(shmget,[
 
 # AC_CHECK_LIB(intl, gettext)
 AM_GNU_GETTEXT(external,[],[])
-AM_GNU_GETTEXT_VERSION([0.15])
+AM_GNU_GETTEXT_VERSION([0.17])
 BUILD_INCLUDED_LIBINTL=no
 USE_INCLUDED_LIBINTL=no
 AC_SUBST(BUILD_INCLUDED_LIBINTL)
