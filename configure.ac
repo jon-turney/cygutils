@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.63)
-AC_INIT(cygutils, 1.3.3, cygwin@cygwin.com)
+AC_INIT(cygutils, 1.3.4, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
@@ -22,6 +22,7 @@ AC_PROG_CC
 AC_PROG_CXX
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
+AC_PROG_LN_S
 
 LT_INIT([win32-dll dlopen disable-static])
 LT_LANG([Windows Resource])

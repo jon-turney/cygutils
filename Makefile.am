@@ -40,7 +40,7 @@ include_HEADERS = $(windows_headers)
 man_MANS = src/cygstart/cygstart.1 \
 	src/mkshortcut/mkshortcut.1 \
 	src/readshortcut/readshortcut.1 \
-	src/lpr/lpr.1 
+	src/lpr/lpr.1
 
 doc_DATA = \
 	AUTHORS COPYING ChangeLog HOW-TO-CONTRIBUTE \
@@ -117,11 +117,12 @@ src_cygicons_libicons_la_LDFLAGS = -version-info 0:0:0 -no-undefined
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	$(mkdir_p) $(DESTDIR)$(bindir)
-	@for p in d2u u2d dos2unix unix2dos; do \
+	@t=`echo conv|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	for p in d2u u2d dos2unix unix2dos; do \
 	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
 	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f"; \
-	  $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) src/conv/conv${EXEEXT} $(DESTDIR)$(bindir)/$$f; \
+	  echo "(cd $(DESTDIR)$(bindir) && ln -f $$t $$f)"; \
+	  (cd $(DESTDIR)$(bindir) && ln -f $$t $$f); \
 	done
 	if [ -e $(DESTDIR)$(libdir)/libicons.dll.a ]; then \
 	  (cd $(DESTDIR)$(libdir) && mv libicons.dll.a libcygicons.dll.a) ;\
