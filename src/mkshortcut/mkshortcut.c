@@ -30,7 +30,7 @@
 
 #if HAVE_CONFIG_H
 #  include "config.h"
-#endif 
+#endif
 #include "common.h"
 
 #define NOCOMATTRIBUTE
@@ -43,9 +43,7 @@
 #include <popt.h>
 */
 
-static const char versionStr[] = "$Revision$";
-static const char versionID[] = "1.02.0";
-/* for CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
   "$Id$";
 static const char copyrightID[] =
@@ -71,7 +69,7 @@ typedef struct optvals_s {
 static int mkshortcut(optvals opts, poptContext optCon);
 static void printTopDescription(FILE * f, char * name);
 static void printBottomDescription(FILE * f, char * name);
-static char * getVersion(char * s, int slen);
+static const char * getVersion();
 static void usage(poptContext optCon, FILE * f, char * name);
 static void help(poptContext optCon, FILE * f, char * name);
 static void version(poptContext optCon, FILE * f, char * name);
@@ -184,7 +182,7 @@ main (int argc, const char **argv)
       case 'd':  if (arg = poptGetOptArg(optCon)) {
                    if ((opts.desc_arg = strdup(arg)) == NULL ) {
                      fprintf(stderr, "%s: memory allocation error\n", program_name);
-                     ec=2;                                            
+                     ec=2;
                      goto exit;
                    }
                  }
@@ -545,33 +543,22 @@ int mkshortcut(optvals opts, poptContext optCon)
 	}
     }
   else
-    { 
+    {
       free (buf_str);
       fprintf (stderr, "%s: CoCreateInstance failed\n", program_name);
       return (3);
     }
 }
 
-static char * getVersion(char * s, int slen)
+static const char * getVersion()
 {
-  const char *v = strchr (versionStr, ':');
-
-  int len;
-  if (!v) {
-    v = "?";
-    len = 1;
-  } else {
-    v += 2;
-    len = strchr (v, ' ') - v;
-  }
-  snprintf (s,slen,"%.*s", len, v);
-  return s;
+  return versionID;
 }
 
 static void printTopDescription(FILE * f, char * name)
 {
   char s[20];
-  fprintf(f, "%s (cygutils) version %s\n", name, getVersion(s, 20));
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  create a Windows shortcut\n\n");
 }
 static void printBottomDescription(FILE * f, char * name)

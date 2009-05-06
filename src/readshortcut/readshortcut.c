@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
- 
 
- 
+
+
  /* http://www.rpm.org/dark_corners/popt/
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/shell/programmersguide/shell_int/shell_int_programming/shortcuts/shortcut.asp
  */
@@ -60,14 +60,14 @@
 
 #define BUFF_SIZE 1024
 
-static const char versionID[] = "1.0";
+static const char versionID[] = PACKAGE_VERSION;
 
 typedef struct optvals_s {
-  char * target_fname;  
+  char * target_fname;
 
   int show_field_names;
   int pathType;
-  
+
   int show_target;
   int show_working_dir;
   int show_args;
@@ -374,7 +374,7 @@ static const char * getVersion() {
 }
 
 static void printTopDescription(FILE * f, char * name) {
-  fprintf(f, "%s version %s\n", name, getVersion());
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  Reads and outputs data from a Windows shortcut (.lnk) file.\n\n");
 }
 

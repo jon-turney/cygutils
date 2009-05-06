@@ -1,5 +1,23 @@
 2009-05-06  Charles Wilson  <cwilson@...>
 
+	Ensure uniformity for --version option.
+	* src/ascii/ascii.c: Ensure --version output
+	reports package version; harmonize formats.
+	* src/banner/banner.c: Ditto.
+	* src/clip/getclip.c: Ditto.
+	* src/clip/putclip.c: Ditto.
+	* src/conv/conv.c: Ditto.
+	* src/cygstart/cygstart.c: Ditto.
+	* src/dump/dump.c: Ditto.
+	* src/mkshortcut/mkshortcut.c: Ditto.
+	* src/realpath/realpath.c: Ditto.
+	* src/readshortcut/readshortcut.c: Ditto, and
+	fix line endings.
+	* src/readshortcut/readshortcut.c: Fix line
+	endings.
+
+2009-05-06  Charles Wilson  <cwilson@...>
+
 	* PROGLIST: Fix typo.
 
 2009-05-05  IWAMURO Motonori  <deenheart@gmail.com>

@@ -39,8 +39,7 @@
 #define PUTCLIP_ERR    1
 #define PUTCLIP_ARGERR 2
 
-static const char versionID[] = 
-    "0.2.0";
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -179,7 +178,7 @@ static const char * getVersion()
 
 static void printTopDescription(FILE * f, char * name)
 {
-  fprintf(f, "%s version %s\n", name, getVersion());
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  Copy stdin to the Windows Clipboard\n\n");
 }
 
@@ -228,7 +227,7 @@ static void license(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-}  
+}
 
 int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
 {
@@ -285,11 +284,11 @@ int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
   {
     const char* CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
     UINT cygnativeformat;
-    
+
     OpenClipboard(0);
     cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
     CloseClipboard();
-   
+
     // if flags.endl_mode == ENDLMODE_NOCONV 
     convbuf = buf;
     convlen = len;
@@ -410,16 +409,16 @@ int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
       free(convbuf);
       return (PUTCLIP_ERR);
     }
-    CloseClipboard();    
+    CloseClipboard();
     if (GlobalFree(hData))
-    { 
+    {
       fprintf(f, "Couldn't free global buffer after write to clipboard.\n");
       free(convbuf);
       return (PUTCLIP_ERR);
     }
     hData = NULL;
     clipbuf = NULL;
- 
+
     /* CF_TEXT format */
     OpenClipboard(0);
     if (!(hData = GlobalAlloc(GMEM_MOVEABLE, convlen + 2)))
@@ -434,7 +433,7 @@ int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
       free(convbuf);
       return (PUTCLIP_ERR);
     }
-    
+
     memcpy(clipbuf, convbuf, convlen);
     *(clipbuf + convlen) = '\0';
     *(clipbuf + convlen + 1) = '\0';
@@ -446,9 +445,9 @@ int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
       free(convbuf);
       return (PUTCLIP_ERR);
     }
-    CloseClipboard();    
+    CloseClipboard();
     if (GlobalFree(hData))
-    { 
+    {
       fprintf(f, "Couldn't free global buffer after write to clipboard.\n");
       free(convbuf);
       return (PUTCLIP_ERR);
@@ -462,7 +461,7 @@ int putclip(FILE * in, flags_struct flags, FILE * f, char * name)
   {
     OpenClipboard(0);
     EmptyClipboard();
-    CloseClipboard();    
+    CloseClipboard();
   }
   return (PUTCLIP_OK);
 }

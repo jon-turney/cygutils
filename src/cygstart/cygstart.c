@@ -45,8 +45,7 @@
 #define MSDN_URL "http://msdn.microsoft.com/library/en-us/shellcc/platform/" \
                  "Shell/reference/functions/shellexecute.asp"
 
-static const char versionID[] = "1.4";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
 	"$Id$";
 static const char copyrightID[] =
@@ -701,7 +700,8 @@ static const char *getVersion()
 
 static void printTopDescription(FILE *f, char *name)
 {
-    fprintf(f, "%s version %s, by %s\n", name, getVersion(), AUTHORS);
+    fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
+    fprintf(f, "%s was originally authored by %s\n", name, AUTHORS);
     fprintf(f, "\nLet Windows start a program or open a file or URL.\n\n");
 }
 

@@ -32,9 +32,7 @@
 # include <conio.h>
 #endif
 
-static const char versionID[] = 
-    "0.1.1";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -148,7 +146,7 @@ static const char * getVersion()
 
 static void printTopDescription(FILE * f, char * name)
 {
-  fprintf(f, "%s version %s\n", name, getVersion());
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  Prints a hexdump of stdin or specified files to stdout\n\n");
 }
 

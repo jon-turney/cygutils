@@ -35,9 +35,7 @@
 #define ENDLMODE_DOS 1
 #define ENDLMODE_NOCONV 2
 
-static const char versionID[] = 
-    "0.2.0";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -178,7 +176,7 @@ static const char * getVersion()
 
 static void printTopDescription(FILE * f, char * name)
 {
-  fprintf(f, "%s version %s\n", name, getVersion());
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  Copy the Windows Clipboard to stdout\n\n");
 }
 
@@ -227,7 +225,7 @@ static void license(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-}  
+}
 
 int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
 {
@@ -269,10 +267,10 @@ int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
         size_t buflen = (*(size_t *) nativebuf);
         buf = nativebuf + sizeof(size_t);
         len = buflen;
-	
+
         fwrite(buf, sizeof(unsigned char), len, out);
         GlobalUnlock(hglb);
-      }      
+      }
     }
     else
     {
@@ -289,7 +287,7 @@ int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
     }
     CloseClipboard();
   }
-  
+
   if (flags.endl_mode == ENDLMODE_UNIX )
   {
     /* remove the '\r' of any '\r\n' pair */
@@ -307,7 +305,7 @@ int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
 
     buf = lpstr;
     len = lplen;
-  
+
     /* get some memory for the new string */
     if ((newStr = (char*)malloc((len+1)* sizeof(char))) == NULL) {
       fprintf(f,"%s: memory allocation error\n", name);
@@ -339,7 +337,7 @@ int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
     GlobalUnlock(hglb);
     CloseClipboard();
   }
-  
+
   if (flags.endl_mode == ENDLMODE_DOS )
   {
     /* change all instances of [!\r]\n to \r\n */
@@ -371,7 +369,7 @@ int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
       }
       prev = curr;
     }
- 
+
     /* allocate memory for a new string */
     if ((newStr = (char*)malloc((len+cnt+1)* sizeof(char))) == NULL) {
       fprintf(stderr,"%s: memory allocation error\n", name);

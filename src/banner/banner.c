@@ -22,9 +22,7 @@
 
 #include "common.h"
 
-static const char versionID[] = 
-    "1.0";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -225,7 +223,7 @@ static const char * getVersion()
 
 static void printTopDescription(FILE * f, char * name)
 {
-  fprintf(f, "%s version %s\n", name, getVersion());
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
   fprintf(f, "  Prints a string enlarged as a banner on the screen.\n\n");
 }
 
@@ -275,5 +273,5 @@ static void license(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-}  
+}
 

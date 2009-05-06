@@ -1,5 +1,5 @@
 /**
- * conv.exe '\n' convertor 0.1.3
+ * conv.c '\n' convertor
  *   based on hd2c 0.5.12 by Peter Hanecak (made 17.1.2001)
  *     Copyright 1997,.. by Peter Hanecak <hanecak@megaloman.com>.
  *     All rights reserved.
@@ -32,9 +32,7 @@
 
 #include "common.h"
 
-static const char versionID[] = 
-    "0.1.3";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
@@ -270,13 +268,13 @@ static int basename(char* p, const char* s)
    char* s1;
    s1 = strdup(s);
    // first, replace all \  with /
-   while (start = strchr(s1, '\\')) 
+   while (start = strchr(s1, '\\'))
      *start = '/';
    // then, locate the final /
    start = strrchr(s1, '/');
    if (!start)
      start = s1;
-   else 
+   else
      start++;   // if s ends with /, then this points to '\0'
    end = &s1[strlen(s1)];  // this points to '\0'
 
@@ -302,18 +300,18 @@ static void printTopDescription(FILE * f, char * name)
 {
   if( ( strcasecmp(name, UNIX2DOS_NAME_S) == 0 ) ||
       ( strcasecmp(name, UNIX2DOS_NAME_L) == 0 ) ) {
-    fprintf(f, "%s version %s\n", name, getVersion());
+    fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
     fprintf(f, "  converts the line endings of text files from\n");
     fprintf(f, "  UNIX style (0x0a) to DOS style (0x0d 0x0a)\n\n");
   }
   else if ( ( strcasecmp(name, DOS2UNIX_NAME_S) == 0 ) ||
             ( strcasecmp(name, DOS2UNIX_NAME_L) == 0 ) ) {
-    fprintf(f, "%s version %s\n", name, getVersion());
+    fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
     fprintf(f, "  converts the line endings of text files from\n");
     fprintf(f, "  DOS style (0x0d 0x0a) to UNIX style (0x0a)\n\n");
   }
   else {
-    fprintf(f, "%s version %s\n", name, getVersion());
+    fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
     fprintf(f, "  converts the line endings of text files to/from\n");
     fprintf(f, "  DOS style (0x0d 0x0a) and UNIX style (0x0a)\n");
     fprintf(f, "  When no conversion options are specified, the input format\n");
@@ -370,7 +368,7 @@ static void license(poptContext optCon, FILE * f, char * name)
   printTopDescription(f, name);
   printLicense(f, name);
 }
-  
+
 //  0 : continue
 //  1 : error, skip to next file
 // <0 : error, exit immediately
@@ -382,7 +380,7 @@ static int exitOnZero(const char *fn, Opt opts,
   // We may be dealing with a binary file 
   // if not using stdin, and not --safe mode, warn and bail
   if ((fn != NULL) && (opts.SafeMode == SM_SAFE)) {
-    snprintf(buf, PATH_MAX*2 - 1, 
+    snprintf(buf, PATH_MAX*2 - 1,
              "\n%s: skipping binary file %s...", opts.progname, fn);
     buf[PATH_MAX*2 - 1] = '\0';
     fputs(buf, stderr);

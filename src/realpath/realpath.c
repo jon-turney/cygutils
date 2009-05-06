@@ -30,8 +30,7 @@
 #define PROGRAM_NAME "realpath"
 #define AUTHORS "Steven Barker"
 
-static const char versionID[] = "0.9";
-/* for future CVS */
+static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
 	"$Id$";
 static const char copyrightID[] =
@@ -150,7 +149,8 @@ static const char * getVersion()
 
 static void printTopDescription(FILE * f, char * name)
 {
-  fprintf(f, "%s version %s, by %s\n", name, getVersion(), AUTHORS);
+  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
+  fprintf(f, "%s was originally authored by %s\n", name, AUTHORS);
   fprintf(f, "  Print PATH with all references to `.', `..', and symlinks resolved.\n\n");
 }
 static void printBottomDescription(FILE * f, char * name)
@@ -200,5 +200,5 @@ static void license(poptContext optCon, FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);
-}  
+}
 
