@@ -25,6 +25,9 @@
 #endif
 #include "common.h"
 
+#include <stdlib.h>
+#include <wchar.h>
+#include <locale.h>
 #include <sys/cygwin.h>
 
 /* The official name of this program (e.g., no `g' prefix).  */
@@ -60,10 +63,12 @@ typedef enum StartFlags {
     SF_WAIT = 1 << 1,
 } StartFlags;
 
-static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, StartFlags startFlags);
-static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, StartFlags startFlags);
+static int cygStart(const char *aPath, const wchar_t *action,
+                    const wchar_t *args, const char *workDir,
+                    int show, StartFlags startFlags);
+static int winStart(const wchar_t *aPath, const wchar_t *action,
+                    const wchar_t *args, const wchar_t *workDir,
+                    int show, StartFlags startFlags);
 static char *startError(int err);
 static const char *getVersion(void);
 static void printTopDescription(FILE *f, char *name);
@@ -73,6 +78,31 @@ static void help(poptContext optCon, FILE *f, char *name);
 static void version(poptContext optCon, FILE *f, char *name);
 static void license(poptContext optCon, FILE *f, char *name);
 
+static size_t mbstowcs_noerr(wchar_t *wcs, const char *mbs, size_t n)
+{
+    size_t wcsLen = mbstowcs(wcs, mbs, n);
+    if (wcsLen == (size_t) -1) {
+        fprintf(stderr, "%s: multibyte to wide string conversion error\n",
+                program_name);
+        exit(1);
+    }
+    return wcsLen;
+}
+
+static wchar_t *mbstowcs_dup(const char *mbs)
+{
+    size_t len = mbstowcs (NULL, mbs, 0);
+    if (len == (size_t) -1) {
+        fprintf(stderr, "%s: multibyte to wide string conversion error\n",
+                program_name);
+        exit(1);
+    }
+    wchar_t *wcs = (wchar_t *) malloc(sizeof(wchar_t) * (len + 1));
+    size_t wcsLen = mbstowcs_noerr(wcs, mbs, len);
+    wcs[wcsLen] = L'\0';
+    return wcs;
+}
+
 int main(int argc, const char **argv)
 {
     poptContext optCon;
@@ -80,14 +110,16 @@ int main(int argc, const char **argv)
     const char **rest;
     int rc;
     int ret;
-    char *action = NULL;
+    wchar_t *action = NULL;
     char *file = NULL;
     size_t argLength;
     const char **tmp;
-    char *args = NULL;
+    wchar_t *args = NULL;
     char *workDir = NULL;
     int show = SW_SHOWNORMAL;
     StartFlags startFlags = SF_NONE;
+
+    setlocale(LC_ALL, "");
 
     /* Action options */
     struct poptOption actionOptionsTable[] = {
@@ -257,7 +289,7 @@ int main(int argc, const char **argv)
             /* Action options */
             case 'a':
                 if (arg = poptGetOptArg(optCon)) {
-                    if ((action = strdup(arg)) == NULL ) {
+                    if ((action = mbstowcs_dup(arg)) == NULL ) {
                         fprintf(stderr, "%s: memory allocation error\n",
                                                                     argv[0]);
                         exit(1);
@@ -265,31 +297,31 @@ int main(int argc, const char **argv)
                 }
                 break;
             case 'o':
-                if ((action = strdup(ACTION_OPEN)) == NULL ) {
+                if ((action = mbstowcs_dup(ACTION_OPEN)) == NULL ) {
                     fprintf(stderr, "%s: memory allocation error\n", argv[0]);
                     exit(1);
                 }
                 break;
             case 'x':
-                if ((action = strdup(ACTION_EXPLORE)) == NULL ) {
+                if ((action = mbstowcs_dup(ACTION_EXPLORE)) == NULL ) {
                     fprintf(stderr, "%s: memory allocation error\n", argv[0]);
                     exit(1);
                 }
                 break;
             case 'e':
-                if ((action = strdup(ACTION_EDIT)) == NULL ) {
+                if ((action = mbstowcs_dup(ACTION_EDIT)) == NULL ) {
                     fprintf(stderr, "%s: memory allocation error\n", argv[0]);
                     exit(1);
                 }
                 break;
             case 'f':
-                if ((action = strdup(ACTION_FIND)) == NULL ) {
+                if ((action = mbstowcs_dup(ACTION_FIND)) == NULL ) {
                     fprintf(stderr, "%s: memory allocation error\n", argv[0]);
                     exit(1);
                 }
                 break;
             case 'p':
-                if ((action = strdup(ACTION_PRINT)) == NULL ) {
+                if ((action = mbstowcs_dup(ACTION_PRINT)) == NULL ) {
                     fprintf(stderr, "%s: memory allocation error\n", argv[0]);
                     exit(1);
                 }
@@ -385,15 +417,19 @@ int main(int argc, const char **argv)
         while (tmp++ && *tmp) {
             argLength += 1 + strlen(*tmp);
         }
-        if ((args = (char *) malloc(argLength+1)) == NULL) {
+        if ((args = (wchar_t *) malloc(sizeof(wchar_t) * (argLength + 1)))
+                                                                  == NULL ) {
             fprintf(stderr, "%s: memory allocation error\n", argv[0]);
             exit(1);
         }
-        strcpy(args, *rest);
+        size_t argOffset = mbstowcs_noerr(args, *rest, argLength);
         while (rest++ && *rest) {
-            strcat(args, " ");
-            strcat(args, *rest);
+            args[argOffset++] = L' ';
+            size_t len = mbstowcs_noerr(args + argOffset, *rest,
+                                        argLength - argOffset);
+            argOffset += len;
         }
+        args[argOffset] = L'\0';
     }
 
     /* Start it! */
@@ -413,54 +449,151 @@ int main(int argc, const char **argv)
     return ret;
 }
 
-/* Start a program, or open a file or URL, using Cygwin POSIX paths */
-static int cygStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, StartFlags startFlags)
+/* ShellExecute*W is TOO SLOW when there is '\\?\' */
+static const wchar_t *skipLocalUNCPart(const wchar_t *path)
 {
-    char winPath[MAX_PATH+1];
-    char winDir[MAX_PATH+1];
+    size_t offset = 0;
+    if (  (wcslen (path) < MAX_PATH + 4)
+       && (!wcsncmp (path, L"\\\\?\\", 4))
+       && (path[5] == L':'))
+        return path + 4;
+    else
+        return path;
+}
+
+/* Start a program, or open a file or URL, using Cygwin POSIX paths */
+static int cygStart(const char *aPath, const wchar_t *action,
+                    const wchar_t *args, const char *workDir,
+                    int show, StartFlags startFlags)
+{
+    wchar_t *winPath = NULL;
+    wchar_t *winDir = NULL;
+    const wchar_t *pWinPath = NULL;
+    const wchar_t *pWinDir = NULL;
+    int rc = 0;
 
     /* Convert file path from POSIX to Windows, unless it looks like a URL */
     if (!strstr(aPath, "://")) {
-        cygwin_conv_to_win32_path(aPath, winPath);
+        ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, aPath, NULL, 0);
+	if (len < 0) {
+            fprintf(stderr,
+                    "%s: error converting path `%s' from cygwin to native format: %s\n",
+                    program_name, aPath, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+
+        winPath = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
+        if (!winPath) {
+            fprintf(stderr, "%s: memory allocation error\n", program_name);
+            rc = 1;
+            goto cleanup;
+        }
+
+        if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, aPath, winPath,
+                              (len + 1) * sizeof (wchar_t)) < 0) {
+            fprintf(stderr,
+                    "%s: error converting path `%s' from cygwin to format: %s\n",
+                    program_name, aPath, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+        pWinPath = skipLocalUNCPart (winPath);
     } else {
-        strncpy(winPath, aPath, MAX_PATH);
+        size_t len = mbstowcs (NULL, aPath, 0);
+        if (len == (size_t) -1) {
+            fprintf(stderr, "%s: error converting path `%s' to unicode: %s\n",
+                    program_name, aPath, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+
+        winPath = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
+        if (!winPath) {
+            fprintf(stderr, "%s: memory allocation error\n", program_name);
+            rc = 1;
+            goto cleanup;
+        }
+
+        if (mbstowcs (winPath, aPath, (len + 1) * sizeof (wchar_t)) == (size_t) -1) {
+            fprintf(stderr, "%s: error converting path `%s' to unicode: %s\n",
+                    program_name, aPath, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+
+        winPath[len] = L'\0';
+        pWinPath = winPath;
     }
 
     /* Convert working directory, if any, from POSIX to Windows */
     if (workDir) {
-        cygwin_conv_to_win32_path(workDir, winDir);
-        return winStart(winPath, action, args, winDir, show, startFlags);
+        ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, workDir, NULL, 0);
+	if (len < 0) {
+            fprintf(stderr,
+                    "%s: error converting path `%s' from cygwin to native format: %s\n",
+                    program_name, workDir, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+
+        winDir = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
+        if (!winDir) {
+            fprintf(stderr, "%s: memory allocation error\n", program_name);
+            rc = 1;
+            goto cleanup;
+        }
+
+        if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, workDir, winDir,
+                              (len + 1) * sizeof (wchar_t)) < 0) {
+            fprintf(stderr,
+                    "%s: error converting path `%s' from cygwin to native format: %s\n",
+                    program_name, workDir, strerror (errno));
+            rc = 1;
+            goto cleanup;
+        }
+
+        pWinDir = skipLocalUNCPart (winDir);
+        rc = winStart (pWinPath, action, args, pWinDir, show, startFlags);
     } else {
-        return winStart(winPath, action, args, NULL, show, startFlags);
+        rc = winStart (pWinPath, action, args, NULL, show, startFlags);
     }
+
+cleanup:
+    if (winDir)
+        free (winDir);
+    if (winPath)
+        free (winPath);
+
+    return rc;
 }
 
 static void printLastError(FILE* file);
 
 /* Start a program, or open a file or URL, using Windows paths */
-static int winStart(const char *aPath, const char *action, const char *args,
-                    const char *workDir, int show, StartFlags startFlags)
+static int winStart(const wchar_t *aPath, const wchar_t *action,
+                    const wchar_t *args, const wchar_t *workDir,
+                    int show, StartFlags startFlags)
 {
     /* Need to sync the Windows environment */
     cygwin_internal(CW_SYNC_WINENV);
 
     if (startFlags & SF_VERBOSE) {
-        printf("ShellExecute(NULL, \"%s\", \"%s\", \"%s\", \"%s\", %d)\n",
+        wprintf(L"ShellExecute(NULL, \"%ls\", \"%ls\", \"%ls\", \"%ls\", %d)\n",
                action, aPath, args, workDir, show);
     }
 
     if (!(startFlags & SF_WAIT)) {
-        int ret = (int) ShellExecute(NULL, action, aPath, args, workDir, show);
+        int ret = (int) ShellExecuteW(NULL, action, aPath, args, workDir, show);
 
         if (ret >= 32) {
             return 0;
         } else {
-            fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError(ret));
+            fwprintf(stderr, L"Unable to start '%ls': %s\n", aPath, startError(ret));
             return 1;
         }
     } else {
-        SHELLEXECUTEINFO sei;
+        SHELLEXECUTEINFOW sei;
 
         memset(&sei, 0, sizeof(sei));
         sei.cbSize = sizeof(sei);
@@ -471,12 +604,12 @@ static int winStart(const char *aPath, const char *action, const char *args,
         sei.nShow = show;
         sei.fMask |= SEE_MASK_NOCLOSEPROCESS | SEE_MASK_FLAG_NO_UI;
 
-        if (!ShellExecuteEx(&sei)) {
+        if (!ShellExecuteExW(&sei)) {
             if (((int) sei.hInstApp) < 32) {
-                fprintf(stderr, "Unable to start '%s': %s\n", aPath, startError((int) sei.hInstApp));
+                fwprintf(stderr, L"Unable to start '%ls': %s\n", aPath, startError((int) sei.hInstApp));
                 return 1;
             } else {
-                fprintf(stderr, "Unable to start '%s': ", aPath);
+                fwprintf(stderr, L"Unable to start '%ls': ", aPath);
                 printLastError(stderr);
                 fprintf(stderr, "\n");
                 return 1;

@@ -1,3 +1,9 @@
+1.4.0
+  Add support to cygstart for filenames with UTF/wide chars.
+  (IWAMURO Motonori).
+
+^^ Begin cygwin-1.7-specific development ^^ 
+
 1.3.4
   Fix installation bug, exposed by new libtool's modified
   behavior (reported by Jerry Hedden and David Rothenberger)

@@ -1,3 +1,19 @@
+2009-05-05  IWAMURO Motonori  <deenheart@gmail.com>
+	    Corinna Vinschen  <corinna@vinschen.de>
+
+	Support UTF pathnames in cygstart
+	* src/cygstart/cygstart.c (mbstowcs_noerr): New.
+	(mbstowcs_dup): New.
+	(main): Changed *action and *args to wchar_t*.
+	Transcode and dup from argv, rather than strdup.
+	When constructing args, use appropriate wide
+	constants and transoding operations.
+	(skipLocalUNCPart): New.
+	(cygStart): Rewrite to handle wchar_t and new
+	cygwin-1.7 path conversion functions.
+	(winStart): Use ShellExecute[Ex]W, wprintf, and L""
+	throughout.
+
 2009-05-05  Charles Wilson  <cwilson@...>
 
 	Branch for 1.3.x (cygwin-1.5 only)
