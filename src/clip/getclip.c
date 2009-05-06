@@ -24,7 +24,7 @@
  */
 
 #if HAVE_CONFIG_H
-#  include "config.h"
+# include "config.h"
 #endif
 
 #include "common.h"
@@ -37,377 +37,440 @@
 
 static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
-    "$Id$";
+  "$Id$";
 static const char copyrightID[] =
-    "Copyright (c) 2001,...\nCharles S. Wilson. All rights reserved.\nLicensed under GPL v2.0\n";
+  "Copyright (c) 2001,...\nCharles S. Wilson. All rights reserved.\nLicensed under GPL v2.0\n";
 
 typedef struct
 {
-  int endl_mode; /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
-  int unixflag;  /* indicates that the user specified -u or --unix    */
-  int dosflag;   /* indicates that the user specified -d or --dos     */
-  int noconvflag;/* indicates that the user specified -n or --no-conv */
+  int endl_mode;                /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
+  int unixflag;                 /* indicates that the user specified -u or --unix    */
+  int dosflag;                  /* indicates that the user specified -d or --dos     */
+  int noconvflag;               /* indicates that the user specified -n or --no-conv */
 } flags_struct;
 
-static void printTopDescription(FILE * f, char * name);
-static void printBottomDescription(FILE * f, char * name);
-static const char * getVersion(void);
-static void usage(poptContext optCon, FILE * f, char * name);
-static void help(poptContext optCon, FILE * f, char * name);
-static void version(poptContext optCon, FILE * f, char * name);
-static void license(poptContext optCon, FILE * f, char * name);
-static int getclip(FILE * out, flags_struct flags, FILE * f, char * name);
+static void printTopDescription (FILE * f, char *name);
+static void printBottomDescription (FILE * f, char *name);
+static const char *getVersion (void);
+static void usage (poptContext optCon, FILE * f, char *name);
+static void help (poptContext optCon, FILE * f, char *name);
+static void version (poptContext optCon, FILE * f, char *name);
+static void license (poptContext optCon, FILE * f, char *name);
+static int getclip (FILE * out, flags_struct flags, FILE * f, char *name);
 
-static char * program_name;
- 
-int main(int argc, const char ** argv)
+static char *program_name;
+
+int
+main (int argc, const char **argv)
 {
   poptContext optCon;
-  const char ** rest;
+  const char **rest;
   int rc;
   int ec = 0;
   flags_struct flags = { ENDLMODE_NOCONV, FALSE, FALSE, FALSE };
 
   struct poptOption generalOptionsTable[] = {
-    { "dos",  'd',  POPT_ARG_NONE, NULL, 'd', \
-        "Output text will have DOS line endings.", NULL},
-    { "unix", 'u', POPT_ARG_NONE, NULL, 'U', \
-        "Output text will have UNIX line endings.", NULL},
-    { "no-conv", 'n', POPT_ARG_NONE, NULL, 'n', \
-        "Do not translate line endings.", NULL},
-    { NULL, '\0', 0, NULL, 0, NULL, NULL }
+    {"dos", 'd', POPT_ARG_NONE, NULL, 'd',
+     "Output text will have DOS line endings.", NULL},
+    {"unix", 'u', POPT_ARG_NONE, NULL, 'U',
+     "Output text will have UNIX line endings.", NULL},
+    {"no-conv", 'n', POPT_ARG_NONE, NULL, 'n',
+     "Do not translate line endings.", NULL},
+    {NULL, '\0', 0, NULL, 0, NULL, NULL}
   };
 
   struct poptOption helpOptionsTable[] = {
-    { "help",  '?',  POPT_ARG_NONE, NULL, '?', \
-        "Show this help message", NULL},
-    { "usage", '\0', POPT_ARG_NONE, NULL, 'u', \
-        "Display brief usage message", NULL},
-    { "version", '\0', POPT_ARG_NONE, NULL, 'v', \
-        "Display version information", NULL},
-    { "license", '\0', POPT_ARG_NONE, NULL, 'l', \
-        "Display licensing information", NULL},
-    { NULL, '\0', 0, NULL, 0, NULL, NULL }
+    {"help", '?', POPT_ARG_NONE, NULL, '?',
+     "Show this help message", NULL},
+    {"usage", '\0', POPT_ARG_NONE, NULL, 'u',
+     "Display brief usage message", NULL},
+    {"version", '\0', POPT_ARG_NONE, NULL, 'v',
+     "Display version information", NULL},
+    {"license", '\0', POPT_ARG_NONE, NULL, 'l',
+     "Display licensing information", NULL},
+    {NULL, '\0', 0, NULL, 0, NULL, NULL}
   };
 
   struct poptOption opt[] = {
-    { NULL, '\0', POPT_ARG_INCLUDE_TABLE, generalOptionsTable, 0, \
-        "General options", NULL },
-    { NULL, '\0', POPT_ARG_INCLUDE_TABLE, helpOptionsTable, 0, \
-        "Help options", NULL },
-    { NULL, '\0', 0, NULL, 0, NULL, NULL }
+    {NULL, '\0', POPT_ARG_INCLUDE_TABLE, generalOptionsTable, 0,
+     "General options", NULL},
+    {NULL, '\0', POPT_ARG_INCLUDE_TABLE, helpOptionsTable, 0,
+     "Help options", NULL},
+    {NULL, '\0', 0, NULL, 0, NULL, NULL}
   };
 
-  if( (program_name = strdup(argv[0])) == NULL ) {
-    fprintf(stderr, "%s: memory allocation error\n", argv[0]);
-    exit(1);
-  }
-  optCon = poptGetContext(NULL, argc, argv, opt, 0);
-
-  while ((rc = poptGetNextOpt(optCon)) > 0) {
-    switch (rc) {
-      case '?':  help(optCon, stderr, program_name);
-                 goto exit;
-      case 'u':  usage(optCon, stderr, program_name);
-                 goto exit;
-      case 'v':  version(optCon, stderr, program_name);
-                 goto exit;
-      case 'l':  license(optCon, stderr, program_name);
-                 goto exit;
-      case 'd':  flags.dosflag = TRUE;
-                 flags.endl_mode = ENDLMODE_DOS;
-                 break;
-      case 'U':  flags.unixflag = TRUE;
-                 flags.endl_mode = ENDLMODE_UNIX;
-                 break;
-      case 'n':  flags.noconvflag = TRUE;
-                 flags.endl_mode = ENDLMODE_NOCONV;
-                 break;
+  if ((program_name = strdup (argv[0])) == NULL)
+    {
+      fprintf (stderr, "%s: memory allocation error\n", argv[0]);
+      exit (1);
     }
-  }
-  if (rc < -1 ) {
-    fprintf(stderr, "%s: bad argument %s: %s\n",
-      program_name, poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
-      poptStrerror(rc));
-    ec = 2;
-    goto exit;
-  }
-  if (flags.dosflag && flags.unixflag) {
-    fprintf(stderr, "%s: can't specify both --unix and --dos (-u and -d)\n", program_name);
-    ec = 2;
-    goto exit;
-  }
-  if (flags.dosflag && flags.noconvflag) {
-    fprintf(stderr, "%s: can't specify both --dos  and --no-conv (-d and -n)\n", program_name);
-    ec = 2;
-    goto exit;
-  }
-  if (flags.unixflag && flags.noconvflag) {
-    fprintf(stderr, "%s: can't specify both --unix  and --no-conv (-u and -n)\n", program_name);
-    ec = 2;
-    goto exit;
-  }
-  if (flags.unixflag && (sizeof(char) != 1)) {
-    fprintf(stderr, "%s: the --unix flag will not work on wide-character systems\n", program_name);
-    ec = 2;
-    goto exit;
-  }
-  rest = poptGetArgs(optCon);
+  optCon = poptGetContext (NULL, argc, argv, opt, 0);
+
+  while ((rc = poptGetNextOpt (optCon)) > 0)
+    {
+      switch (rc)
+        {
+        case '?':
+          help (optCon, stderr, program_name);
+          goto exit;
+        case 'u':
+          usage (optCon, stderr, program_name);
+          goto exit;
+        case 'v':
+          version (optCon, stderr, program_name);
+          goto exit;
+        case 'l':
+          license (optCon, stderr, program_name);
+          goto exit;
+        case 'd':
+          flags.dosflag = TRUE;
+          flags.endl_mode = ENDLMODE_DOS;
+          break;
+        case 'U':
+          flags.unixflag = TRUE;
+          flags.endl_mode = ENDLMODE_UNIX;
+          break;
+        case 'n':
+          flags.noconvflag = TRUE;
+          flags.endl_mode = ENDLMODE_NOCONV;
+          break;
+        }
+    }
+  if (rc < -1)
+    {
+      fprintf (stderr, "%s: bad argument %s: %s\n",
+               program_name, poptBadOption (optCon, POPT_BADOPTION_NOALIAS),
+               poptStrerror (rc));
+      ec = 2;
+      goto exit;
+    }
+  if (flags.dosflag && flags.unixflag)
+    {
+      fprintf (stderr,
+               "%s: can't specify both --unix and --dos (-u and -d)\n",
+               program_name);
+      ec = 2;
+      goto exit;
+    }
+  if (flags.dosflag && flags.noconvflag)
+    {
+      fprintf (stderr,
+               "%s: can't specify both --dos  and --no-conv (-d and -n)\n",
+               program_name);
+      ec = 2;
+      goto exit;
+    }
+  if (flags.unixflag && flags.noconvflag)
+    {
+      fprintf (stderr,
+               "%s: can't specify both --unix  and --no-conv (-u and -n)\n",
+               program_name);
+      ec = 2;
+      goto exit;
+    }
+  if (flags.unixflag && (sizeof (char) != 1))
+    {
+      fprintf (stderr,
+               "%s: the --unix flag will not work on wide-character systems\n",
+               program_name);
+      ec = 2;
+      goto exit;
+    }
+  rest = poptGetArgs (optCon);
   if (rest == NULL)
-    ec |= getclip(stdout, flags, stderr, program_name);
-  else {
-    fprintf(stderr, "Extra args ignored: ");
-    while (*rest) 
-      fprintf(stderr, "%s ", *rest++);
-    fprintf(stderr, "\n");
-    ec |= getclip(stdout, flags, stderr, program_name);
-  }
+    ec |= getclip (stdout, flags, stderr, program_name);
+  else
+    {
+      fprintf (stderr, "Extra args ignored: ");
+      while (*rest)
+        fprintf (stderr, "%s ", *rest++);
+      fprintf (stderr, "\n");
+      ec |= getclip (stdout, flags, stderr, program_name);
+    }
 
 exit:
-  poptFreeContext(optCon);
-  free(program_name);
-  return(ec);
+  poptFreeContext (optCon);
+  free (program_name);
+  return (ec);
 }
 
-static const char * getVersion()
+static const char *
+getVersion ()
 {
   return versionID;
 }
 
-static void printTopDescription(FILE * f, char * name)
+static void
+printTopDescription (FILE * f, char *name)
 {
-  fprintf(f, "%s is part of cygutils version %s\n", name, getVersion());
-  fprintf(f, "  Copy the Windows Clipboard to stdout\n\n");
+  fprintf (f, "%s is part of cygutils version %s\n", name, getVersion ());
+  fprintf (f, "  Copy the Windows Clipboard to stdout\n\n");
 }
 
-static void printBottomDescription(FILE * f, char * name)
+static void
+printBottomDescription (FILE * f, char *name)
 {
-  fprintf(f, "\nNOTE: by default, no line ending conversion is performed.\n");
+  fprintf (f,
+           "\nNOTE: by default, no line ending conversion is performed.\n");
 }
 
-static printLicense(FILE * f, char * name)
+static
+printLicense (FILE * f, char *name)
 {
-  fprintf(f, "This program is free software; you can redistribute it and/or\n");
-  fprintf(f, "modify it under the terms of the GNU General Public License\n");
-  fprintf(f, "as published by the Free Software Foundation; either version 2\n");
-  fprintf(f, "of the License, or (at your option) any later version.\n");
-  fprintf(f, "\n");
-  fprintf(f, "This program is distributed in the hope that it will be useful,\n");
-  fprintf(f, "but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
-  fprintf(f, "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
-  fprintf(f, "GNU General Public License for more details.\n");
-  fprintf(f, "\n");
-  fprintf(f, "You should have received a copy of the GNU General Public License\n");
-  fprintf(f, "along with this program; if not, write to the Free Software\n");
-  fprintf(f, "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n");
-  fprintf(f, "\n");
-  fprintf(f, "See the COPYING file for license information.\n");
+  fprintf (f,
+           "This program is free software; you can redistribute it and/or\n");
+  fprintf (f,
+           "modify it under the terms of the GNU General Public License\n");
+  fprintf (f,
+           "as published by the Free Software Foundation; either version 2\n");
+  fprintf (f, "of the License, or (at your option) any later version.\n");
+  fprintf (f, "\n");
+  fprintf (f,
+           "This program is distributed in the hope that it will be useful,\n");
+  fprintf (f,
+           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
+  fprintf (f,
+           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
+  fprintf (f, "GNU General Public License for more details.\n");
+  fprintf (f, "\n");
+  fprintf (f,
+           "You should have received a copy of the GNU General Public License\n");
+  fprintf (f,
+           "along with this program; if not, write to the Free Software\n");
+  fprintf (f,
+           "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n");
+  fprintf (f, "\n");
+  fprintf (f, "See the COPYING file for license information.\n");
 }
 
-static void usage(poptContext optCon, FILE * f, char * name)
+static void
+usage (poptContext optCon, FILE * f, char *name)
 {
-  poptPrintUsage(optCon, f, 0);
+  poptPrintUsage (optCon, f, 0);
 }
 
-static void help(poptContext optCon, FILE * f, char * name)
+static void
+help (poptContext optCon, FILE * f, char *name)
 {
-  printTopDescription(f, name);
-  poptPrintHelp(optCon, f, 0);
-  printBottomDescription(f, name);
+  printTopDescription (f, name);
+  poptPrintHelp (optCon, f, 0);
+  printBottomDescription (f, name);
 }
 
-static void version(poptContext optCon, FILE * f, char * name)
+static void
+version (poptContext optCon, FILE * f, char *name)
 {
-  printTopDescription(f, name);
+  printTopDescription (f, name);
 }
 
-static void license(poptContext optCon, FILE * f, char * name)
+static void
+license (poptContext optCon, FILE * f, char *name)
 {
-  printTopDescription(f, name);
-  printLicense(f, name);
+  printTopDescription (f, name);
+  printLicense (f, name);
 }
 
-int getclip(FILE * out, flags_struct flags, FILE * f, char * name)
+int
+getclip (FILE * out, flags_struct flags, FILE * f, char *name)
 {
   HGLOBAL hglb;
-  char *buf    = NULL;
-  size_t len   = 0;
+  char *buf = NULL;
+  size_t len = 0;
   char *newStr = NULL;
   int origMode;
 
-  origMode = setmode(fileno(out), O_BINARY);
+  origMode = setmode (fileno (out), O_BINARY);
 
 
   if (flags.endl_mode == ENDLMODE_NOCONV)
-  {
-    const char* CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
-    UINT cygnativeformat;
-    UINT formatlist[2];
-    UINT format;
-
-    OpenClipboard(NULL);
-    cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
-
-    formatlist[0] = cygnativeformat;
-    formatlist[1] = CF_TEXT;
-
-    if ((format = GetPriorityClipboardFormat(formatlist, 2)) <= 0)
     {
-      CloseClipboard();
-      return(0);
+      const char *CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
+      UINT cygnativeformat;
+      UINT formatlist[2];
+      UINT format;
+
+      OpenClipboard (NULL);
+      cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
+
+      formatlist[0] = cygnativeformat;
+      formatlist[1] = CF_TEXT;
+
+      if ((format = GetPriorityClipboardFormat (formatlist, 2)) <= 0)
+        {
+          CloseClipboard ();
+          return (0);
+        }
+
+      hglb = GetClipboardData (format);
+
+      if (format == cygnativeformat)
+        {
+          unsigned char *nativebuf = (unsigned char *) GlobalLock (hglb);
+          if (nativebuf)
+            {
+              size_t buflen = (*(size_t *) nativebuf);
+              buf = nativebuf + sizeof (size_t);
+              len = buflen;
+
+              fwrite (buf, sizeof (unsigned char), len, out);
+              GlobalUnlock (hglb);
+            }
+        }
+      else
+        {
+          LPSTR lpstr = (LPSTR) GlobalLock (hglb);
+          if (lpstr)
+            {
+              size_t lplen = strlen (lpstr);
+              buf = lpstr;
+              len = lplen;
+
+              fwrite (buf, sizeof (unsigned char), len, out);
+              GlobalUnlock (hglb);
+            }
+        }
+      CloseClipboard ();
     }
 
-    hglb = GetClipboardData(format);
-
-    if (format == cygnativeformat)
+  if (flags.endl_mode == ENDLMODE_UNIX)
     {
-      unsigned char *nativebuf = (unsigned char *) GlobalLock (hglb);
-      if (nativebuf)
-      {
-        size_t buflen = (*(size_t *) nativebuf);
-        buf = nativebuf + sizeof(size_t);
-        len = buflen;
+      /* remove the '\r' of any '\r\n' pair */
+      int i, cnt;
+      LPSTR lpstr;
+      int lplen;
+      char *prev;
+      char *curr;
+      char *pos;
 
-        fwrite(buf, sizeof(unsigned char), len, out);
-        GlobalUnlock(hglb);
-      }
+      OpenClipboard (0);
+      hglb = GetClipboardData (CF_TEXT);
+      lpstr = GlobalLock (hglb);
+      lplen = strlen (lpstr);
+
+      buf = lpstr;
+      len = lplen;
+
+      /* get some memory for the new string */
+      if ((newStr = (char *) malloc ((len + 1) * sizeof (char))) == NULL)
+        {
+          fprintf (f, "%s: memory allocation error\n", name);
+          return 1;
+        }
+
+      cnt = 0;                  /* how many '\r' have been dropped */
+      pos = newStr;             /* the current position in the new string */
+      prev = buf;
+      curr = buf;
+      for (i = 1; i < len; i++)
+        {
+          ++curr;
+          if ((*prev == '\r') && (*curr == '\n'))
+            {
+              ++cnt;
+            }
+          else
+            {
+              *pos++ = *prev;
+            }
+          prev = curr;
+        }
+      /* always copy the last char -- it can't be the '\r' of a '\r\n' pair */
+      *pos++ = *prev;
+      *pos = '\0';
+      len -= cnt;
+
+      /* not len+1 because we don't want to write the final '\0' */
+      fwrite (newStr, sizeof (char), len, out);
+      free (newStr);
+
+      GlobalUnlock (hglb);
+      CloseClipboard ();
     }
-    else
+
+  if (flags.endl_mode == ENDLMODE_DOS)
     {
-      LPSTR lpstr = (LPSTR) GlobalLock (hglb);
-      if (lpstr)
-      {
-        size_t lplen = strlen(lpstr); 
-        buf = lpstr;
-        len = lplen;
+      /* change all instances of [!\r]\n to \r\n */
+      int i, cnt;
+      LPSTR lpstr;
+      int lplen;
+      char *newStr = NULL;
+      char *prev;
+      char *curr;
+      char *pos;
 
-        fwrite(buf, sizeof(unsigned char), len, out);
-        GlobalUnlock(hglb);
-      }
+      OpenClipboard (0);
+      hglb = GetClipboardData (CF_TEXT);
+      lpstr = GlobalLock (hglb);
+      lplen = strlen (lpstr);
+
+      buf = lpstr;
+      len = lplen;
+
+      /* count the instances [!\r]\n */
+      cnt = 0;
+      prev = buf;
+      curr = buf;
+      if (buf[0] == '\n')
+        {
+          cnt++;
+        }
+      for (i = 1; i < len; i++)
+        {
+          ++curr;
+          if ((*curr == '\n') && (*prev != '\r'))
+            {
+              cnt++;
+            }
+          prev = curr;
+        }
+
+      /* allocate memory for a new string */
+      if ((newStr =
+           (char *) malloc ((len + cnt + 1) * sizeof (char))) == NULL)
+        {
+          fprintf (stderr, "%s: memory allocation error\n", name);
+          return 1;
+        }
+
+      /* do the search and replace */
+      pos = newStr;
+      prev = buf;
+      curr = buf;
+      if (buf[0] == '\n')
+        {
+          *pos++ = '\r';
+          *pos++ = '\n';
+        }
+      else
+        {
+          *pos++ = buf[0];
+        }
+      for (i = 1; i < len; i++)
+        {
+          ++curr;
+          if ((*curr == '\n') && (*prev != '\r'))
+            {
+              *pos++ = '\r';
+              *pos++ = '\n';
+            }
+          else
+            {
+              *pos++ = *curr;
+            }
+          prev = curr;
+        }
+      len += cnt;
+      *pos = '\0';
+
+      /* not len+1 because we don't want to write the final '\0' */
+      fwrite (newStr, sizeof (char), len, out);
+      free (newStr);
+
+      GlobalUnlock (hglb);
+      CloseClipboard ();
     }
-    CloseClipboard();
-  }
-
-  if (flags.endl_mode == ENDLMODE_UNIX )
-  {
-    /* remove the '\r' of any '\r\n' pair */
-    int i, cnt;
-    LPSTR lpstr;
-    int lplen;
-    char* prev;
-    char* curr;
-    char* pos;
-
-    OpenClipboard(0);
-    hglb = GetClipboardData(CF_TEXT);
-    lpstr = GlobalLock(hglb);
-    lplen = strlen(lpstr);
-
-    buf = lpstr;
-    len = lplen;
-
-    /* get some memory for the new string */
-    if ((newStr = (char*)malloc((len+1)* sizeof(char))) == NULL) {
-      fprintf(f,"%s: memory allocation error\n", name);
-      return 1;
-    }
-
-    cnt = 0;      /* how many '\r' have been dropped */
-    pos = newStr; /* the current position in the new string */
-    prev = buf;
-    curr = buf;
-    for (i = 1; i < len; i++) {
-      ++curr;
-      if ((*prev == '\r') && (*curr == '\n')) {
-        ++cnt;
-      } else {
-        *pos++ = *prev;
-      }
-      prev = curr;
-    }
-    /* always copy the last char -- it can't be the '\r' of a '\r\n' pair */
-    *pos++ = *prev;
-    *pos = '\0';
-    len -= cnt;
-
-    /* not len+1 because we don't want to write the final '\0' */
-    fwrite(newStr, sizeof(char), len, out);
-    free(newStr);
-
-    GlobalUnlock(hglb);
-    CloseClipboard();
-  }
-
-  if (flags.endl_mode == ENDLMODE_DOS )
-  {
-    /* change all instances of [!\r]\n to \r\n */
-    int i, cnt;
-    LPSTR lpstr;
-    int lplen;
-    char *newStr = NULL;
-    char* prev;
-    char* curr;
-    char* pos;
-
-    OpenClipboard(0);
-    hglb = GetClipboardData(CF_TEXT);
-    lpstr = GlobalLock(hglb);
-    lplen = strlen(lpstr);
-
-    buf = lpstr;
-    len = lplen;
-
-    /* count the instances [!\r]\n */
-    cnt = 0;
-    prev = buf;
-    curr = buf;
-    if (buf[0] == '\n') { cnt++; }
-    for (i = 1; i < len; i++) {
-      ++curr;
-      if ((*curr == '\n') && (*prev != '\r')) {
-        cnt++;
-      }
-      prev = curr;
-    }
-
-    /* allocate memory for a new string */
-    if ((newStr = (char*)malloc((len+cnt+1)* sizeof(char))) == NULL) {
-      fprintf(stderr,"%s: memory allocation error\n", name);
-      return 1;
-    }
-
-    /* do the search and replace */
-    pos = newStr;
-    prev = buf;
-    curr = buf;
-    if (buf[0] == '\n') {
-      *pos++ = '\r';
-      *pos++ = '\n';
-    } else {
-      *pos++ = buf[0];
-    }
-    for (i = 1; i < len; i++) {
-      ++curr;
-      if ((*curr == '\n') && (*prev != '\r')) {
-        *pos++ = '\r';
-        *pos++ = '\n';
-      } else {
-        *pos++ = *curr;
-      }
-      prev = curr;
-    }
-    len += cnt;
-    *pos = '\0';
-
-    /* not len+1 because we don't want to write the final '\0' */
-    fwrite(newStr, sizeof(char), len, out);
-    free(newStr);
-
-    GlobalUnlock(hglb);
-    CloseClipboard();
-  }
 
   /* reset the mode of the output channel (in case it's stdout or stderr) */
-  setmode(fileno(out), origMode);
-  return(0);
+  setmode (fileno (out), origMode);
+  return (0);
 }

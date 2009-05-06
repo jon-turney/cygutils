@@ -1,4 +1,4 @@
-/* 
+/*
  * lpr for cygwin/windows
  *
  * Copyright (C) 2000-2003 Rick Rankin
@@ -32,56 +32,42 @@
 
 #include "src/lpr/PrinterException.hh"
 
-using namespace std;
-
 class Printer
 {
 public:
-  Printer(const string &name, bool debugFlag)
-    throw(PrinterException);
+  Printer(const std::string &name, bool debugFlag) throw(PrinterException);
   ~Printer();
 
   void close();
-  void endDoc()
-    throw(PrinterException);
-  void endPage()
-    throw(PrinterException);
-  void flush()
-    throw(PrinterException);
+  void endDoc() throw(PrinterException);
+  void endPage() throw(PrinterException);
+  void flush() throw(PrinterException);
   bool getRawFlag() const;
-  void print(istream & in, const string & docName)
-    throw(PrinterException);
-  void put(unsigned char ch)
-    throw(PrinterException);
+  void print(istream & in, const std::string & docName) throw(PrinterException);
+  void put(unsigned char ch) throw(PrinterException);
   void setRawFlag(bool flag);
-  void startDoc(const string & docName)
-    throw(PrinterException);
-  void startPage()
-    throw(PrinterException);
-  void write(unsigned char *buf, unsigned int size)
-    throw(PrinterException);
-  
+  void startDoc(const std::string & docName) throw(PrinterException);
+  void startPage() throw(PrinterException);
+  void write(unsigned char *buf, unsigned int size) throw(PrinterException);
+
 private:
 
-  typedef vector<PRINTER_INFO_5> PrinterList;
-  
+  typedef std::vector<PRINTER_INFO_5> PrinterList;
+
   // Don't want copy construction or assignment.
   Printer(const Printer & rhs);
   Printer & operator = (const Printer & rhs);
-  
+
   // Enumerate the existing printers.
-  PrinterList enumPrinters(DWORD flags, LPTSTR name)
-    throw(PrinterException);
-  
+  PrinterList enumPrinters(DWORD flags, LPTSTR name) throw(PrinterException);
+
   // Map a port name (lpt1, etc) to a device name.
-  void mapPortName()
-    throw(PrinterException);
+  void mapPortName() throw(PrinterException);
 
   // Open the printer if it's not already open.
-  void open()
-    throw(PrinterException);
-  
-  string          m_devName;
+  void open() throw(PrinterException);
+
+  std::string     m_devName;
   bool            m_debugFlag;
   HANDLE          m_devHandle;
   DEVMODE *       m_devMode;

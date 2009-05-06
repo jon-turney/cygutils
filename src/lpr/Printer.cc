@@ -1,4 +1,4 @@
-/* 
+/*
  * lpr for cygwin/windows
  *
  * Copyright (C) 2000-2003 Rick Rankin
@@ -20,15 +20,15 @@
 
 #include "src/lpr/Printer.hh"
 #include "src/lpr/Win32Utils.hh"
+using namespace std;
 
 inline LPTSTR tstr(const string & str)
 {
   return const_cast<char*>(str.c_str());
 }
 
-Printer::Printer(const string &name, bool debugFlag)
-  throw(PrinterException)
-  : m_devName(name),
+Printer::Printer(const string &name, bool debugFlag) throw(PrinterException)
+    : m_devName(name),
     m_debugFlag(debugFlag),
     m_devHandle(INVALID_HANDLE_VALUE),
     m_devMode(0),
@@ -41,14 +41,14 @@ Printer::Printer(const string &name, bool debugFlag)
   mapPortName();
 
   open();
-  
+
   // Initialize the DEVMODE structure
   // Get the amount of space needed for the buffer.
   DWORD needed = DocumentProperties(NULL, m_devHandle, tstr(m_devName),
                                     NULL, NULL, 0);
 
   m_devMode = reinterpret_cast<DEVMODE *>(new unsigned char[needed]);
-  
+
   // Get the default DEVMODE for the printer.
   DWORD ret = DocumentProperties(NULL, m_devHandle, tstr(m_devName),
                                  m_devMode, NULL, DM_OUT_BUFFER);
@@ -73,22 +73,20 @@ Printer::~Printer()
 void Printer::close()
 {
   if (m_devHandle != INVALID_HANDLE_VALUE)
-  {
-    ClosePrinter(m_devHandle);
-    m_devHandle = INVALID_HANDLE_VALUE;
-  }
+    {
+      ClosePrinter(m_devHandle);
+      m_devHandle = INVALID_HANDLE_VALUE;
+    }
 }
 
-void Printer::endDoc()
-  throw(PrinterException)
+void Printer::endDoc() throw(PrinterException)
 {
   if (!EndDocPrinter(m_devHandle))
     throw PrinterException("EndDocPrinter error: " +
                            Win32Utils::getErrorMessage());
 }
 
-void Printer::endPage()
-  throw(PrinterException)
+void Printer::endPage() throw(PrinterException)
 {
   cout << "Printer::endPage()" << endl;
   if (!EndPagePrinter(m_devHandle))
@@ -96,14 +94,13 @@ void Printer::endPage()
                            Win32Utils::getErrorMessage());
 }
 
-void Printer::flush(void)
-  throw(PrinterException)
+void Printer::flush(void) throw(PrinterException)
 {
   if (m_bufferIndex > 0)
-  {
-    write(m_buffer, m_bufferIndex);
-    m_bufferIndex = 0;
-  }
+    {
+      write(m_buffer, m_bufferIndex);
+      m_bufferIndex = 0;
+    }
 }
 
 bool Printer::getRawFlag() const
@@ -111,26 +108,24 @@ bool Printer::getRawFlag() const
   return m_rawFlag;
 }
 
-void Printer::print(istream & in, const string & docName)
-  throw(PrinterException)
+void Printer::print(istream & in, const string & docName) throw(PrinterException)
 {
   startDoc(docName);
 
   char ch;
   char lastCh = '\0';
   while (in.get(ch))
-  {
-    if (!m_rawFlag && ch == '\n' && lastCh != '\r')
-      put('\r');
-    put(ch);
-    lastCh = ch;
-  }
+    {
+      if (!m_rawFlag && ch == '\n' && lastCh != '\r')
+        put('\r');
+      put(ch);
+      lastCh = ch;
+    }
   flush();
   endDoc();
 }
 
-void Printer::put(unsigned char ch)
-  throw(PrinterException)
+void Printer::put(unsigned char ch) throw(PrinterException)
 {
   if (m_bufferIndex == m_bufferSize)
     flush();
@@ -142,24 +137,22 @@ void Printer::setRawFlag(bool flag)
   m_rawFlag = flag;
 }
 
-void Printer::startDoc(const string & docName)
-  throw(PrinterException)
+void Printer::startDoc(const string & docName) throw(PrinterException)
 {
   DOC_INFO_1    di1;
-  
+
   open();
-  
+
   di1.pDocName = tstr(docName);
   di1.pOutputFile = 0;
   di1.pDatatype = "RAW";
-  
+
   if (StartDocPrinter(m_devHandle, 1, (LPBYTE) &di1) == 0)
     throw PrinterException("StartDocPrinter error: " +
                            Win32Utils::getErrorMessage());
 }
 
-void Printer::startPage()
-  throw(PrinterException)
+void Printer::startPage() throw(PrinterException)
 {
   cout << "Printer::startPage()" << endl;
   if (!StartPagePrinter(m_devHandle))
@@ -167,8 +160,7 @@ void Printer::startPage()
                            Win32Utils::getErrorMessage());
 }
 
-void Printer::write(unsigned char *buf, unsigned int size)
-  throw(PrinterException)
+void Printer::write(unsigned char *buf, unsigned int size) throw(PrinterException)
 {
   DWORD written;
   if (!WritePrinter(m_devHandle, buf, size, &written))
@@ -182,8 +174,7 @@ void Printer::write(unsigned char *buf, unsigned int size)
 //
 //***************************************************************************
 
-Printer::PrinterList Printer::enumPrinters(DWORD flags, LPTSTR name)
-  throw(PrinterException)
+Printer::PrinterList Printer::enumPrinters(DWORD flags, LPTSTR name) throw(PrinterException)
 {
   DWORD numPrinters;
   DWORD bytesNeeded;
@@ -198,18 +189,17 @@ Printer::PrinterList Printer::enumPrinters(DWORD flags, LPTSTR name)
 
   PrinterList list;
   for (unsigned int ii = 0; ii < numPrinters; ++ii)
-  {
-    if (m_debugFlag)
-      cerr << "Printer name: '" << pi->pPrinterName << "', "
-           << "Port name: '" << pi->pPortName << "'" << endl;
-    list.push_back(*pi++);
-  }
+    {
+      if (m_debugFlag)
+        cerr << "Printer name: '" << pi->pPrinterName << "', "
+             << "Port name: '" << pi->pPortName << "'" << endl;
+      list.push_back(*pi++);
+    }
 
   return list;
 }
 
-void Printer::mapPortName()
-  throw(PrinterException)
+void Printer::mapPortName() throw(PrinterException)
 {
 
   OSVERSIONINFO osvi;
@@ -228,60 +218,59 @@ void Printer::mapPortName()
 
 
   if (isWindows9x)
-  {
-    PrinterList list = enumPrinters(PRINTER_ENUM_NAME, "");
-    for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
     {
-      if (stricmp(m_devName.c_str(), it->pPortName) == 0)
-      {
-        if (m_debugFlag)
-          cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
-               << "'" << endl;
-        m_devName = it->pPrinterName;
-        return;
-      }
+      PrinterList list = enumPrinters(PRINTER_ENUM_NAME, "");
+      for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
+        {
+          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+            {
+              if (m_debugFlag)
+                cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
+                     << "'" << endl;
+              m_devName = it->pPrinterName;
+              return;
+            }
+        }
     }
-  }      
 
   else if (isWindows2K_NT4)
-  {
-    PrinterList list = enumPrinters(PRINTER_ENUM_LOCAL, 0);
-    for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
     {
-      if (stricmp(m_devName.c_str(), it->pPortName) == 0)
-      {
-        if (m_debugFlag)
-          cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
-               << "'" << endl;
-        m_devName = it->pPrinterName;
-        return;
-      }
+      PrinterList list = enumPrinters(PRINTER_ENUM_LOCAL, 0);
+      for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
+        {
+          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+            {
+              if (m_debugFlag)
+                cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
+                     << "'" << endl;
+              m_devName = it->pPrinterName;
+              return;
+            }
+        }
+
+      list = enumPrinters(PRINTER_ENUM_CONNECTIONS, 0);
+      for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
+        {
+          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+            {
+              if (m_debugFlag)
+                cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
+                     << "'" << endl;
+              m_devName = it->pPrinterName;
+              return;
+            }
+        }
     }
-    
-    list = enumPrinters(PRINTER_ENUM_CONNECTIONS, 0);
-    for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
-    {
-      if (stricmp(m_devName.c_str(), it->pPortName) == 0)
-      {
-        if (m_debugFlag)
-          cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
-               << "'" << endl;
-        m_devName = it->pPrinterName;
-        return;
-      }
-    }
-  }
 }
 
-void Printer::open()
-  throw(PrinterException)
+void Printer::open() throw(PrinterException)
 {
   PRINTER_DEFAULTS prDef;
-  
+
   prDef.pDatatype = "RAW";
   prDef.pDevMode = m_devMode;
   prDef.DesiredAccess = PRINTER_ACCESS_USE;
-  
+
   if (m_devHandle == INVALID_HANDLE_VALUE &&
       !OpenPrinter(tstr(m_devName), &m_devHandle, &prDef))
     throw PrinterException("can't open '" + m_devName + "' for writing: " +

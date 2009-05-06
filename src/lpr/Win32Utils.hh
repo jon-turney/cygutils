@@ -1,4 +1,4 @@
-/* 
+/*
  * lpr for cygwin/windows
  *
  * Copyright (C) 2000-2003 Rick Rankin
@@ -28,13 +28,11 @@
 
 #include <string>
 
-using namespace std;
-
 class Win32Utils
 {
 public:
-  static string getErrorMessage();
-  static string getErrorMessage(DWORD code);
+  static std::string getErrorMessage();
+  static std::string getErrorMessage(DWORD code);
 };
 
 #endif

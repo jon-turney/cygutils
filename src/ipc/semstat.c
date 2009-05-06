@@ -26,86 +26,93 @@
  */
 
 #if HAVE_CONFIG_H
-#  include "config.h"
+# include "config.h"
 #endif
 
 #include "common.h"
 
 #if HAVE_SYS_IPC_H
-#  include <sys/ipc.h>
+# include <sys/ipc.h>
 #endif
 #if HAVE_SYS_SEM_H
-#  include <sys/sem.h>
+# include <sys/sem.h>
 #endif
 
 /* arg for semctl system calls. */
-union semun {
-  int val;			/* value for SETVAL */
-  struct semid_ds *buf;		/* buffer for IPC_STAT & IPC_SET */
-  ushort *array;		/* array for GETALL & SETALL */
-  struct seminfo *__buf;	/* buffer for IPC_INFO */
+union semun
+{
+  int val;                      /* value for SETVAL */
+  struct semid_ds *buf;         /* buffer for IPC_STAT & IPC_SET */
+  ushort *array;                /* array for GETALL & SETALL */
+  struct seminfo *__buf;        /* buffer for IPC_INFO */
   void *__pad;
 };
 
-int get_sem_count(int sid);
-void show_sem_usage(int sid);
-int get_sem_count(int sid);
-void dispval(int sid);
+int get_sem_count (int sid);
+void show_sem_usage (int sid);
+int get_sem_count (int sid);
+void dispval (int sid);
 
-int main(int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
-        key_t key;
-        int   semset_id;
+  key_t key;
+  int semset_id;
 
-        /* Create unique key via call to ftok() */
-        key = ftok(".", 's');
+  /* Create unique key via call to ftok() */
+  key = ftok (".", 's');
 
-        /* Open the semaphore set - do not create! */
-        if((semset_id = semget(key, 1, 0666)) == -1) 
-        {
-                printf("Semaphore set does not exist\n");
-                exit(1);
-        }
+  /* Open the semaphore set - do not create! */
+  if ((semset_id = semget (key, 1, 0666)) == -1)
+    {
+      printf ("Semaphore set does not exist\n");
+      exit (1);
+    }
 
-        show_sem_usage(semset_id); 
-        return(0);
+  show_sem_usage (semset_id);
+  return (0);
 }
 
-void show_sem_usage(int sid)
+void
+show_sem_usage (int sid)
 {
-        int cntr=0, maxsems, semval;
+  int cntr = 0, maxsems, semval;
 
-        maxsems = get_sem_count(sid);
+  maxsems = get_sem_count (sid);
 
-        while(cntr < maxsems) {
-                semval = semctl(sid, cntr, GETVAL, 0);
-                printf("Semaphore #%d:  --> %d\n", cntr, semval);
-                cntr++;
-        }
+  while (cntr < maxsems)
+    {
+      semval = semctl (sid, cntr, GETVAL, 0);
+      printf ("Semaphore #%d:  --> %d\n", cntr, semval);
+      cntr++;
+    }
 }
 
-int get_sem_count(int sid)
+int
+get_sem_count (int sid)
 {
-        int rc;
-        struct semid_ds mysemds;
-        union semun semopts;
+  int rc;
+  struct semid_ds mysemds;
+  union semun semopts;
 
-        /* Get current values for internal data structure */
-        semopts.buf = &mysemds;
+  /* Get current values for internal data structure */
+  semopts.buf = &mysemds;
 
-        if((rc = semctl(sid, 0, IPC_STAT, semopts)) == -1) {
-                perror("semctl");
-                exit(1);
-        }
+  if ((rc = semctl (sid, 0, IPC_STAT, semopts)) == -1)
+    {
+      perror ("semctl");
+      exit (1);
+    }
 
-        /* return number of semaphores in set */
-        return(semopts.buf->sem_nsems);
+  /* return number of semaphores in set */
+  return (semopts.buf->sem_nsems);
 }
 
-void dispval(int sid)
+void
+dispval (int sid)
 {
-        int semval;
+  int semval;
 
-        semval = semctl(sid, 0, GETVAL, 0);
-        printf("semval is %d\n", semval);
+  semval = semctl (sid, 0, GETVAL, 0);
+  printf ("semval is %d\n", semval);
 }

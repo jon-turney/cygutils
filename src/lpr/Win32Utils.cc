@@ -1,4 +1,4 @@
-/* 
+/*
  * lpr for cygwin/windows
  *
  * Copyright (C) 2000-2003 Rick Rankin
@@ -19,6 +19,7 @@
  */
 
 #include "src/lpr/Win32Utils.hh"
+using namespace std;
 
 string Win32Utils::getErrorMessage()
 {

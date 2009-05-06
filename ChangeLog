@@ -1,5 +1,31 @@
 2009-05-06  Charles Wilson  <cwilson@...>
 
+	Make coding style consistent throughout.
+	* ascii/ascii.c: Format using 'indent -gnu
+	-nut -ppi 1'.
+	* banner/banner.c: Ditto.
+	* clip/getclip.c: Ditto.
+	* clip/putclip.c: Ditto.
+	* cygstart/cygstart.c: Ditto.
+	* dump/dump.c: Ditto.
+	* ipc/msgtool.c: Ditto.
+	* ipc/semstat.c: Ditto.
+	* ipc/semtool.c: Ditto.
+	* ipc/shmtool.c: Ditto.
+	* mkshortcut/mkshortcut.c: Ditto.
+	* readshortcut/readshortcut.c: Ditto.
+	* realpath/realpath.c: Ditto.
+	* Printer.hh: Format using 'astyle --style=gnu -c'.
+	Move 'using namespace' from hh to cc.
+	* Printer.cc: Ditto.
+	* Win32Utils.cc: Ditto.
+	* Win32Utils.hh: Ditto.
+	* PrinterException.hh: Format using 'astyle --style=gnu
+	-c'. Removed 'using namespace' statement.
+	* lpr.cc: Format  using 'astyle --style=gnu -c'
+
+2009-05-06  Charles Wilson  <cwilson@...>
+
 	Ensure uniformity for --version option.
 	* src/ascii/ascii.c: Ensure --version output
 	reports package version; harmonize formats.
