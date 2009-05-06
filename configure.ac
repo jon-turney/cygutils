@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.63)
-AC_INIT(cygutils, 1.3.4, cygwin@cygwin.com)
+AC_INIT(cygutils, 1.4.0, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
@@ -16,6 +16,7 @@ AC_SUBST(VERSION_MAJOR)
 AC_SUBST(VERSION_MINOR)
 AC_SUBST(VERSION_PATCH)
 
+AC_CANONICAL_HOST
 
 # Checks for programs.
 AC_PROG_CC
@@ -75,6 +76,9 @@ AC_FUNC_STAT
 AC_FUNC_VPRINTF
 dnl should only exist on windows, I hope
 AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *])
+AC_CHECK_DECLS([cygwin_conv_path], [],dnl
+  [AC_MSG_ERROR([At least cygwin-1.7 is required])],dnl
+  [[#include <sys/cygwin.h>]])
 
 dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)

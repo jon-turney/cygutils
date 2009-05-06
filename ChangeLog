@@ -1,5 +1,15 @@
 2009-05-06  Charles Wilson  <cwilson@...>
 
+	Release 1.4.0
+	* BRANCHES: Document new branch information.
+	* TODO: Add new items.
+	* configure.ac: Check for cygwin_conv_path (which
+	exists only on cygwin-1.7); error if missing.
+	Bump version number.
+	* config.h.in: Regenerate.
+
+2009-05-06  Charles Wilson  <cwilson@...>
+
 	Make coding style consistent throughout.
 	* ascii/ascii.c: Format using 'indent -gnu
 	-nut -ppi 1'.
