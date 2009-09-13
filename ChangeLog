@@ -1,5 +1,11 @@
 2009-09-13  Charles Wilson  <cwilson@...>
 
+	Build and distribution fixes.
+	* Makefile.am: Support silent-rules when building
+	libicons. Don't distributed cygicons.rc.
+
+2009-09-13  Charles Wilson  <cwilson@...>
+
 	Import relevant changes from MinGW and MSYS port
 	* Makefile.am: Specify --major-image-version and
 	--minor-image-version for DLL and EXEs.

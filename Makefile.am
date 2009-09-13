@@ -110,9 +110,11 @@ src_lpr_lpr_SOURCES = \
 	src/lpr/lpr.cc        src/lpr/Printer.hh \
 	src/lpr/Win32Utils.hh src/lpr/PrinterException.hh
 
-src_cygicons_libicons_la_SOURCES = \
-	src/cygicons/cygicons.rc \
+dist_src_cygicons_libicons_la_SOURCES = \
 	src/cygicons/cygicons.h
+nodist_src_cygicons_libicons_la_SOURCES = \
+	src/cygicons/cygicons.rc
+
 src_cygicons_libicons_la_LDFLAGS = -version-info 0:0:0 -no-undefined $(AM_LDFLAGS)
 
 install-exec-hook: $(bin_PROGRAMS)
@@ -154,13 +156,18 @@ uninstall-hook:
 
 # hacks for RC support
 RCFLAGS = -I$(top_builddir)/src/cygicons -I$(top_srcdir)/src/cygicons
+ltrc_verbose = $(ltrc_verbose_$(V))
+ltrc_verbose_ = $(ltrc_verbose_$(AM_DEFAULT_VERBOSITY))
+ltrc_verbose_0 = @echo "  CCRC  " $@;
 
-LTRCCOMPILE = $(LIBTOOL) --mode=compile $(RC) \
-	`echo $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(RCFLAGS) |\
+LTRCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=RC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(RC) \
+	`echo $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_RCFLAGS) $(RCFLAGS) |\
 	sed -e 's/-I/--include-dir /g;s/-D/--define /g'`
 
 .rc.lo:
-	$(LTRCCOMPILE) -i $< -o $@
+	$(ltrc_verbose)$(LTRCCOMPILE) -i $< -o $@
 
 ## Extra dependencies for cygicons.lo
 src/cygicons/cygicons.lo: src/cygicons/cygicons.rc $(cygicons_list) src/cygicons/cygicons.h
