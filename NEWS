@@ -1,3 +1,8 @@
+1.4.1
+  Add --help option to lpr.
+  Build system improvements.
+  Add support for building on MinGW (not yet tested on this branch)
+
 1.4.0
   Add support to cygstart for filenames with UTF/wide chars.
   (IWAMURO Motonori).

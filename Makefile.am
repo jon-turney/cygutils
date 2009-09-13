@@ -2,6 +2,7 @@
 
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
+AM_LDFLAGS = -Wl,--major-image-version=$(VERSION_MAJOR) -Wl,--minor-image-version=$(VERSION_MINOR)
 
 SUBDIRS = po
 DIST_SUBDIRS =
@@ -112,7 +113,7 @@ src_lpr_lpr_SOURCES = \
 src_cygicons_libicons_la_SOURCES = \
 	src/cygicons/cygicons.rc \
 	src/cygicons/cygicons.h
-src_cygicons_libicons_la_LDFLAGS = -version-info 0:0:0 -no-undefined
+src_cygicons_libicons_la_LDFLAGS = -version-info 0:0:0 -no-undefined $(AM_LDFLAGS)
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

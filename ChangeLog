@@ -1,4 +1,31 @@
-2009-05-06  Charles Wilson  <cwilson@...>
+2009-09-13  Charles Wilson  <cwilson@...>
+
+	Import relevant changes from MinGW and MSYS port
+	* Makefile.am: Specify --major-image-version and
+	--minor-image-version for DLL and EXEs.
+	* common.h: Compatibility macros for cygwin-specific
+	functions on MinGW.
+	* configure.ac: Force automake-1.11, enable silent rules.
+	* src/conv/conv.c (convert): Use mkstemp instead of tmpnam
+	(the latter fails horribly on MinGW+Vista).
+	* src/conv/mkstemp.c: New file (ported from an old NetBSD
+	version: svn://svn.debian.org/svn/pkg-discover/discover/trunk/)
+	* src/cygstart/cygstart.c: Guard cygwin.h include, and
+	cygwin-specific function calls.
+	* src/realpath/realpath.c: Guard cygwin.h include.
+	* src/readshortcut/readshortcut.c: Guard cygwin-specific
+	function forward declarations.
+	* src/lpr/lpr.cc: Guard cygwin.h include. Fix typo in help
+	text; extend help and usage text to reflect new options.
+	(usage): Accept errcode instead of always exit(1).
+	(help): New function.
+	(scan_for_help): New function.
+	(main): Add support for -help|--help long options; search
+	first for these and exit early, before allowing getopt().
+	Fix handling of getopt error states.
+	* NEWS: Update.
+
+2009-05-06  Charles Wslson  <cwilson@...>
 
 	Release 1.4.0
 	* BRANCHES: Document new branch information.

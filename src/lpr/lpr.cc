@@ -26,7 +26,9 @@
 #include <fstream>
 #include <string>
 
+#ifdef __CYGWIN__
 #include <sys/cygwin.h>
+#endif
 
 #include "src/lpr/Printer.hh"
 
@@ -48,16 +50,20 @@ string getProgramName(const string & str)
 }
 
 const char * usageMessage =
-  " [-h] [-D] [-d device] [-l] [-P device]\n"
+  " [--help|-help] [-h] [-D] [-d device] [-l] [-P device]\n";
+
+const char * helpMessage =
   "\n"
   "where:\n"
   "\n"
   "  -h        does nothing. Accepted for compatibility.\n"
   "  -d device spools to the specified device.\n"
   "  -D        enable debugging output.\n"
-  "  -l        prevent <LF> -> <CR><LF> processing. By default, standalone"
-  "            <LF> characters are converted to <CR><LF>."
+  "  -l        prevent <LF> -> <CR><LF> processing. By default, standalone\n"
+  "            <LF> characters are converted to <CR><LF>.\n"
   "  -P device spools to the specified device.\n"
+  "  --help    print this message.\n"
+  "  -help     print this message.\n"
   "\n"
   "Notes:\n"
   "\n"
@@ -70,18 +76,41 @@ const char * usageMessage =
   "The environment variable PRINTER can be used to set the default printer\n"
   "device.\n";
 
-void usage(const string & msg = "")
+void usage(int errcode, const string & msg = "")
 {
+  // always use cerr even if errcode is 0, because lpr is
+  // often in a pipeline
   if (msg != "")
     cerr << progName << ": " << msg << endl << endl;
 
   cerr << "Usage: " << progName << usageMessage;
-  exit(1);
+  exit(errcode);
+}
+
+void help(void)
+{
+  // always use cerr because lpr is often in a pipeline
+  cerr << "Usage: " << progName << usageMessage << helpMessage;
+  exit(0);
+}
+
+void scan_for_help(int argc, char *argv[])
+{
+  for (char **scan = (char **)argv; *scan != NULL; ++scan)
+    {
+      if ( (strncmp (*scan, "--help", 6) == 0)
+         ||(strncmp (*scan, "-help", 5) == 0))
+        {
+          help ();
+        }
+    }
 }
 
 int main(int argc, char *argv[])
 {
   progName = getProgramName(argv[0]);
+  scan_for_help(argc, argv);
+
   string printerName = "";
 
   // Is the printer specified in the environment?
@@ -93,6 +122,7 @@ int main(int argc, char *argv[])
   bool rawFlag = false;
 
   int optionChar;
+  optopt = '\0';
   while ((optionChar = getopt(argc, argv, ":Dd:hlP:")) != EOF)
     {
       switch (optionChar)
@@ -110,9 +140,16 @@ int main(int argc, char *argv[])
         case 'l':
           rawFlag = true;
           break;
+        case ':':
+          usage(1, string("option `-") + char(optopt) + string("' missing required argument"));
+          break;
+        case '?':
+          usage(1, string("unknown option: -") + char(optopt));
+          break;
         default:
-          usage(string("unknown option: -") + char(optionChar));
+          usage(1, string("unknown option: -") + char(optionChar));
         }
+      optopt='\0';
     }
 
   // Can't proceed without a printer name.

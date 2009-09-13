@@ -28,7 +28,9 @@
 #include <stdlib.h>
 #include <wchar.h>
 #include <locale.h>
+#ifdef __CYGWIN__
 #include <sys/cygwin.h>
+#endif
 
 /* The official name of this program (e.g., no `g' prefix).  */
 #define PROGRAM_NAME "cygstart"
@@ -616,8 +618,10 @@ winStart (const wchar_t * aPath, const wchar_t * action,
           const wchar_t * args, const wchar_t * workDir,
           int show, StartFlags startFlags)
 {
+#ifdef __CYGWIN__
   /* Need to sync the Windows environment */
   cygwin_internal (CW_SYNC_WINENV);
+#endif
 
   if (startFlags & SF_VERBOSE)
     {

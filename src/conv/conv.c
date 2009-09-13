@@ -402,25 +402,42 @@ static int exitOnZero(const char *fn, Opt opts,
   return 0;
 }
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+int mkstemp(char *path);
+char * mkdtemp (char *path);
+#endif
+
 // if fn is NULL then input is stdin and output is stdout
 static int convert(const char *fn, Opt opts) {
+  static const char * TEMPLATE = "conv_XXXXXXXX";
   int c;
   int fileChanged = 0;
-  char *tempFn;
+  char tempFn[20];
+  int tempFd;
   FILE *in = stdin, *out = stdout;
   char buf[PATH_MAX * 2];
 
+  strncpy (tempFn, TEMPLATE, 20);
   if (fn != NULL) {
     int inFileDesc = 0;
     fprintf(stderr, "%s: ", fn);
     if ((in = fopen(fn, "rb")) == NULL) {
-      snprintf(buf, PATH_MAX*2 - 1, "\n%s processing %s", opts.progname, fn);
+      snprintf(buf, PATH_MAX*2 - 1, "\n%s processing %s (could not open input file)",
+        opts.progname, fn);
       perror(buf);
       return -1;
     }
-    tempFn = tmpnam(NULL);
-    if ((out = fopen(tempFn, "wb")) == NULL) {
-      snprintf(buf, PATH_MAX*2 - 1, "\n%s processing %s", opts.progname, fn);
+    tempFd = mkstemp(tempFn);
+    if (tempFd < 0)
+    {
+      snprintf(buf, PATH_MAX*2 - 1, "\n%s processing %s (could not open temp file %s)",
+        opts.progname, fn, tempFn);
+      perror(buf);
+      return -2;
+    }
+    if ((out = fdopen(tempFd, "wb")) == NULL) {
+      snprintf(buf, PATH_MAX*2 - 1, "\n%s processing %s (could not open temp file stream)",
+        opts.progname, fn);
       perror(buf);
       return -2;
     }
@@ -581,4 +598,7 @@ convert_ret:
   return 0;
 }
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#include "mkstemp.c"
+#endif
 

@@ -128,5 +128,14 @@
 
 /* we don't include wchar.h or wctype.h here.  let widechar.h do that */
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+
+#define	cygwin_conv_to_win32_path(a,b)		strncpy(b,a,MAX_PATH)
+#define	cygwin_conv_to_full_win32_path(a,b)	_fullpath(b,a,MAX_PATH)
+#define	cygwin_conv_to_full_posix_path(a,b)	_fullpath(b,a,MAX_PATH)
+
+
+#endif /* _WIN32 && !__CYGWIN__ */
+
 #endif /* !CYGUTILS_COMMON_H */
 

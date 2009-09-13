@@ -26,6 +26,10 @@
 
 #include "common.h"
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#define	realpath(a,b)		_fullpath(b,a,MAX_PATH)
+#endif /* _WIN32 && !__CYGWIN__ */
+
 /* The official name of this program (e.g., no `g' prefix).  */
 #define PROGRAM_NAME "realpath"
 #define AUTHORS "Steven Barker"

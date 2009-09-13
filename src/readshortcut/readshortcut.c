@@ -80,8 +80,10 @@ typedef struct optvals_s
 
 } optvals;
 
+#ifdef __CYGWIN__
 void cygwin_conv_to_full_win32_path (const char *path, char *win32_path);
 void cygwin_conv_to_full_posix_path (const char *path, char *posix_path);
+#endif
 
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
