@@ -140,12 +140,12 @@ void Printer::setRawFlag(bool flag)
 void Printer::startDoc(const string & docName) throw(PrinterException)
 {
   DOC_INFO_1    di1;
-
+  CHAR raw[] = "RAW";
   open();
 
   di1.pDocName = tstr(docName);
   di1.pOutputFile = 0;
-  di1.pDatatype = "RAW";
+  di1.pDatatype = raw;
 
   if (StartDocPrinter(m_devHandle, 1, (LPBYTE) &di1) == 0)
     throw PrinterException("StartDocPrinter error: " +
@@ -219,7 +219,8 @@ void Printer::mapPortName() throw(PrinterException)
 
   if (isWindows9x)
     {
-      PrinterList list = enumPrinters(PRINTER_ENUM_NAME, "");
+      TCHAR empty[] = "";
+      PrinterList list = enumPrinters(PRINTER_ENUM_NAME, empty);
       for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
         {
           if (stricmp(m_devName.c_str(), it->pPortName) == 0)
@@ -266,8 +267,9 @@ void Printer::mapPortName() throw(PrinterException)
 void Printer::open() throw(PrinterException)
 {
   PRINTER_DEFAULTS prDef;
+  CHAR raw[] = "RAW";
 
-  prDef.pDatatype = "RAW";
+  prDef.pDatatype = raw;
   prDef.pDevMode = m_devMode;
   prDef.DesiredAccess = PRINTER_ACCESS_USE;
 

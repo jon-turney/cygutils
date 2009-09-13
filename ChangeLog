@@ -1,5 +1,9 @@
 2009-09-13  Charles Wilson  <cwilson@...>
 
+	* src/lpr/Printer.cc: Silence compiler warnings.
+
+2009-09-13  Charles Wilson  <cwilson@...>
+
 	Branch-specific fixes for building on MinGW
 	* configure.ac: Only error if cygwin && !cygwin-1.7; it
 	is okay if !cygwin.
