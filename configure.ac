@@ -76,8 +76,10 @@ AC_FUNC_STAT
 AC_FUNC_VPRINTF
 dnl should only exist on windows, I hope
 AC_CHECK_STDCALL_FUNC([OpenClipboard],[void *])
-AC_CHECK_DECLS([cygwin_conv_path], [],dnl
-  [AC_MSG_ERROR([At least cygwin-1.7 is required])],dnl
+AC_CHECK_DECLS([cygwin_conv_path], [],[
+case "$host" in
+*cygwin* ) AC_MSG_ERROR([At least cygwin-1.7 is required]) ;;
+esac],dnl
   [[#include <sys/cygwin.h>]])
 
 dnl Set Conditionals for Makefile.am

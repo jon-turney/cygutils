@@ -486,6 +486,88 @@ skipLocalUNCPart (const wchar_t * path)
     return path;
 }
 
+#if defined(__CYGWIN__)
+static int
+cygstart_posix_to_win_w (const char *posix_mbs_path, wchar_t **w32_wcs_path)
+{
+  int rc = 0;
+  ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, posix_mbs_path, NULL, 0);
+  if (len < 0)
+    {
+      fprintf (stderr,
+               "%s: error converting path `%s' from cygwin to native format: %s\n",
+               program_name, posix_mbs_path, strerror (errno));
+      rc = 1;
+      goto err_cleanup;
+    }
+
+  *w32_wcs_path = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
+  if (!*w32_wcs_path)
+    {
+      fprintf (stderr, "%s: memory allocation error\n", program_name);
+      rc = 1;
+      goto err_cleanup;
+    }
+
+  if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, posix_mbs_path, *w32_wcs_path,
+                        (len + 1) * sizeof (wchar_t)) < 0)
+    {
+      fprintf (stderr,
+               "%s: error converting path `%s' from cygwin to format: %s\n",
+               program_name, posix_mbs_path, strerror (errno));
+      rc = 1;
+      goto err_cleanup;
+    }
+  return rc;
+
+err_cleanup:
+  if (*w32_wcs_path)
+    free (*w32_wcs_path);
+
+  return rc;
+}
+#endif /* __CYGWIN__ */
+
+static int
+cygstart_mbs_to_wcs (const char *mbs_path, wchar_t **wcs_path)
+{
+  int rc = 0;
+  size_t len = mbstowcs (NULL, mbs_path, 0);
+  if (len == (size_t) - 1)
+    {
+      fprintf (stderr, "%s: error converting path `%s' to unicode: %s\n",
+               program_name, mbs_path, strerror (errno));
+      rc = 1;
+      goto err_cleanup;
+    }
+
+  *wcs_path = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
+  if (!(*wcs_path))
+    {
+      fprintf (stderr, "%s: memory allocation error\n", program_name);
+      rc = 1;
+      goto err_cleanup;
+    }
+
+  if (mbstowcs (*wcs_path, mbs_path, (len + 1) * sizeof (wchar_t)) ==
+      (size_t) - 1)
+    {
+      fprintf (stderr, "%s: error converting path `%s' to unicode: %s\n",
+               program_name, mbs_path, strerror (errno));
+      rc = 1;
+      goto err_cleanup;
+    }
+
+  (*wcs_path)[len] = L'\0';
+  return rc;
+
+err_cleanup:
+  if (*wcs_path)
+    free (*wcs_path);
+
+  return rc;
+}
+
 /* Start a program, or open a file or URL, using Cygwin POSIX paths */
 static int
 cygStart (const char *aPath, const wchar_t * action,
@@ -498,101 +580,31 @@ cygStart (const char *aPath, const wchar_t * action,
   const wchar_t *pWinDir = NULL;
   int rc = 0;
 
+#ifdef __CYGWIN__
   /* Convert file path from POSIX to Windows, unless it looks like a URL */
   if (!strstr (aPath, "://"))
     {
-      ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, aPath, NULL, 0);
-      if (len < 0)
-        {
-          fprintf (stderr,
-                   "%s: error converting path `%s' from cygwin to native format: %s\n",
-                   program_name, aPath, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
-
-      winPath = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
-      if (!winPath)
-        {
-          fprintf (stderr, "%s: memory allocation error\n", program_name);
-          rc = 1;
-          goto cleanup;
-        }
-
-      if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, aPath, winPath,
-                            (len + 1) * sizeof (wchar_t)) < 0)
-        {
-          fprintf (stderr,
-                   "%s: error converting path `%s' from cygwin to format: %s\n",
-                   program_name, aPath, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
+      rc = cygstart_posix_to_win_w (aPath, &winPath);
+      if (rc) goto cleanup;
       pWinPath = skipLocalUNCPart (winPath);
     }
   else
+#endif /* __CYGWIN__ */
     {
-      size_t len = mbstowcs (NULL, aPath, 0);
-      if (len == (size_t) - 1)
-        {
-          fprintf (stderr, "%s: error converting path `%s' to unicode: %s\n",
-                   program_name, aPath, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
-
-      winPath = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
-      if (!winPath)
-        {
-          fprintf (stderr, "%s: memory allocation error\n", program_name);
-          rc = 1;
-          goto cleanup;
-        }
-
-      if (mbstowcs (winPath, aPath, (len + 1) * sizeof (wchar_t)) ==
-          (size_t) - 1)
-        {
-          fprintf (stderr, "%s: error converting path `%s' to unicode: %s\n",
-                   program_name, aPath, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
-
-      winPath[len] = L'\0';
+      rc = cygstart_mbs_to_wcs (aPath, &winPath);
+      if (rc) goto cleanup;
       pWinPath = winPath;
     }
 
   /* Convert working directory, if any, from POSIX to Windows */
   if (workDir)
     {
-      ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, workDir, NULL, 0);
-      if (len < 0)
-        {
-          fprintf (stderr,
-                   "%s: error converting path `%s' from cygwin to native format: %s\n",
-                   program_name, workDir, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
-
-      winDir = (wchar_t *) malloc ((len + 1) * sizeof (wchar_t));
-      if (!winDir)
-        {
-          fprintf (stderr, "%s: memory allocation error\n", program_name);
-          rc = 1;
-          goto cleanup;
-        }
-
-      if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, workDir, winDir,
-                            (len + 1) * sizeof (wchar_t)) < 0)
-        {
-          fprintf (stderr,
-                   "%s: error converting path `%s' from cygwin to native format: %s\n",
-                   program_name, workDir, strerror (errno));
-          rc = 1;
-          goto cleanup;
-        }
-
+#ifdef __CYGWIN__
+      rc = cygstart_posix_to_win_w (workDir, &winDir);
+#else
+      rc = cygstart_mbs_to_wcs (workDir, &winDir);
+#endif
+      if (rc) goto cleanup;
       pWinDir = skipLocalUNCPart (winDir);
       rc = winStart (pWinPath, action, args, pWinDir, show, startFlags);
     }

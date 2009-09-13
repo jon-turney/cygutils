@@ -1,5 +1,19 @@
 2009-09-13  Charles Wilson  <cwilson@...>
 
+	Branch-specific fixes for building on MinGW
+	* configure.ac: Only error if cygwin && !cygwin-1.7; it
+	is okay if !cygwin.
+	* src/cygstart/cygstart.c (cygStart): Refactor much
+	of this code to the following two functions. If !cygwin,
+	always use cygstart_mbs_to_wcs. Retain existing logic for
+	context-dependent use of the two functions, for cygwin.
+	(cygstart_mbs_to_wcs): New function.
+	(cygstart_posix_to_win_w): New function. Guard so that
+	it is only compiled on cygwin.
+	* NEWS: Update.
+
+2009-09-13  Charles Wilson  <cwilson@...>
+
 	Build and distribution fixes.
 	* Makefile.am: Support silent-rules when building
 	libicons. Don't distributed cygicons.rc.
