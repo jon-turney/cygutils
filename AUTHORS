@@ -51,6 +51,10 @@ Christopher Faylor <....>
   rename.c, rename.1 (taken from util-linux)
   (GPL)
 
+Christian Franke <franke@computer.org>
+  cygdrop
+  (GPL)
+
 unknown, Charles Wilson, Nicky H., August Mayer
 August Mayer, FBL
   individual icons within the cygicons dll

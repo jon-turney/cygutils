@@ -85,6 +85,13 @@ cygstart.exe
   command-line start command.
   (GPL)
 
+cygdrop.exe
+  A command-line tool which allows you to let start a Cygwin or Windows
+  program with a restricted access token. All administrative rights are dropped
+  by default. The tool also provides options for finer control of groups and
+  privileges.
+  (GPL)
+
 ipck:
   IPC utility brought over from cygipc.
   (GPL)

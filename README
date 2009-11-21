@@ -53,7 +53,7 @@ GPL:
  ipck     msgtool     semstat   semtool       shmtool
  conv     unix2dos    dos2unix  d2u           u2d
 
- cygicons.dll
+ cygicons.dll         cygdrop
 
 PublicDomain-now-GPL:
  <none>

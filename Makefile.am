@@ -12,7 +12,8 @@ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
 if WITH_WINDOWS_PROGRAMS
 windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut \
-	src/readshortcut/readshortcut
+	src/readshortcut/readshortcut \
+	src/cygdrop/cygdrop
 windows_ltlibraries = src/cygicons/libicons.la
 windows_headers = src/cygicons/cygicons.h
 cygicons_docs   = src/cygicons/README
@@ -54,7 +55,9 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart \
 	src/ipc/semtool src/ipc/shmtool \
 	src/ipc/msgtool src/ipc/semstat \
-	src/lpr/lpr src/mkshortcut/mkshortcut src/readshortcut/readshortcut
+	src/lpr/lpr \
+	src/mkshortcut/mkshortcut src/readshortcut/readshortcut \
+	src/cygdrop/cygdrop
 
 EXTRA_HEADERS = src/cygicons/cygicons.h
 EXTRA_SCRIPTS = src/ipc/ipck
@@ -116,6 +119,10 @@ nodist_src_cygicons_libicons_la_SOURCES = \
 	src/cygicons/cygicons.rc
 
 src_cygicons_libicons_la_LDFLAGS = -version-info 0:0:0 -no-undefined $(AM_LDFLAGS)
+
+src_cygdrop_cygdrop_SOURCES  = src/cygdrop/cygdrop.cc
+# This removes the unneeded dependency on cygstdc++-X.dll
+src_cygdrop_cygdrop_CXXFLAGS = -fno-exceptions
 
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

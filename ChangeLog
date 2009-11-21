@@ -1,3 +1,13 @@
+2009-11-21  Christian Franke  <franke@computer.org>
+
+	Add cygdrop utility.
+	* src/cygdrop: New directory.
+	* src/cygdrop/cygdrop.cc: New file.
+	* Makefile.am: Add program cygdrop.
+	* AUTHORS: Add Christian Franke for cygdrop.
+	* PROGLIST: Add cygdrop.
+	* README: Add cygdrop.
+
 2009-09-13  Charles Wilson  <cwilson@...>
 
 	* src/lpr/Printer.cc: Silence compiler warnings.
