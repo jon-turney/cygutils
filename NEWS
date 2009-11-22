@@ -3,7 +3,7 @@
   Build system improvements.
   Add support for building on MinGW.
   Add new cygdrop utility (Christian Franke; requires w2k or better)
-  Many of the utilities have been relicensing as GPLv3+.
+  Many of the utilities have been relicensed as GPLv3+.
 
 1.4.0
   Add support to cygstart for filenames with UTF/wide chars.

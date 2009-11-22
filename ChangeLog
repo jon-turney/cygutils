@@ -1,5 +1,11 @@
 2009-11-21  Charles Wilson  <cwilson@...>
 
+	Release 1.4.1
+	* configure.ac: Update version.
+	* NEWS: fix typo.
+
+2009-11-21  Charles Wilson  <cwilson@...>
+
 	Convert many programs to GPLv3+.
 	* COPYING: Update to GPLv3 (applies to compilation).
 	* licenses/COPYING.GPL: Renamed to...
