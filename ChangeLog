@@ -5,6 +5,7 @@
 	* licenses/COPYING.GPL: Renamed to...
 	* licenses/COPYING.GPLv2: this.
 	* licenses/COPYING.GPLv3: New.
+	* Makefile.am: Update file list.
 	* ascii/ascii.c: Switch to GPLv3+. Update copyright years.
 	* clip/getclip.c: Ditto.
 	* clip/putclip.c: Ditto.

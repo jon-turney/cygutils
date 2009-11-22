@@ -46,14 +46,16 @@ files included in this package that fall under his edict.
 
 What's in this package:
 -------------------------------
-GPL:
- ascii    banner      cygstart  dump          getclip
- lpr      mkshortcut  putclip   readshortcut  realpath
-  
- ipck     msgtool     semstat   semtool       shmtool
- conv     unix2dos    dos2unix  d2u           u2d
+GPLv3+:
+ ascii     dump       putclip       getclip   
+ conv      unix2dos   dos2unix      d2u         u2d
+ ipck      msgtool    semstat       semtool     shmtool
 
- cygicons.dll         cygdrop
+GPLv2+:
+ cygstart  cygdrop    mkshortcut    cygicons.dll
+
+GPLv2:
+ banner    lpr        readshortcut  realpath
 
 PublicDomain-now-GPL:
  <none>

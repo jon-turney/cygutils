@@ -79,7 +79,9 @@ po_files = \
 extra_docs = \
 	src/lpr/README src/cygicons/README
 
-licenses = licenses/COPYING.BSD-no-advert licenses/COPYING.GPL
+licenses = licenses/COPYING.BSD-no-advert \
+	licenses/COPYING.GPLv2 \
+	licenses/COPYING.GPLv3
 
 cygicons_list = \
   src/cygicons/cygwin-kde.ico  src/cygicons/cygwings.ico \

@@ -6,13 +6,13 @@
  *   based on Unix2Dos 0.9.0 by Peter Hanecak (made 19.2.1997)
  *     Copyright 1997,.. by Peter Hanecak <hanecak@megaloman.com>.
  *     All rights reserved.
- * Copyright 2001,.. by Charles Wilson <cwilson@ece.gatech.edu>.
+ * Copyright 2001,2002,2005,2009 by Charles Wilson
  * All rights reserved.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,10 +20,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * See the COPYING file for license information.
+ * See the COPYING file for full license information.
  */
 
 #if HAVE_CONFIG_H
@@ -36,7 +35,7 @@ static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
     "$Id$";
 static const char copyrightID[] =
-    "Copyright (c) 2005\nCharles S. Wilson. All rights reserved.\nLicensed under GPL v2.0\n";
+    "Copyright (c) 2009\nCharles S. Wilson. All rights reserved.\nLicensed under GPLv3+\n";
 
 #define UNIX2DOS_NAME_S		"u2d"
 #define UNIX2DOS_NAME_L		"unix2dos"

@@ -1,27 +1,27 @@
 ascii.exe
   dumps the 256 ascii characters to stdout
-  using a nice format (GPL)
+  using a nice format (GPLv3+)
 
 dump.exe [file]
   hex dump of file to stdout, using a nice
-  format (GPL)
+  format (GPLv3+)
 
 putclip.exe
   copies stdin to the Windows clipboard
   does NOT use Cygwin's /dev/clipboard 
   Not built unless on a WIN32 platform
-  (GPL)
+  (GPLv3+)
   
 getclip.exe
   copies the Windows clipboard to stdout
   does NOT use Cygwin's /dev/clipboard
   Not built unless on a WIN32 platform
-  (GPL)
+  (GPLv3+)
   
 conv.exe / d2u.exe / u2d.exe / dos2unix.exe / unix2dos.exe
   programs for converting line endings of text
   files between DOS and UNIX format.
-  (GPL)
+  (GPLv3+)
   
   HEAVILY modified, but core routine is based on 
   the hd2u-0.5.12 distribution, available here:
@@ -53,52 +53,52 @@ msgtool.exe / shmtool.exe / semtool.exe / semstat.exe
   available.  On cygwin, that (currently) means "only if
   the cygipc package is installed" or "if using a cygwin
   kernel newer than 1.5.5"
-  (GPL)
+  (GPLv3+)
   
 banner.exe
   prints a large banner to stdout.  From Joerg Schaible.
-  (GPL)
+  (GPLv2)
   
 realpath.exe
   Convert pathname argument to absolute path, with all 
   references to `.', `..', and symlinks resolved.
-  (GPL)
+  (GPLv2)
 
 lpr.exe
   can be used to spool to a windows printer
-  (GPL)
+  (GPLv2)
 
 mkshortcut.exe
   can be used to create "full featured" windows 
   shortcuts (as opposed to cygwin-symlinks implemented
   using .lnk files, which aren't really "full-featured")
-  (GPL)
+  (GPLv2+)
 
 readshortcut.exe
   can be used to read information from windows shortcuts (such
   as target, icon, window state, etc)
-  (GPL)
+  (GPLv2)
 
 cygstart.exe
   A command-line tool which allows you to let Windows start a program or open
   a file or URL in its associated application. It is similar to the Windows
   command-line start command.
-  (GPL)
+  (GPLv2+)
 
 cygdrop.exe
   A command-line tool which allows you to let start a Cygwin or Windows
   program with a restricted access token. All administrative rights are dropped
   by default. The tool also provides options for finer control of groups and
   privileges.
-  (GPL)
+  (GPLv2+)
 
 ipck:
   IPC utility brought over from cygipc.
-  (GPL)
+  (GPLv3+)
 
 cygicons:
   DLL containing cygwin-related icons
-  (GPL)
+  (GPLv2+)
 
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally
