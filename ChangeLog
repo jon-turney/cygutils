@@ -3,6 +3,7 @@
 	Release 1.4.1
 	* configure.ac: Update version.
 	* NEWS: fix typo.
+	* BRANCHES: Update documentation.
 
 2009-11-21  Charles Wilson  <cwilson@...>
 
