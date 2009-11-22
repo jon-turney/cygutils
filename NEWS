@@ -2,6 +2,7 @@
   Add --help option to lpr.
   Build system improvements.
   Add support for building on MinGW.
+  Add new cygdrop utility (Christian Franke; requires w2k or better)
 
 1.4.0
   Add support to cygstart for filenames with UTF/wide chars.

@@ -12,8 +12,7 @@ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
 if WITH_WINDOWS_PROGRAMS
 windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut \
-	src/readshortcut/readshortcut \
-	src/cygdrop/cygdrop
+	src/readshortcut/readshortcut
 windows_ltlibraries = src/cygicons/libicons.la
 windows_headers = src/cygicons/cygicons.h
 cygicons_docs   = src/cygicons/README
@@ -26,9 +25,13 @@ ipc_progs = src/ipc/semtool src/ipc/shmtool \
 ipc_scripts = src/ipc/ipck
 endif
 
+if WITH_CYGWIN_SPECIFIC_PROGRAMS
+cygwin_specific_progs = src/cygdrop/cygdrop
+endif
+
 bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/conv/conv \
 	src/dump/dump $(ipc_progs) \
-	src/realpath/realpath
+	src/realpath/realpath $(cygwin_specific_progs)
 
 bin_SCRIPTS = $(ipc_scripts)
 

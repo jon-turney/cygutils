@@ -85,6 +85,11 @@ esac],dnl
 dnl Set Conditionals for Makefile.am
 AM_CONDITIONAL(WITH_WINDOWS_PROGRAMS, test "$ac_cv_func_OpenClipboard" = yes)
 AM_CONDITIONAL(WITH_NATIVE_IPC_PROGRAMS, test "$HAVE_INTRINSIC_IPC" = yes)
+host_is_cygwin=no
+case "$host" in
+*cygwin* ) host_is_cygwin=yes ;;
+esac
+AM_CONDITIONAL(WITH_CYGWIN_SPECIFIC_PROGRAMS, test "$host_is_cygwin" = yes)
 
 AC_CONFIG_FILES([Makefile po/Makefile.in src/cygicons/cygicons.rc])
 
