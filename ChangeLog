@@ -1,5 +1,29 @@
 2009-11-21  Charles Wilson  <cwilson@...>
 
+	Convert many programs to GPLv3+.
+	* COPYING: Update to GPLv3 (applies to compilation).
+	* licenses/COPYING.GPL: Renamed to...
+	* licenses/COPYING.GPLv2: this.
+	* licenses/COPYING.GPLv3: New.
+	* ascii/ascii.c: Switch to GPLv3+. Update copyright years.
+	* clip/getclip.c: Ditto.
+	* clip/putclip.c: Ditto.
+	* conv/conv.c: Ditto.
+	* dump/dump.c: Ditto.
+	* ipc/ipck: Ditto.
+	* ipc/msgtool.c: Ditto.
+	* ipc/semstat.c: Ditto.
+	* ipc/semtool.c: Ditto.
+	* ipc/shmtool.c: Ditto.
+	* PROGLIST: Update license information for each utility.
+	* README: Ditto.
+	* AUTHORS: Ditto. Also reorganize.
+	* TODO: Add notes concerning utilities that have not
+	been converted to GPLv3+.
+	* NEWS: Note license change.
+
+2009-11-21  Charles Wilson  <cwilson@...>
+
 	Only build cygdrop when $host is cygwin.
 	* configure.ac: Arrange to build cygdrop only when CYGWIN.
 	* Makefile.am: Ditto.
