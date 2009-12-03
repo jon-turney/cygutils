@@ -1,3 +1,9 @@
+2009-12-03  Dave Korn  <dave.korn.cygwin@googlemail.com>
+
+	Fix mkshortcut bug.
+	* src/mkshortcut/mkshortcut.c (mkshortcut): Fix off-
+	by-one error.
+
 2009-11-21  Charles Wilson  <cwilson@...>
 
 	Release 1.4.1

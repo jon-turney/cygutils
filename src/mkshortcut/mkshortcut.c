@@ -549,7 +549,7 @@ mkshortcut (optvals opts, poptContext optCon)
       strncpy (desc, opts.desc_arg, MAX_PATH);
 
       /* There won't be a null terminated if strlen(desc_arg)>MAX_PATH */
-      desc[MAX_PATH] = '\0';
+      desc[MAX_PATH - 1] = '\0';
     }
   else
     {
