@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.63)
-AC_INIT(cygutils, 1.4.1, cygwin@cygwin.com)
+AC_PREREQ(2.64)
+AC_INIT(cygutils, 1.4.2, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])

@@ -1,4 +1,10 @@
-2009-12-06  Charles Wilson  <cwilson@...>
+2009-12-28  Charles Wilson  <cwilson@...>
+
+	Release 1.4.2
+	* configure.ac: Update version.
+	* BRANCHES: Update documentation.
+
+2009-12-28  Charles Wilson  <cwilson@...>
 
 	Add hippo.ico to cygicons DLL.
 	* src/cygicons/hippo.svg: New file.
