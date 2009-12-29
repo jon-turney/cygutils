@@ -1,7 +1,9 @@
 Provenance, licensing, and resolution, Oh My!
 
-Windows icons come in many flavors: size, number
-of colors, transparency mechanism, etc.
+Windows .ICO file format
+========================================================================
+Windows icons come in many flavors: size, number of colors, transparency
+mechanism, etc.
 
 The format of a single .ico image:
 ----------------------------------
@@ -126,11 +128,16 @@ Main icon sizes:
    32x32    : default icon size for desktop icons
    48x48    : DisplayProperties->Appearance->Advanced,
               Item=Icon, set size.  Not often used.
+   64x64    : New icon size for Vista.
    256x256  : New icon size for Vista. Stored in compressed
               PNG format within the .ico file; completely
               violates all the rules described above.
 
 Icons in this package:
+========================================================================
+Provenance, licensing, and resolution information.
+
+
 ==================================================
 cygwin.ico
     License    : GPL
@@ -237,4 +244,29 @@ cygwin-kdelook.ico
       32x32 32bit
       16x16 32bit
 
+
+==================================================
+hippo.ico
+    License   : CC-BY-SA 3.0
+    Author    : Charles Wilson
+    Provenance: derived from public domain, Michal Pecyna
+                http://openclipart.org/media/files/TheStructorr/1751
+    Comments  :
+    Contents  :
+      48x48 16 color
+      32x32 16 color
+      24x24 16 color
+      16x16 16 color
+      48x48 256 color
+      32x32 256 color
+      24x24 256 color
+      16x16 256 color
+      64x64 32bit 
+      48x48 32bit
+      32x32 32bit
+      24x24 32bit
+      16x16 32bit
+      256x256 32bit PNG
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/us/88x31.png" /></a><br /><span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/StillImage" property="dc:title" rel="dc:type">hippo.ico</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Wilson</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons Attribution-Share Alike 3.0 United States License</a>.<br />Based on a work at <a xmlns:dc="http://purl.org/dc/elements/1.1/" href=" http://openclipart.org/media/files/TheStructorr/1751" rel="dc:source"> http://openclipart.org/media/files/TheStructorr/1751</a>.
 

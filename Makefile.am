@@ -88,11 +88,13 @@ cygicons_list = \
   src/cygicons/cygwin.ico      src/cygicons/cygwinpurple.ico \
   src/cygicons/cygwinblue.ico  src/cygicons/cygwinred.ico \
   src/cygicons/cygwincyan.ico  src/cygicons/cygwinshiny.ico \
-  src/cygicons/cygwing.ico     src/cygicons/cygwinyellow.ico
+  src/cygicons/cygwing.ico     src/cygicons/cygwinyellow.ico \
+  src/cygicons/hippo.ico
 
 EXTRA_DIST = bootstrap common.h \
    BRANCHES $(man_MANS) $(doc_DATA) $(EXTRA_SCRIPTS) \
-   $(licenses) $(po_files) $(extra_docs) $(cygicons_list)
+   $(licenses) $(po_files) $(extra_docs) $(cygicons_list) \
+   src/cygicons/hippo.svg
 
 DISTCLEANFILES = \
 	po/Makefile    \

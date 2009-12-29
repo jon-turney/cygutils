@@ -1,3 +1,15 @@
+2009-12-06  Charles Wilson  <cwilson@...>
+
+	Add hippo.ico to cygicons DLL.
+	* src/cygicons/hippo.svg: New file.
+	* src/cygicons/hippo.ico: New file.
+	* src/cygicons/README: Update documentation.
+	* src/cygicons/cygicons.h: Add hippo.ico.
+	* src/cygicons/cygicons.rc.in: Add hippo.ico. Update
+	copyright date.
+	* Makefile.am: Add hippo.svg and hippo.ico.
+	* NEWS: Update documentation.
+
 2009-12-03  Dave Korn  <dave.korn.cygwin@googlemail.com>
 
 	Fix mkshortcut bug.
