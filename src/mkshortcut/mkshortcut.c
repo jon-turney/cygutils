@@ -612,6 +612,7 @@ mkshortcut (optvals opts, poptContext optCon)
             }
           persist_file->lpVtbl->Release (persist_file);
           shell_link->lpVtbl->Release (shell_link);
+          return (0);
         }
       else
         {
