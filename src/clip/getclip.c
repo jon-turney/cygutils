@@ -51,18 +51,18 @@ typedef struct
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
 static const char *getVersion (void);
-static void usage (poptContext optCon, FILE * f, char *name);
-static void help (poptContext optCon, FILE * f, char *name);
-static void version (poptContext optCon, FILE * f, char *name);
-static void license (poptContext optCon, FILE * f, char *name);
+static void usage (FILE * f, char *name);
+static void help (FILE * f, char *name);
+static void version (FILE * f, char *name);
+static void license (FILE * f, char *name);
 static int getclip (FILE * out, flags_struct flags, FILE * f, char *name);
 
 static char *program_name;
+static poptContext optCon;
 
 int
 main (int argc, const char **argv)
 {
-  poptContext optCon;
   const char **rest;
   int rc;
   int ec = 0;
@@ -110,16 +110,16 @@ main (int argc, const char **argv)
       switch (rc)
         {
         case '?':
-          help (optCon, stderr, program_name);
+          help (stdout, program_name);
           goto exit;
         case 'u':
-          usage (optCon, stderr, program_name);
+          usage (stdout, program_name);
           goto exit;
         case 'v':
-          version (optCon, stderr, program_name);
+          version (stdout, program_name);
           goto exit;
         case 'l':
-          license (optCon, stderr, program_name);
+          license (stdout, program_name);
           goto exit;
         case 'd':
           flags.dosflag = TRUE;
@@ -243,13 +243,13 @@ printLicense (FILE * f, char *name)
 }
 
 static void
-usage (poptContext optCon, FILE * f, char *name)
+usage (FILE * f, char *name)
 {
   poptPrintUsage (optCon, f, 0);
 }
 
 static void
-help (poptContext optCon, FILE * f, char *name)
+help (FILE * f, char *name)
 {
   printTopDescription (f, name);
   poptPrintHelp (optCon, f, 0);
@@ -257,13 +257,13 @@ help (poptContext optCon, FILE * f, char *name)
 }
 
 static void
-version (poptContext optCon, FILE * f, char *name)
+version (FILE * f, char *name)
 {
   printTopDescription (f, name);
 }
 
 static void
-license (poptContext optCon, FILE * f, char *name)
+license (FILE * f, char *name)
 {
   printTopDescription (f, name);
   printLicense (f, name);

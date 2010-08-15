@@ -67,21 +67,21 @@ typedef struct optvals_s
   char *icon_name_arg;
 } optvals;
 
-static int mkshortcut (optvals opts, poptContext optCon);
+static int mkshortcut (optvals opts);
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
 static const char *getVersion ();
-static void usage (poptContext optCon, FILE * f, char *name);
-static void help (poptContext optCon, FILE * f, char *name);
-static void version (poptContext optCon, FILE * f, char *name);
-static void license (poptContext optCon, FILE * f, char *name);
+static void usage (FILE * f, char *name);
+static void help (FILE * f, char *name);
+static void version (FILE * f, char *name);
+static void license (FILE * f, char *name);
 
 static char *program_name;
+static poptContext optCon;
 
 int
 main (int argc, const char **argv)
 {
-  poptContext optCon;
   const char **rest;
   int rc;
   int ec = 0;
@@ -181,16 +181,16 @@ main (int argc, const char **argv)
       switch (rc)
         {
         case '?':
-          help (optCon, stderr, program_name);
+          help (stdout, program_name);
           goto exit;
         case 'u':
-          usage (optCon, stderr, program_name);
+          usage (stdout, program_name);
           goto exit;
         case 'v':
-          version (optCon, stderr, program_name);
+          version (stdout, program_name);
           goto exit;
         case 'l':
-          license (optCon, stderr, program_name);
+          license (stdout, program_name);
           goto exit;
         case 'd':
           if (arg = poptGetOptArg (optCon))
@@ -292,7 +292,7 @@ main (int argc, const char **argv)
       fprintf (stderr,
                "%s: --iconoffset|-j only valid in conjuction with --icon|-i\n",
                program_name);
-      usage (optCon, stderr, program_name);
+      usage (stderr, program_name);
       ec = 1;
       goto exit;
     }
@@ -302,7 +302,7 @@ main (int argc, const char **argv)
       fprintf (stderr,
                "%s: --smprograms|-P not valid in conjuction with --desktop|-D\n",
                program_name);
-      usage (optCon, stderr, program_name);
+      usage (stderr, program_name);
       ec = 1;
       goto exit;
     }
@@ -333,19 +333,19 @@ main (int argc, const char **argv)
           while (*rest)
             fprintf (stderr, "%s ", *rest++);
           fprintf (stderr, "\n");
-          usage (optCon, stderr, program_name);
+          usage (stderr, program_name);
           ec = 1;
         }
       else
         {
           // THE MEAT GOES HERE
-          ec = mkshortcut (opts, optCon);
+          ec = mkshortcut (opts);
         }
     }
   else
     {
       fprintf (stderr, "%s: TARGET not specified\n", program_name);
-      usage (optCon, stderr, program_name);
+      usage (stderr, program_name);
       ec = 1;
     }
 
@@ -380,7 +380,7 @@ exit:
 }
 
 int
-mkshortcut (optvals opts, poptContext optCon)
+mkshortcut (optvals opts)
 {
   char link_name[MAX_PATH];
   char exe_name[MAX_PATH];
@@ -412,7 +412,7 @@ mkshortcut (optvals opts, poptContext optCon)
           free (buf_str);
           fprintf (stderr, "%s: all paths must be in POSIX format\n",
                    program_name);
-          usage (optCon, stderr, program_name);
+          usage (stderr, program_name);
           return (1);
         }
       strcpy (exe_name, opts.target_arg);
@@ -432,7 +432,7 @@ mkshortcut (optvals opts, poptContext optCon)
               free (buf_str);
               fprintf (stderr, "%s: all paths must be in POSIX format\n",
                        program_name);
-              usage (optCon, stderr, program_name);
+              usage (stderr, program_name);
               return (1);
             }
           cygwin_conv_to_win32_path (opts.dir_name_arg, dir_name);
@@ -480,7 +480,7 @@ mkshortcut (optvals opts, poptContext optCon)
               fprintf (stderr,
                        "%s: absolute pathnames not allowed with -D/-P\n",
                        program_name);
-              usage (optCon, stderr, program_name);
+              usage (stderr, program_name);
               return (1);
             }
         }
@@ -490,7 +490,7 @@ mkshortcut (optvals opts, poptContext optCon)
           free (buf_str);
           fprintf (stderr, "%s: all paths must be in POSIX format\n",
                    program_name);
-          usage (optCon, stderr, program_name);
+          usage (stderr, program_name);
           return (1);
         }
       cygwin_conv_to_win32_path (opts.name_arg, link_name);
@@ -678,13 +678,13 @@ printLicense (FILE * f, char *name)
   fprintf (f, "See the COPYING file for license information.\n");
 }
 static void
-usage (poptContext optCon, FILE * f, char *name)
+usage (FILE * f, char *name)
 {
   poptPrintUsage (optCon, f, 0);
 }
 
 static void
-help (poptContext optCon, FILE * f, char *name)
+help (FILE * f, char *name)
 {
   printTopDescription (f, name);
   poptPrintHelp (optCon, f, 0);
@@ -692,14 +692,14 @@ help (poptContext optCon, FILE * f, char *name)
 }
 
 static void
-version (poptContext optCon, FILE * f, char *name)
+version (FILE * f, char *name)
 {
   printTopDescription (f, name);
   fprintf (f, copyrightID);
 }
 
 static void
-license (poptContext optCon, FILE * f, char *name)
+license (FILE * f, char *name)
 {
   printTopDescription (f, name);
   printLicense (f, name);

@@ -68,17 +68,18 @@ typedef struct Opt_ {
 static void printTopDescription(FILE * f, char * name);
 static void printBottomDescription(FILE * f, char * name);
 static const char * getVersion(void);
-static void usage(poptContext optCon, FILE * f, char * name);
-static void help(poptContext optCon, FILE * f, char * name);
-static void version(poptContext optCon, FILE * f, char * name);
-static void license(poptContext optCon, FILE * f, char * name);
+static void usage(FILE * f, char * name);
+static void help(FILE * f, char * name);
+static void version(FILE * f, char * name);
+static void license(FILE * f, char * name);
 static int basename(char* p, const char* s);
 static int convert(const char *fn, Opt opt);
 static int exitOnZero(const char *fn, Opt opts, 
                       FILE* in, FILE* out, char* tempFn);
 
+static poptContext optCon;
+
 int main(int argc, const char ** argv) {
-  poptContext optCon;
   const char ** rest;
   Opt opts = {
     NULL,
@@ -169,13 +170,13 @@ int main(int argc, const char ** argv) {
 
   while ((rc = poptGetNextOpt(optCon)) > 0) {
     switch (rc) {
-      case '?':  help(optCon, stderr, opts.progname);
+      case '?':  help(stdout, opts.progname);
                  goto exit;
-      case 'u':  usage(optCon, stderr, opts.progname);
+      case 'u':  usage(stdout, opts.progname);
                  goto exit;
-      case 'v':  version(optCon, stderr, opts.progname);
+      case 'v':  version(stdout, opts.progname);
                  goto exit;
-      case 'l':  license(optCon, stderr, opts.progname);
+      case 'l':  license(stdout, opts.progname);
                  goto exit;
     }
   }
@@ -345,24 +346,24 @@ static printLicense(FILE * f, char * name)
   fprintf(f, "See the COPYING file for license information.\n");
 }
 
-static void usage(poptContext optCon, FILE * f, char * name)
+static void usage(FILE * f, char * name)
 {
   poptPrintUsage(optCon, f, 0);
 }
 
-static void help(poptContext optCon, FILE * f, char * name)
+static void help(FILE * f, char * name)
 {
   printTopDescription(f, name);
   poptPrintHelp(optCon, f, 0);
   printBottomDescription(f, name);
 }
 
-static void version(poptContext optCon, FILE * f, char * name)
+static void version(FILE * f, char * name)
 {
   printTopDescription(f, name);
 }
 
-static void license(poptContext optCon, FILE * f, char * name)
+static void license(FILE * f, char * name)
 {
   printTopDescription(f, name);
   printLicense(f, name);

@@ -42,19 +42,19 @@ static const char copyrightID[] =
 
 /* The name this program was run with. */
 static char *program_name;
+static poptContext optCon;
 
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
 static const char *getVersion (void);
-static void usage (poptContext optCon, FILE * f, char *name);
-static void help (poptContext optCon, FILE * f, char *name);
-static void version (poptContext optCon, FILE * f, char *name);
-static void license (poptContext optCon, FILE * f, char *name);
+static void usage (FILE * f, char *name);
+static void help (FILE * f, char *name);
+static void version (FILE * f, char *name);
+static void license (FILE * f, char *name);
 
 int
 main (int argc, const char **argv)
 {
-  poptContext optCon;
   const char **rest;
   int rc;
   int ec = 0;
@@ -99,16 +99,16 @@ main (int argc, const char **argv)
       switch (rc)
         {
         case '?':
-          help (optCon, stderr, program_name);
+          help (stdout, program_name);
           goto exit;
         case 'u':
-          usage (optCon, stderr, program_name);
+          usage (stdout, program_name);
           goto exit;
         case 'v':
-          version (optCon, stderr, program_name);
+          version (stdout, program_name);
           goto exit;
         case 'l':
-          license (optCon, stderr, program_name);
+          license (stdout, program_name);
           goto exit;
         }
     }
@@ -125,7 +125,7 @@ main (int argc, const char **argv)
   if (rest == NULL)
     {
       fprintf (stderr, "%s: not enough arguments\n", program_name);
-      usage (optCon, stderr, program_name);
+      usage (stderr, program_name);
     }
   else
     {
@@ -138,7 +138,7 @@ main (int argc, const char **argv)
       if (*rest != NULL)
         {                       /* should only have ONE member of **rest  */
           fprintf (stderr, "%s: too many arguments\n", program_name);
-          usage (optCon, stderr, program_name);
+          usage (stderr, program_name);
           free (input);
         }
       else
@@ -214,13 +214,13 @@ printLicense (FILE * f, char *name)
 }
 
 static void
-usage (poptContext optCon, FILE * f, char *name)
+usage (FILE * f, char *name)
 {
   poptPrintUsage (optCon, f, 0);
 }
 
 static void
-help (poptContext optCon, FILE * f, char *name)
+help (FILE * f, char *name)
 {
   printTopDescription (f, name);
   poptPrintHelp (optCon, f, 0);
@@ -228,13 +228,13 @@ help (poptContext optCon, FILE * f, char *name)
 }
 
 static void
-version (poptContext optCon, FILE * f, char *name)
+version (FILE * f, char *name)
 {
   printTopDescription (f, name);
 }
 
 static void
-license (poptContext optCon, FILE * f, char *name)
+license (FILE * f, char *name)
 {
   printTopDescription (f, name);
   printLicense (f, name);

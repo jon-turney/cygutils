@@ -88,20 +88,20 @@ void cygwin_conv_to_full_posix_path (const char *path, char *posix_path);
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
 static const char *getVersion (void);
-static void usage (poptContext optCon, FILE * f, char *name);
-static void help (poptContext optCon, FILE * f, char *name);
-static void version (poptContext optCon, FILE * f, char *name);
-static void license (poptContext optCon, FILE * f, char *name);
+static void usage (FILE * f, char *name);
+static void help (FILE * f, char *name);
+static void version (FILE * f, char *name);
+static void license (FILE * f, char *name);
 
 void formatPath (char *strPath, int format);
-int readshortcut (optvals * opts, poptContext optContext);
+int readshortcut (optvals * opts);
 
 static char *program_name;
+static poptContext optCon;
 
 int
 main (int argc, const char **argv)
 {
-  poptContext optContext;
   const char **loose_args;
   int rc;
   int result = ERR_NONE;
@@ -186,24 +186,24 @@ main (int argc, const char **argv)
   opts.show_all = 0;
 
   /* set the pOpt context and help line */
-  optContext = poptGetContext (NULL, argc, argv, opt, 0);
-  poptSetOtherOptionHelp (optContext, "[OPTION]* SHORTCUT");
+  optCon = poptGetContext (NULL, argc, argv, opt, 0);
+  poptSetOtherOptionHelp (optCon, "[OPTION]* SHORTCUT");
 
-  while ((rc = poptGetNextOpt (optContext)) > 0)
+  while ((rc = poptGetNextOpt (optCon)) > 0)
     {
       switch (rc)
         {
         case '?':
-          help (optContext, stdout, program_name);
+          help (stdout, program_name);
           goto exit;
         case 'u':
-          usage (optContext, stdout, program_name);
+          usage (stdout, program_name);
           goto exit;
         case 'v':
-          version (optContext, stdout, program_name);
+          version (stdout, program_name);
           goto exit;
         case 'l':
-          license (optContext, stdout, program_name);
+          license (stdout, program_name);
           goto exit;
         }
     }
@@ -218,7 +218,7 @@ main (int argc, const char **argv)
     }
 
   /* get the remaining arguments */
-  loose_args = poptGetArgs (optContext);
+  loose_args = poptGetArgs (optCon);
 
   if (loose_args && *loose_args)
     {
@@ -237,31 +237,31 @@ main (int argc, const char **argv)
               fprintf (stderr, "%s ", *loose_args++);
             }
           fprintf (stderr, "\n");
-          usage (optContext, stderr, program_name);
+          usage (stderr, program_name);
           result = ERR_USER;
         }
       else
         {
       /************** Main Program ***********/
-          result = readshortcut (&opts, optContext);
+          result = readshortcut (&opts);
         }
     }
   else
     {
       fprintf (stderr, "%s: SHORTCUT not specified\n", program_name);
-      usage (optContext, stderr, program_name);
+      usage (stderr, program_name);
       result = ERR_USER;
     }
 
 exit:
-  poptFreeContext (optContext);
+  poptFreeContext (optCon);
   free (program_name);
   free (opts.target_fname);
   return result;
 }
 
 int
-readshortcut (optvals * opts, poptContext optContext)
+readshortcut (optvals * opts)
 {
   HRESULT hres;
   IShellLink *shell_link;
@@ -531,13 +531,13 @@ printLicense (FILE * f, char *name)
 }
 
 static void
-usage (poptContext optCon, FILE * f, char *name)
+usage (FILE * f, char *name)
 {
   poptPrintUsage (optCon, f, 0);
 }
 
 static void
-help (poptContext optCon, FILE * f, char *name)
+help (FILE * f, char *name)
 {
   printTopDescription (f, name);
   poptPrintHelp (optCon, f, 0);
@@ -545,13 +545,13 @@ help (poptContext optCon, FILE * f, char *name)
 }
 
 static void
-version (poptContext optCon, FILE * f, char *name)
+version (FILE * f, char *name)
 {
   printTopDescription (f, name);
 }
 
 static void
-license (poptContext optCon, FILE * f, char *name)
+license (FILE * f, char *name)
 {
   printTopDescription (f, name);
   printLicense (f, name);

@@ -56,6 +56,7 @@ static const char copyrightID[] =
 
 /* The name this program was run with. */
 static char *program_name;
+static poptContext optCon;
 
 typedef enum StartFlags
 {
@@ -74,10 +75,10 @@ static char *startError (int err);
 static const char *getVersion (void);
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
-static void usage (poptContext optCon, FILE * f, char *name);
-static void help (poptContext optCon, FILE * f, char *name);
-static void version (poptContext optCon, FILE * f, char *name);
-static void license (poptContext optCon, FILE * f, char *name);
+static void usage (FILE * f, char *name);
+static void help (FILE * f, char *name);
+static void version (FILE * f, char *name);
+static void license (FILE * f, char *name);
 
 static size_t
 mbstowcs_noerr (wchar_t * wcs, const char *mbs, size_t n)
@@ -111,7 +112,6 @@ mbstowcs_dup (const char *mbs)
 int
 main (int argc, const char **argv)
 {
-  poptContext optCon;
   const char *arg;
   const char **rest;
   int rc;
@@ -250,7 +250,7 @@ main (int argc, const char **argv)
         {
           /* Help options */
         case '?':
-          help (optCon, stdout, program_name);
+          help (stdout, program_name);
           poptFreeContext (optCon);
           free (program_name);
           if (action)
@@ -259,7 +259,7 @@ main (int argc, const char **argv)
             free (workDir);
           return (0);
         case 'u':
-          usage (optCon, stdout, program_name);
+          usage (stdout, program_name);
           poptFreeContext (optCon);
           free (program_name);
           if (action)
@@ -268,7 +268,7 @@ main (int argc, const char **argv)
             free (workDir);
           return (0);
         case 'v':
-          version (optCon, stdout, program_name);
+          version (stdout, program_name);
           poptFreeContext (optCon);
           free (program_name);
           if (action)
@@ -277,7 +277,7 @@ main (int argc, const char **argv)
             free (workDir);
           return (0);
         case 'l':
-          license (optCon, stdout, program_name);
+          license (stdout, program_name);
           poptFreeContext (optCon);
           free (program_name);
           if (action)
@@ -427,7 +427,7 @@ main (int argc, const char **argv)
     }
   else
     {
-      usage (optCon, stdout, program_name);
+      usage (stdout, program_name);
       return (2);
     }
 
@@ -817,13 +817,13 @@ printLicense (FILE * f, char *name)
 }
 
 static void
-usage (poptContext optCon, FILE * f, char *name)
+usage (FILE * f, char *name)
 {
   poptPrintUsage (optCon, f, 0);
 }
 
 static void
-help (poptContext optCon, FILE * f, char *name)
+help (FILE * f, char *name)
 {
   printTopDescription (f, name);
   poptPrintHelp (optCon, f, 0);
@@ -831,13 +831,13 @@ help (poptContext optCon, FILE * f, char *name)
 }
 
 static void
-version (poptContext optCon, FILE * f, char *name)
+version (FILE * f, char *name)
 {
   printTopDescription (f, name);
 }
 
 static void
-license (poptContext optCon, FILE * f, char *name)
+license (FILE * f, char *name)
 {
   printTopDescription (f, name);
   printLicense (f, name);

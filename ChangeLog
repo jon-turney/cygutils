@@ -1,5 +1,26 @@
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	Various code cleanups
+	* Makefile.am: Hack to work around conflict between
+	/usr/lib/libuuid* and /usr/lib/w32api/libuuid.
+	* src/ascii/ascii.c (main): Make optCon a global static.
+	When information is explicitly requested by the user, it
+	is not an error: invoke usage, help, version, license with
+	stdout not stderr.
+	(usage, help, version, license): Remove optCon function
+	argument throughout.
+	* src/banner/banner.c: Ditto.
+	* src/clip/getclip.c: Ditto.
+	* src/clip/putclip.c: Ditto.
+	* src/conv/conv.c: Ditto.
+	* src/cygstart/cygstart.c: Ditto.
+	* src/dump/dump.c: Ditto.
+	* src/mkshortcut/mkshortcut.c: Ditto.
+	* src/readshortcut/readshortcut.c: Ditto.
+	* src/realpath/realpath.c: Ditto.
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
 	* INSTALL: Remove from source control.
 
 2010-08-15  Andy Koppe  <andy.koppe@gmail.com>
