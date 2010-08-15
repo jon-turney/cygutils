@@ -1,5 +1,11 @@
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	Release 1.4.4 (tag moved to this checkin).
+	* BRANCHES: Update documentation.
+	* NEWS: Add entries for 1.4.4
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
 	Release 1.4.4
 	* configure.ac: Bump version number to 1.4.4.
 

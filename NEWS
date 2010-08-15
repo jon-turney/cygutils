@@ -1,3 +1,12 @@
+1.4.4
+  * Fix longstanding bug in mkshortcut, in which failure was
+    reported even on success (Andy Koppe).
+  * --help, --license, --usage, and --version output now goes
+    to stdout instead of stderr
+  * Add standard command line options to cygdrop (--version,
+    --help, --license, --usage)
+  * Various internal code cleanups
+
 1.4.2
   Add hippo icon to cygicons.
   Fix mkshortcut bug.
