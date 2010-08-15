@@ -31,17 +31,18 @@
 #include <regex.h>
 #include <sddl.h>
 #include <sys/cygwin.h>
+#include <getopt.h>
 
 static const char * progname;
+static const char versionID[] = PACKAGE_VERSION;
+static void help (FILE * f, const char *name);
+static void version (FILE * f, const char *name);
+static void license (FILE * f, const char *name);
 
 static int
-usage ()
+usageCore (FILE * f, const char * name)
 {
-  printf (
-    "%s is part of cygutils version %s\n"
-    "\n"
-    "Execute COMMAND with a restricted access token\n"
-    "\n"
+  fprintf (f,
     "Usage: %s [OPTIONS] COMMAND [ARG ...]\n"
     "\n"
     "Group options\n"
@@ -60,19 +61,20 @@ usage ()
     "  -P PRIV   Delete all privilege except privilege PRIV.\n"
     "\n"
     "General options\n"
-    "  -h        Print this help.\n"
+    "  --help,-h Print this help.\n"
+    "  --usage   Display brief usage information.\n"
+    "  --version Display version information.\n"
+    "  --license Display licensing information.\n"
     "  -v        Verbose output, lists groups and privileges changed.\n"
     "            Repeat to list all groups and privileges.\n"
-    "\n"
-    "If no group or privilege option is specified, '-l -d -m' is the default.\n"
-    "Options with GROUP and PRIV parameter may be specified more than once.\n"
-    "GROUP may be specified as a SID, a regular expression matching SIDs\n"
-    "(must start with 'S-'), a numeric group id, or a group name.\n"
-    "PRIV name match is not case sensitive, prefix 'Se' and suffix 'Privilege'\n"
-    "may be omitted.\n"
     "\n",
-    progname, PACKAGE_VERSION, progname
-  );
+    name);
+}
+
+static int
+usage ()
+{
+  usageCore (stderr, progname);
   return 1;
 }
 
@@ -176,6 +178,22 @@ match_priv (const char * priv, const char * pattern)
   return !strcmpi (priv, buf);
 }
 
+/* use long options for standard options, for
+ * consistency with other cygutils programs
+ */
+#define OPT_USAGE_FLAG     155
+#define OPT_VERSION_FLAG   OPT_USAGE_FLAG+1
+#define OPT_LICENSE_FLAG   OPT_VERSION_FLAG+1
+
+static struct option long_options[] =
+{
+  {"help",     no_argument, 0, 'h'},
+  {"usage",    no_argument, 0, OPT_USAGE_FLAG},
+  {"version",  no_argument, 0, OPT_VERSION_FLAG},
+  {"license",  no_argument, 0, OPT_LICENSE_FLAG},
+  {0, 0, 0, 0}
+};
+
 int
 main (int argc, char **argv)
 {
@@ -201,7 +219,9 @@ main (int argc, char **argv)
   int verbose = 0;
 
   int opt;
-  while ((opt = getopt(argc, argv, "dlhmvg:G:p:P:r:")) != EOF)
+  int option_index = 0;
+  while ((opt = getopt_long(argc, argv, "dlhmvg:G:p:P:r:",
+	                    long_options, &option_index)) != EOF)
     {
       if (num_group_args >= max_groups
 	  || num_priv_args >= max_privs
@@ -245,7 +265,17 @@ main (int argc, char **argv)
 	  verbose++;
 	  break;
 	case 'h':
-	  return usage ();
+	  help (stdout, progname);
+	  return 0;
+	case OPT_USAGE_FLAG:
+	  usageCore (stdout, progname);
+	  return 0;
+	case OPT_VERSION_FLAG:
+	  version (stdout, progname);
+	  return 0;
+	case OPT_LICENSE_FLAG:
+	  license (stdout, progname);
+	  return 0;
 	case '?':
 	  fprintf (stderr, "Try -h for help\n");
 	  return 1;
@@ -461,4 +491,79 @@ main (int argc, char **argv)
   execvp (argv[optind], argv + optind);
 
   return cygerror (argv[optind]);
+}
+
+static const char *
+getVersion ()
+{
+  return versionID;
+}
+
+static void
+printTopDescription (FILE * f, const char *name)
+{
+  fprintf (f, "%s is part of cygutils version %s\n", name, getVersion ());
+  fprintf (f, "  Execute COMMAND with a restricted access token\n\n");
+}
+
+static void
+printBottomDescription (FILE * f, const char *name)
+{
+  fprintf(f,
+    "If no group or privilege option is specified, '-l -d -m' is the default.\n"
+    "Options with GROUP and PRIV parameter may be specified more than once.\n"
+    "GROUP may be specified as a SID, a regular expression matching SIDs\n"
+    "(must start with 'S-'), a numeric group id, or a group name.\n"
+    "PRIV name match is not case sensitive, prefix 'Se' and suffix 'Privilege'\n"
+    "may be omitted.\n\n");
+}
+
+static void
+printLicense (FILE * f, const char *name)
+{
+  fprintf (f,
+           "This program is free software; you can redistribute it and/or\n");
+  fprintf (f,
+           "modify it under the terms of the GNU General Public License\n");
+  fprintf (f,
+           "as published by the Free Software Foundation; either version 2\n");
+  fprintf (f, "of the License, or (at your option) any later version.\n");
+  fprintf (f, "\n");
+  fprintf (f,
+           "This program is distributed in the hope that it will be useful,\n");
+  fprintf (f,
+           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
+  fprintf (f,
+           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
+  fprintf (f, "GNU General Public License for more details.\n");
+  fprintf (f, "\n");
+  fprintf (f,
+           "You should have received a copy of the GNU General Public License\n");
+  fprintf (f,
+           "along with this program; if not, write to the Free Software\n");
+  fprintf (f,
+           "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n");
+  fprintf (f, "\n");
+  fprintf (f, "See the COPYING file for license information.\n");
+}
+
+static void
+help (FILE * f, const char *name)
+{
+  printTopDescription (f, name);
+  usageCore (f, name);
+  printBottomDescription (f, name);
+}
+
+static void
+version (FILE * f, const char *name)
+{
+  printTopDescription (f, name);
+}
+
+static void
+license (FILE * f, const char *name)
+{
+  printTopDescription (f, name);
+  printLicense (f, name);
 }
