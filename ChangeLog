@@ -1,5 +1,10 @@
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	Devel 1.4.5
+	* configure.ac: Post-release version bump.
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
 	Release 1.4.4 (tag moved to this checkin).
 	* BRANCHES: Update documentation.
 	* NEWS: Add entries for 1.4.4
