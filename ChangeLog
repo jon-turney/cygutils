@@ -1,5 +1,23 @@
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	Release 1.4.4
+	* configure.ac: Bump version number to 1.4.4.
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
+	Add standard cmdline options to cygdrop:
+	* src/cygdrop/cygdrop.cc (license, version, help,
+	printLicense, printBottomDescription, printTopDescription,
+	getVersion): New functions.
+	(usage): Implementation moved to usageCore; this function
+	now delegates.
+	(usageCore): This, and signature changed to accept FILE*
+	and progname as arguments.
+	(main): Use getopt_long and new struct option to support
+	--version, --license, --usage, and --help.
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
 	* src/realpath/realpath.c: Correct licensing info.
 	Original code was GPLv2+, not GPLv2 only (see
 	http://lists.gnu.org/archive/html/bug-sh-utils/2001-10/msg00002.html)
