@@ -507,29 +507,17 @@ static void
 printLicense (FILE * f, char *name)
 {
   fprintf (f,
-           "This program is free software; you can redistribute it and/or\n");
-  fprintf (f,
-           "modify it under the terms of the GNU General Public License\n");
-  fprintf (f,
-           "as published by the Free Software Foundation; either version 2\n");
-  fprintf (f, "of the License, or (at your option) any later version.\n");
-  fprintf (f, "\n");
-  fprintf (f,
-           "This program is distributed in the hope that it will be useful,\n");
-  fprintf (f,
-           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
-  fprintf (f,
-           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
-  fprintf (f, "GNU General Public License for more details.\n");
-  fprintf (f, "\n");
-  fprintf (f,
-           "You should have received a copy of the GNU General Public License\n");
-  fprintf (f,
-           "along with this program; if not, write to the Free Software\n");
-  fprintf (f,
-           "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n");
-  fprintf (f, "\n");
-  fprintf (f, "See the COPYING file for license information.\n");
+           "This program is free software: you can redistribute it and/or modify\n"
+           "it under the terms of the GNU General Public License as published by\n"
+           "the Free Software Foundation, either version 3 of the License, or\n"
+           "(at your option) any later version.\n\n"
+           "This program is distributed in the hope that it will be useful,\n"
+           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+           "GNU General Public License for more details.\n\n"
+           "You should have received a copy of the GNU General Public License\n"
+           "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n"
+           "See the COPYING file for full license information.\n");
 }
 
 static void

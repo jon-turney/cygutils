@@ -1,5 +1,19 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	Correct licensing oversights.
+	* clip/getclip.c (printLicense): Update internal license
+	text to GPLv3+.
+	* clip/putclip.c (printLicense): Ditto.
+	* conv/conv.c (printLicense): Ditto.
+	* cygstart/cygstart.c (printLicense): Ditto.
+	* realpath/realpath.c (printLicense): Ditto.
+	* readshortcut/readshortcut.c (printLicense): Ditto.
+	* dump/dump.c (printLicense): Ditto.
+	(printBottomDescription): Add reference to 'od'.
+	* readshortcut/readshortcut.1: Update license to GPLv3+.
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	ascii: display only lower 128 chars by default.
 	* src/ascii/ascii.c (license): Update internal license
 	text to GPLv3+.
