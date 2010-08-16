@@ -26,9 +26,9 @@ Rob Siklos <rob@siklos.ca>
   readshortcut.c, readshortcut.1
   (GPLv3+)
 
-Michael Schaap  <cygwin_start@mscha.org>
+Michael Schaap  <mscha@mscha.org>
   cygstart.c, cygstart.1
-  (GPLv2+)
+  (GPLv3+)
 
 Robert Collins:
   demonstrated how to consolidate the build process

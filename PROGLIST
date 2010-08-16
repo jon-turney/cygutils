@@ -86,7 +86,7 @@ cygstart.exe
   A command-line tool which allows you to let Windows start a program or open
   a file or URL in its associated application. It is similar to the Windows
   command-line start command.
-  (GPLv2+)
+  (GPLv3+)
 
 cygdrop.exe
   A command-line tool which allows you to let start a Cygwin or Windows

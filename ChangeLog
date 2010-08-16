@@ -1,7 +1,8 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
-	Change license for realpath to GPLv3+
-	* src/realpath/realpath.c: Update license to GPLv3+.
+	Change license for cygstart to GPLv3+
+	* src/cygstart/cygstart.c: Update license to GPLv3+.
+	* src/cygstart/cygstart.1: Ditto.
 	* AUTHORS: Update licensing info for realpath.
 	* NEWS: Ditto.
 	* PROGLIST: Ditto.
