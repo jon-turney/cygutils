@@ -9,6 +9,8 @@
   * Updated license for realpath to GPLv3+ (was GPLv2+)
   * Updated license for cygstart to GPLv3+ (was GPLv2+; no objections
     from Michael Schaap)
+  * Updated license for cygdrop to GPLv3+ (was GPLv2+; no objections
+    from Christian Franke)
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was

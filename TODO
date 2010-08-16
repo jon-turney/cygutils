@@ -16,7 +16,6 @@
 
 * GPLv3 conversion:
   - banner is GPLv2 only. Contact original author.
-  - cygdrop is GPLv2+, but courtesy contact original author
   - mkshortcut is GPLv2+, but courtesy contact original author
   - cygicons.dll compilation is GPLv2+, but includes artwork that
     is unspecified GPL. Need to research whether this can be upgraded.

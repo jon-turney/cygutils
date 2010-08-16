@@ -93,7 +93,7 @@ cygdrop.exe
   program with a restricted access token. All administrative rights are dropped
   by default. The tool also provides options for finer control of groups and
   privileges.
-  (GPLv2+)
+  (GPLv3+)
 
 ipck:
   IPC utility brought over from cygipc.

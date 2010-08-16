@@ -1,5 +1,15 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	Change license for cygdrop to GPLv3+
+	* src/cygdrop/cygdrop.cc: Update license to GPLv3+.
+	* AUTHORS: Update licensing info for realpath.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	Correct licensing oversights.
 	* clip/getclip.c (printLicense): Update internal license
 	text to GPLv3+.
