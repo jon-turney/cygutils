@@ -1,5 +1,19 @@
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	* src/lpr/lpr.cc: Update license to GPLv3+.
+	* src/lpr/Printer.hh: Ditto.
+	* src/lpr/Printer.cc: Ditto.
+	* src/lpr/PrinterException.hh: Ditto.
+	* src/lpr/Win32Utils.hh: Ditto.
+	* src/lpr/Win32Utils.cc: Ditto.
+	* AUTHORS: Update licensing info for lpr.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
+2010-08-15  Charles Wilson  <cwilson@...>
+
 	Devel 1.4.5
 	* configure.ac: Post-release version bump.
 

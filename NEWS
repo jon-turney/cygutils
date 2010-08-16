@@ -1,3 +1,7 @@
+1.4.6
+  * Updated license for lpr to GPLv3+ (with permission from
+    Rick Rankin)
+
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was
     reported even on success (Andy Koppe).
