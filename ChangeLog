@@ -1,5 +1,17 @@
+2010-08-16  Charles Wilson  <cwilson@...>
+
+	Change license for readshortcut to GPLv3+
+	* src/readshortcut/readshortcut.c: Update license
+	to GPLv3+.
+	* AUTHORS: Update licensing info for readshortcut.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
 2010-08-15  Charles Wilson  <cwilson@...>
 
+	Change license for lpr to GPLv3+.
 	* src/lpr/lpr.cc: Update license to GPLv3+.
 	* src/lpr/Printer.hh: Ditto.
 	* src/lpr/Printer.cc: Ditto.

@@ -1,6 +1,8 @@
 1.4.6
   * Updated license for lpr to GPLv3+ (with permission from
     Rick Rankin)
+  * Updated license for readshortcut to GPLv3+ (with permission
+    from Rob Siklos)
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was
