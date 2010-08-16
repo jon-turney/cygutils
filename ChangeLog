@@ -1,5 +1,15 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	ascii: display only lower 128 chars by default.
+	* src/ascii/ascii.c (license): Update internal license
+	text to GPLv3+.
+	(main): Accept new option '--extended'; new option flag.
+	(ascii): Accept new option flag; only display characters
+	128..255 if enabled.
+	NEWS: Document.
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	Change license for cygstart to GPLv3+
 	* src/cygstart/cygstart.c: Update license to GPLv3+.
 	* src/cygstart/cygstart.1: Ditto.

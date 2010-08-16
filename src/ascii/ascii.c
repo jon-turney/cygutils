@@ -30,7 +30,7 @@ static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
   "$Id$";
 static const char copyrightID[] =
-  "Copyright (c) 2009\nCharles S. Wilson. All rights reserved.\nLicensed under GPLv3+\n";
+  "Copyright (c) 2010\nCharles S. Wilson. All rights reserved.\nLicensed under GPLv3+\n";
 
 static void printTopDescription (FILE * f, char *name);
 static const char *getVersion (void);
@@ -38,7 +38,7 @@ static void usage (FILE * f, char *name);
 static void help (FILE * f, char *name);
 static void version (FILE * f, char *name);
 static void license (FILE * f, char *name);
-static void ascii (FILE * f);
+static void ascii (FILE * f, int opt_extended);
 
 static char *program_name;
 static poptContext optCon;
@@ -49,6 +49,13 @@ main (int argc, const char **argv)
   const char **rest;
   int rc;
   int ec = 0;
+  int opt_extended = 0;
+
+  struct poptOption generalOptionsTable[] = {
+    {"extended", 'e', POPT_ARG_NONE, NULL, 'e',
+     "Include \"hi-ascii\" characters (128..255).", NULL},
+    {NULL, '\0', 0, NULL, 0, NULL, NULL}
+  };
 
   struct poptOption helpOptionsTable[] = {
     {"help", '?', POPT_ARG_NONE, NULL, '?',
@@ -63,6 +70,8 @@ main (int argc, const char **argv)
   };
 
   struct poptOption opt[] = {
+    {NULL, '\0', POPT_ARG_INCLUDE_TABLE, generalOptionsTable, 0,
+     "General options", NULL},
     {NULL, '\0', POPT_ARG_INCLUDE_TABLE, helpOptionsTable, 0,
      "Help options", NULL},
     {NULL, '\0', 0, NULL, 0, NULL, NULL}
@@ -79,6 +88,9 @@ main (int argc, const char **argv)
     {
       switch (rc)
         {
+        case 'e':
+          opt_extended=1;
+          break;
         case '?':
           help (stdout, program_name);
           goto exit;
@@ -104,14 +116,14 @@ main (int argc, const char **argv)
   rest = poptGetArgs (optCon);
 
   if (rest == NULL)
-    ascii (stdout);
+    ascii (stdout, opt_extended);
   else
     {
       fprintf (stderr, "Extra args ignored: ");
       while (*rest)
         fprintf (stderr, "%s ", *rest++);
       fprintf (stderr, "\n");
-      ascii (stdout);
+      ascii (stdout, opt_extended);
     }
 
 exit:
@@ -138,29 +150,17 @@ static
 printLicense (FILE * f, char *name)
 {
   fprintf (f,
-           "This program is free software; you can redistribute it and/or\n");
-  fprintf (f,
-           "modify it under the terms of the GNU General Public License\n");
-  fprintf (f,
-           "as published by the Free Software Foundation; either version 2\n");
-  fprintf (f, "of the License, or (at your option) any later version.\n");
-  fprintf (f, "\n");
-  fprintf (f,
-           "This program is distributed in the hope that it will be useful,\n");
-  fprintf (f,
-           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
-  fprintf (f,
-           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
-  fprintf (f, "GNU General Public License for more details.\n");
-  fprintf (f, "\n");
-  fprintf (f,
-           "You should have received a copy of the GNU General Public License\n");
-  fprintf (f,
-           "along with this program; if not, write to the Free Software\n");
-  fprintf (f,
-           "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.\n");
-  fprintf (f, "\n");
-  fprintf (f, "See the COPYING file for license information.\n");
+           "This program is free software: you can redistribute it and/or modify\n"
+           "it under the terms of the GNU General Public License as published by\n"
+           "the Free Software Foundation, either version 3 of the License, or\n"
+           "(at your option) any later version.\n\n"
+           "This program is distributed in the hope that it will be useful,\n"
+           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+           "GNU General Public License for more details.\n\n"
+           "You should have received a copy of the GNU General Public License\n"
+           "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\n"
+           "See the COPYING file for full license information.\n");
 }
 
 static void
@@ -190,7 +190,7 @@ license (FILE * f, char *name)
 }
 
 static void
-ascii (FILE * f)
+ascii (FILE * f, int opt_extended)
 {
   char str1[64][80];
   int i, j;
@@ -208,15 +208,23 @@ ascii (FILE * f)
       else
         sprintf (str1[j], "%s%c\t", str1[j], i);
     }
-  for (i = 128; i < 256; i++)
+  if (opt_extended)
     {
-      j = ((i - 128) % 32) + 32;
-      sprintf (str1[j], "%s%03d  %0#4x  ", str1[j], i, i);
-      sprintf (str1[j], "%s%c\t", str1[j], i);
+      for (i = 128; i < 256; i++)
+        {
+          j = ((i - 128) % 32) + 32;
+          sprintf (str1[j], "%s%03d  %0#4x  ", str1[j], i, i);
+          sprintf (str1[j], "%s%c\t", str1[j], i);
+        }
     }
   for (i = 0; i < 32; i++)
     fprintf (f, "%s\n", str1[i]);
-  fprintf (f, "\n");
-  for (i = 32; i < 64; i++)
-    fprintf (f, "%s\n", str1[i]);
+
+  if (opt_extended)
+    {
+      fprintf (f, "\n");
+      for (i = 32; i < 64; i++)
+        fprintf (f, "%s\n", str1[i]);
+    }
 }
+

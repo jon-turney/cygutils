@@ -1,4 +1,7 @@
 1.4.6
+  * ascii: by default, now only prints characters 0..127. Use new
+    option --extended/-e for old behavior, printing characters 0..255.
+    See this thread: http://cygwin.com/ml/cygwin/2010-04/msg00600.html
   * Updated license for lpr to GPLv3+ (with permission from
     Rick Rankin)
   * Updated license for readshortcut to GPLv3+ (with permission
