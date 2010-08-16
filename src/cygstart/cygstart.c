@@ -489,7 +489,8 @@ static int
 cygstart_posix_to_win_w (const char *posix_mbs_path, wchar_t **w32_wcs_path)
 {
   int rc = 0;
-  ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W, posix_mbs_path, NULL, 0);
+  ssize_t len = cygwin_conv_path (CCP_POSIX_TO_WIN_W|CCP_RELATIVE,
+                                  posix_mbs_path, NULL, 0);
   if (len < 0)
     {
       fprintf (stderr,
@@ -507,7 +508,8 @@ cygstart_posix_to_win_w (const char *posix_mbs_path, wchar_t **w32_wcs_path)
       goto err_cleanup;
     }
 
-  if (cygwin_conv_path (CCP_POSIX_TO_WIN_W, posix_mbs_path, *w32_wcs_path,
+  if (cygwin_conv_path (CCP_POSIX_TO_WIN_W|CCP_RELATIVE,
+                        posix_mbs_path, *w32_wcs_path,
                         (len + 1) * sizeof (wchar_t)) < 0)
     {
       fprintf (stderr,

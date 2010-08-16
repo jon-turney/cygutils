@@ -1,5 +1,12 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	* cygstart.c (cygstart_posix_to_win_w): Use CCP_RELATIVE
+	when converting paths; enables 'cygstart calc'. Reported
+	by Ken Hirsch.
+	* NEWS: Document.
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	* cygstart.1: Update URL for reference to MS 'ShellExecute'
 	documentation.
 	* cygstart.c: Ditto (fixes --reference option).
