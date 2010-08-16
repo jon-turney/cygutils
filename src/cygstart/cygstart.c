@@ -43,8 +43,7 @@
 #define ACTION_PRINT "print"
 
 /* MSDN reference URL */
-#define MSDN_URL "http://msdn.microsoft.com/library/en-us/shellcc/platform/" \
-                 "Shell/reference/functions/shellexecute.asp"
+#define MSDN_URL "http://msdn.microsoft.com/en-us/library/bb762153%28VS.85%29.aspx"
 
 static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =

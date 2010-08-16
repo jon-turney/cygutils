@@ -1,5 +1,11 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	* cygstart.1: Update URL for reference to MS 'ShellExecute'
+	documentation.
+	* cygstart.c: Ditto (fixes --reference option).
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	Change license for cygdrop to GPLv3+
 	* src/cygdrop/cygdrop.cc: Update license to GPLv3+.
 	* AUTHORS: Update licensing info for realpath.
