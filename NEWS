@@ -3,6 +3,7 @@
     Rick Rankin)
   * Updated license for readshortcut to GPLv3+ (with permission
     from Rob Siklos)
+  * Updated license for realpath to GPLv3+ (was GPLv2+)
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was

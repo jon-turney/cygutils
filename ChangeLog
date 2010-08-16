@@ -1,5 +1,15 @@
 2010-08-16  Charles Wilson  <cwilson@...>
 
+	Change license for realpath to GPLv3+
+	* src/realpath/realpath.c: Update license to GPLv3+.
+	* AUTHORS: Update licensing info for realpath.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
+2010-08-16  Charles Wilson  <cwilson@...>
+
 	Change license for readshortcut to GPLv3+
 	* src/readshortcut/readshortcut.c: Update license
 	to GPLv3+.

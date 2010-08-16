@@ -12,7 +12,7 @@ Jorg Schaible  <joerg.schaible@gft.com>
 Steven Barker  <scbarker@uiuc.edu>
   realpath.c (submitted to bug-sh-utils on 6 October 2001)
   -- adapted by Charles Wilson
-  (GPLv2+)
+  (GPLv3+)
 
 Rick Rankin  <rick_rankin@yahoo.com>
   lpr.c
@@ -22,7 +22,7 @@ Joshua Danial Franklin  <joshuadfranklin@yahoo.com>
   mkshortcut.c, mkshortcut.1
   (GPLv2+)
 
-Rob Siklos <rob3@siklos.ca>
+Rob Siklos <rob@siklos.ca>
   readshortcut.c, readshortcut.1
   (GPLv3+)
 
