@@ -16,6 +16,9 @@
     from Christian Franke)
   * Updated license for mkshortcut to GPLv3+ (was GPLv2+; no objections
     from Joshua Daniel Franklin)
+  * Updated license for the cygicons.dll (as a collection) to GPLv3+ (was
+    GPLv2+). Individual icons within the collection remain under their
+    original license.
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was

@@ -101,7 +101,7 @@ ipck:
 
 cygicons:
   DLL containing cygwin-related icons
-  (GPLv2+)
+  (GPLv3+)
 
 (*) originally BSD+advert, but falls under the blanket 
     conversion to BSD-no-advert, because it was originally

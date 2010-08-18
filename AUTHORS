@@ -40,9 +40,9 @@ Christian Franke <franke@computer.org>
 
 unknown, Charles Wilson, Nicky H., August Mayer
 August Mayer, FBL
-  individual icons within the cygicons dll
-  See src/cygicons/README-cygicons
-  (GPL)
+  Individual icons within the cygicons dll:
+    wee src/cygicons/README-cygicons (GPL, public domain, CC-BY-SA)
+  Collection: GPLv3+
 
 No longer included:
 ===================

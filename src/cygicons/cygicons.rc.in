@@ -1,13 +1,13 @@
 /**
  * cygicons.rc : resource description for cygwin-related icons
  *
- * Copyright 2007,2009 by Charles S. Wilson <cygwin@cygwin.com>
+ * Copyright 2007,2009,2010 by Charles S. Wilson <cygwin@cygwin.com>
  * All rights reserved.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,10 +15,9 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * See the COPYING file for license information.
+ * See the COPYING file for full license information.
  */
 
 #if HAVE_CONFIG_H
@@ -50,17 +49,18 @@ IDI_CYGWIN_HIPPO  ICON "hippo.ico"
 #define VER_COMPANYNAME_STR       "Charles S. Wilson @PACKAGE_BUGREPORT@\0"
 #define VER_FILEDESCRIPTION_STR   "Provides cygwin-related icons.\0"
 #define VER_INTERNALNAME_STR      "cygicons-@CYGICONS_DLL_VERSION@\0"
-#define VER_LEGALCOPYRIGHT_STR    "Copyright © 2007,2009 Charles S. Wilson\0"
+#define VER_LEGALCOPYRIGHT_STR    "Copyright © 2007,2009,2010 Charles S. Wilson\0"
 #define VER_ORIGINALFILENAME_STR  "cygicons-@CYGICONS_DLL_VERSION@.dll\0"
 #define VER_PRODUCTNAME_STR       "@PACKAGE_NAME@\0"
-#define VER_GNU_COPYLEFT_STR      "Released under the GNU General Public License version 2 \
+#define VER_GNU_COPYLEFT_STR      "Released under the GNU General Public License version 3 (or later) \
 -------------------------------- \
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. \
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. \
 -------------------------------- \
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. \
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. \
 -------------------------------- \
-You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\0"
-
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>. \
+-------------------------------- \
+See the COPYING file for full license information.\0"
 
 #ifndef DEBUG
 #define VER_DEBUG               0

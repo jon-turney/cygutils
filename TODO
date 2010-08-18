@@ -16,5 +16,3 @@
 
 * GPLv3 conversion:
   - banner is GPLv2 only. Contact original author.
-  - cygicons.dll compilation is GPLv2+, but includes artwork that
-    is unspecified GPL. Need to research whether this can be upgraded.

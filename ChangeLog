@@ -1,5 +1,15 @@
 2010-08-18  Charles Wilson  <cwilson@...>
 
+	Change license for cygicons.dll to GPLv3+
+	* src/cygicons/cygicons.rc.in: Update license to GPLv3+.
+	* AUTHORS: Update licensing info for cygicons.dll.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
+2010-08-18  Charles Wilson  <cwilson@...>
+
 	Change license for mkshortcut to GPLv3+
 	* src/mkshortcut/mkshortcut.c: Update license to GPLv3+.
 	* src/mkshortcut/mkshortcut.1: Ditto.
