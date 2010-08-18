@@ -1,3 +1,14 @@
+2010-08-18  Charles Wilson  <cwilson@...>
+
+	Change license for mkshortcut to GPLv3+
+	* src/mkshortcut/mkshortcut.c: Update license to GPLv3+.
+	* src/mkshortcut/mkshortcut.1: Ditto.
+	* AUTHORS: Update licensing info for mkshortcut.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
 2010-08-16  Charles Wilson  <cwilson@...>
 
 	* cygstart.c (cygstart_posix_to_win_w): Use CCP_RELATIVE
@@ -15,7 +26,7 @@
 
 	Change license for cygdrop to GPLv3+
 	* src/cygdrop/cygdrop.cc: Update license to GPLv3+.
-	* AUTHORS: Update licensing info for realpath.
+	* AUTHORS: Update licensing info for cygdrop.
 	* NEWS: Ditto.
 	* PROGLIST: Ditto.
 	* README: Ditto.
@@ -50,7 +61,7 @@
 	Change license for cygstart to GPLv3+
 	* src/cygstart/cygstart.c: Update license to GPLv3+.
 	* src/cygstart/cygstart.1: Ditto.
-	* AUTHORS: Update licensing info for realpath.
+	* AUTHORS: Update licensing info for cygstart.
 	* NEWS: Ditto.
 	* PROGLIST: Ditto.
 	* README: Ditto.

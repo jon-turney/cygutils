@@ -14,6 +14,8 @@
     from Michael Schaap)
   * Updated license for cygdrop to GPLv3+ (was GPLv2+; no objections
     from Christian Franke)
+  * Updated license for mkshortcut to GPLv3+ (was GPLv2+; no objections
+    from Joshua Daniel Franklin)
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was

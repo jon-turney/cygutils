@@ -51,10 +51,11 @@ GPLv3+:
  conv      unix2dos   dos2unix      d2u         u2d
  ipck      msgtool    semstat       semtool     shmtool
 
- cygdrop   cygstart   lpr           readshortcut  realpath
+ cygdrop   cygstart   lpr           mkshortcut  readshortcut
+ realpath
 
 GPLv2+:
- mkshortcut    cygicons.dll
+ cygicons.dll
 
 GPLv2:
  banner
