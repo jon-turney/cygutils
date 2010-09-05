@@ -47,15 +47,20 @@ files included in this package that fall under his edict.
 What's in this package:
 -------------------------------
 GPLv3+:
- ascii     dump       putclip       getclip   
- conv      unix2dos   dos2unix      d2u         u2d
- ipck      msgtool    semstat       semtool     shmtool
+ ascii     banner     cygdrop       cygicons.dll   cygstart
+ dump      lpr        mkshortcut    readshortcut   realpath
 
- cygdrop       cygicons.dll   cygstart   lpr   mkshortcut
- readshortcut  realpath
+ Clipboard:
+ putclip   getclip
+
+ Line Ending Conversion:
+ conv      unix2dos   dos2unix      d2u             u2d
+
+ IPC:
+ ipck      msgtool    semstat       semtool         shmtool
 
 GPLv2:
- banner
+ <none>
 
 PublicDomain-now-GPL:
  <none>

@@ -1,3 +1,13 @@
+2010-09-05  Charles Wilson  <cwilson@...>
+
+	Change license for banner to GPLv3+
+	* src/banner/banner.c: Update license to GPLv3+.
+	* AUTHORS: Update licensing info for banner.
+	* NEWS: Ditto.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* TODO: Ditto.
+
 2010-08-18  Charles Wilson  <cwilson@...>
 
 	Change license for cygicons.dll to GPLv3+
@@ -1620,7 +1630,7 @@
 	* package renamed to 'cygutils'
 	* README: update
 	* NEWS: update
-	* AUTHORS: add Jorg Schaible
+	* AUTHORS: add Joerg Schaible
 	* configure.ac: package name change
 	* src/Makefile.am: add 'banner'
 	* src/banner.c: new file.  Modified from Joerg's
@@ -2437,7 +2447,7 @@
 	* package renamed to 'cygutils'
 	* README: update
 	* NEWS: update
-	* AUTHORS: add Jorg Schaible
+	* AUTHORS: add Joerg Schaible
 	* configure.ac: package name change
 	* src/Makefile.am: add 'banner'
 	* src/banner.c: new file.  Modified from Joerg's

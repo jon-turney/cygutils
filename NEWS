@@ -19,6 +19,8 @@
   * Updated license for the cygicons.dll (as a collection) to GPLv3+ (was
     GPLv2+). Individual icons within the collection remain under their
     original license.
+  * Updated license for banner to GPLv3+ (with permission from
+    from Joerg Schaible)
 
 1.4.4
   * Fix longstanding bug in mkshortcut, in which failure was
@@ -182,7 +184,7 @@
 
 0.9.5:
   renamed the package to `cygutils'
-  added Jorg Schaible's 'banner' implementation
+  added Joerg Schaible's 'banner' implementation
 
 0.9.4:
   added ipc tools from "Linux Programmer's Guide":

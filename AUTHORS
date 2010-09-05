@@ -5,9 +5,9 @@ Scott Burkett  <scottb@IntNet.net>
   semtool.c, semstat.c, shmtool.c, msgtool.c
   (GPLv3+)
 
-Jorg Schaible  <joerg.schaible@gft.com>
+Joerg Schaible  <joerg.schaible@gft.com>
   banner.c
-  (GPLv2)
+  (GPLv3+)
 
 Steven Barker  <scbarker@uiuc.edu>
   realpath.c (submitted to bug-sh-utils on 6 October 2001)

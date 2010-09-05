@@ -57,7 +57,7 @@ msgtool.exe / shmtool.exe / semtool.exe / semstat.exe
   
 banner.exe
   prints a large banner to stdout.  From Joerg Schaible.
-  (GPLv2)
+  (GPLv3+)
   
 realpath.exe
   Convert pathname argument to absolute path, with all 
