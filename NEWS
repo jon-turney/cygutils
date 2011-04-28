@@ -1,4 +1,6 @@
 1.4.6
+  * conv: no longer distribute as dos2unix, unix2dos, u2d, or d2u.
+    Those programs now available from the separate dos2unix package.
   * ascii: by default, now only prints characters 0..127. Use new
     option --extended/-e for old behavior, printing characters 0..255.
     See this thread: http://cygwin.com/ml/cygwin/2010-04/msg00600.html

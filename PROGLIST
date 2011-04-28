@@ -18,8 +18,8 @@ getclip.exe
   Not built unless on a WIN32 platform
   (GPLv3+)
   
-conv.exe / d2u.exe / u2d.exe / dos2unix.exe / unix2dos.exe
-  programs for converting line endings of text
+conv.exe
+  program for converting line endings of text
   files between DOS and UNIX format.
   (GPLv3+)
   

@@ -134,13 +134,6 @@ src_cygdrop_cygdrop_CXXFLAGS = -fno-exceptions
 install-exec-hook: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	$(mkdir_p) $(DESTDIR)$(bindir)
-	@t=`echo conv|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	for p in d2u u2d dos2unix unix2dos; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo "(cd $(DESTDIR)$(bindir) && ln -f $$t $$f)"; \
-	  (cd $(DESTDIR)$(bindir) && ln -f $$t $$f); \
-	done
 	if [ -e $(DESTDIR)$(libdir)/libicons.dll.a ]; then \
 	  (cd $(DESTDIR)$(libdir) && mv libicons.dll.a libcygicons.dll.a) ;\
 	fi
@@ -157,12 +150,6 @@ install-exec-hook: $(bin_PROGRAMS)
 
 uninstall-hook:
 	@$(NORMAL_UNINSTALL)
-	@for p in d2u u2d dos2unix unix2dos; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
-	  rm -f $(DESTDIR)$(bindir)/$$f; \
-	done
 	if [ -e $(DESTDIR)$(libdir)/libcygicons.la ]; then \
 	   echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/libcygicons.la'"; \
 	   $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/libcygicons.la"; \

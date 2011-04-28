@@ -54,7 +54,7 @@ GPLv3+:
  putclip   getclip
 
  Line Ending Conversion:
- conv      unix2dos   dos2unix      d2u             u2d
+ conv
 
  IPC:
  ipck      msgtool    semstat       semtool         shmtool

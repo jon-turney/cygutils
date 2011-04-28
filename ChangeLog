@@ -1,3 +1,13 @@
+2011-04-28  Charles Wilson  <cwilson@...>
+
+	Don't distribute dos2unix, unix2dos, u2d, or d2u.
+	* Makefile.am: Don't install conv.exe as dos2unix,
+	unix2dos, d2u, or u2d any longer. Those programs are
+	now provided by the separate dos2unix package.
+	* PROGLIST: Remove references to dos2unix/unix2dos.
+	* README: Ditto.
+	* NEWS: Document changes.
+
 2010-09-05  Charles Wilson  <cwilson@...>
 
 	Change license for banner to GPLv3+
