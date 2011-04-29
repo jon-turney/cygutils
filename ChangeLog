@@ -1,3 +1,8 @@
+2011-04-28  Christian Franke  <franke@computer.org>
+
+	* src/cygdrop/cygdrop.cc: Don't permute options.
+	Add missing fflush(). Fix typo. Print author.
+
 2011-04-28  Charles Wilson  <cwilson@...>
 
 	Don't distribute dos2unix, unix2dos, u2d, or d2u.

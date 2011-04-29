@@ -1,7 +1,7 @@
 /*
  * Execute a program with a restricted access token.
  *
- * Copyright (C) 2009  Christian Franke
+ * Copyright (C) 2009,2011  Christian Franke
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@
 #include <sys/cygwin.h>
 #include <getopt.h>
 
+#define AUTHORS "Christian Franke"
+
 static const char * progname;
 static const char versionID[] = PACKAGE_VERSION;
 static void help (FILE * f, const char *name);
@@ -56,7 +58,7 @@ usageCore (FILE * f, const char * name)
     "  -m        Delete most privileges [default]\n"
     "            (same as '-P SeChangeNotifyPrivilege').\n"
     "  -p PRIV   Delete privilege PRIV.\n"
-    "  -P PRIV   Delete all privilege except privilege PRIV.\n"
+    "  -P PRIV   Delete all privileges except privilege PRIV.\n"
     "\n"
     "General options\n"
     "  --help,-h Print this help.\n"
@@ -218,7 +220,7 @@ main (int argc, char **argv)
 
   int opt;
   int option_index = 0;
-  while ((opt = getopt_long(argc, argv, "dlhmvg:G:p:P:r:",
+  while ((opt = getopt_long(argc, argv, "+dlhmvg:G:p:P:r:",
 	                    long_options, &option_index)) != EOF)
     {
       if (num_group_args >= max_groups
@@ -485,6 +487,7 @@ main (int argc, char **argv)
 	printf ("'%s' ", argv[i]);
       printf ("'%s'\n", argv[argc-1]);
     }
+  fflush(stdout);
 
   execvp (argv[optind], argv + optind);
 
@@ -501,6 +504,7 @@ static void
 printTopDescription (FILE * f, const char *name)
 {
   fprintf (f, "%s is part of cygutils version %s\n", name, getVersion ());
+  fprintf (f, "%s was originally authored by %s\n", name, AUTHORS);
   fprintf (f, "  Execute COMMAND with a restricted access token\n\n");
 }
 
