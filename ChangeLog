@@ -1,3 +1,11 @@
+2011-04-28  Charles Wilson  <cwilson@...>
+
+	Release 1.4.6
+	* configure.ac: Bump version number to 1.4.6.
+	* NEWS: Update documentation.
+	* TODO: Ditto.
+	* BRANCHES: Ditto.
+
 2011-04-21  Jon TURNEY  <jon.turney@dronecode.org.uk>
             Charles Wilson  <cwilson@...>
 

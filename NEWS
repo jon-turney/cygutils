@@ -7,6 +7,8 @@
   * cygstart: Fix --reference. Allow relative paths (enables, e.g.
     'cygstart calc'). Reported by Ken Hirsch.
     http://cygwin.com/ml/cygwin/2010-01/msg01101.html
+  * cygdrop: Minor fixes (Christian Franke)
+  * mkshortcut: Minor fixes (Jon TURNEY)
   * Updated license for lpr to GPLv3+ (with permission from
     Rick Rankin)
   * Updated license for readshortcut to GPLv3+ (with permission

@@ -1,5 +1,5 @@
-* Update lpr.cc and mkshortcut.c to use cygwin-1.7 cygwin_conv_path
-  instead of deprecated cygwin_conv_to_win32_path.
+* Update lpr.cc, mkshortcut.c, readshortcut.c to use cygwin-1.7
+  cygwin_conv_path instead of deprecated cygwin_conv_to_win32_path.
 
 * Update (some?) utilities to handle unicode filenames, similar to
   IWAMURO Motonori's work on cygstart.
