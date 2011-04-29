@@ -1,3 +1,10 @@
+2011-04-21  Jon TURNEY  <jon.turney@dronecode.org.uk>
+            Charles Wilson  <cwilson@...>
+
+	* src/mkshortcut/mkshortcut.c (mkshortcut): If we are
+	creating shortcut for all users, ensure it is readable by
+	all users.
+
 2011-04-28  Christian Franke  <franke@computer.org>
 
 	* src/cygdrop/cygdrop.cc: Don't permute options.

@@ -41,6 +41,7 @@
 #include <stdio.h>
 #include <popt.h>
 */
+#include <sys/cygwin.h>
 
 static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
@@ -611,6 +612,31 @@ mkshortcut (optvals opts)
             }
           persist_file->lpVtbl->Release (persist_file);
           shell_link->lpVtbl->Release (shell_link);
+
+          /* If we are creating shortcut for all users, ensure it is readable by all users */
+          if (opts.allusers_flag)
+            {
+              char *posixpath = (char *) cygwin_create_path (
+                CCP_WIN_W_TO_POSIX | CCP_ABSOLUTE, widepath);
+              if (posixpath && *posixpath)
+                {
+                  struct stat statbuf;
+                  if (stat(posixpath, &statbuf))
+                  {
+                    fprintf (stderr,
+                             "%s: stat \"%s\" failed\n",
+                             program_name, posixpath);
+                  }
+                  else if (chmod(posixpath, statbuf.st_mode|S_IRUSR|S_IRGRP|S_IROTH))
+                  {
+                    fprintf (stderr,
+                             "%s: chmod \"%s\" failed\n",
+                             program_name, posixpath);
+                  }
+                }
+              free(posixpath);
+            }
+
           return (0);
         }
       else
