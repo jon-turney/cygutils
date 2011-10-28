@@ -1,3 +1,6 @@
+1.4.8
+  * Placeholder
+
 1.4.6
   * conv: no longer distribute as dos2unix, unix2dos, u2d, or d2u.
     Those programs now available from the separate dos2unix package.
