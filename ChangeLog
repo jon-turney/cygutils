@@ -1,5 +1,13 @@
 2011-10-27  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
 
+	Integrate cygstart with FD.o menu and mimetype system.
+	* src/cygstart/cygstart.desktop: New file.
+	* src/cygstart/cygutils.xml: New file.
+	* Makefile.am: Dist and install these files.
+	* NEWS: Update documentation.
+
+2011-10-27  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
+
 	Update bootstrap for libtool-2.[2,4]
 	* bootstrap: Don't do libtoolize's work for it.
 

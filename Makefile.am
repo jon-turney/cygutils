@@ -15,6 +15,8 @@ windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/readshortcut/readshortcut
 windows_ltlibraries = src/cygicons/libicons.la
 windows_headers = src/cygicons/cygicons.h
+xdg_menus       = src/cygstart/cygstart.desktop
+xdg_mimes       = src/cygstart/cygutils.xml
 cygicons_docs   = src/cygicons/README
 lpr_docs        = src/lpr/README
 endif
@@ -53,6 +55,12 @@ doc_DATA = \
 
 licensesdir = $(docdir)/licenses
 licenses_DATA = $(licenses)
+
+xdg_menudir   = $(datadir)/applications
+xdg_menu_DATA = $(xdg_menus)
+
+xdg_mimedir   = $(datadir)/mime/packages
+xdg_mime_DATA = $(xdg_mimes)
 
 EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart \
@@ -94,6 +102,7 @@ cygicons_list = \
 EXTRA_DIST = bootstrap common.h \
    BRANCHES $(man_MANS) $(doc_DATA) $(EXTRA_SCRIPTS) \
    $(licenses) $(po_files) $(extra_docs) $(cygicons_list) \
+   $(xdg_menus) $(xdg_mimes) \
    src/cygicons/hippo.svg
 
 DISTCLEANFILES = \

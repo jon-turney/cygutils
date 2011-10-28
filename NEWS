@@ -1,5 +1,6 @@
 1.4.8
-  * Placeholder
+  * Integrate cygstart with FD.o menu and mimetype system.
+    (Yaakov Selkowitz)
 
 1.4.6
   * conv: no longer distribute as dos2unix, unix2dos, u2d, or d2u.
