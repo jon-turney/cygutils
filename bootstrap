@@ -1,6 +1,5 @@
 #!/bin/sh -x
 rm Makefile.in
 rm aclocal.m4
-cp `aclocal --print-ac-dir`/libtool.m4 m4/
 autoreconf -f -v -i
 
