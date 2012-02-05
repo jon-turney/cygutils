@@ -31,7 +31,7 @@ if WITH_CYGWIN_SPECIFIC_PROGRAMS
 cygwin_specific_progs = src/cygdrop/cygdrop
 endif
 
-bin_PROGRAMS = src/ascii/ascii $(windows_progs) src/conv/conv \
+bin_PROGRAMS = $(windows_progs) src/conv/conv \
 	src/dump/dump $(ipc_progs) \
 	src/realpath/realpath $(cygwin_specific_progs)
 
@@ -112,7 +112,6 @@ DISTCLEANFILES = \
 	po/remove-potcdate.sed \
 	src/cygicons/cygicons.rc
 
-src_ascii_ascii_LDADD               = -lpopt
 src_banner_banner_LDADD             = -lpopt -lkernel32 -lgdi32
 src_clip_getclip_LDADD              = -lpopt
 src_clip_putclip_LDADD              = -lpopt

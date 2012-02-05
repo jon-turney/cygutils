@@ -1,3 +1,12 @@
+2011-10-30  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
+
+	Remove ascii in deference to new (external) package.
+	* Makefile.am: Remove mentions of ascii.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* NEWS: Update.
+	* src/ascii/ascii.c: Remove.
+
 2011-10-27  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
 
 	Integrate cygstart with FD.o menu and mimetype system.

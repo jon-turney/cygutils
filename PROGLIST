@@ -1,7 +1,3 @@
-ascii.exe
-  dumps the 256 ascii characters to stdout
-  using a nice format (GPLv3+)
-
 dump.exe [file]
   hex dump of file to stdout, using a nice
   format (GPLv3+)

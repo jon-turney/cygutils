@@ -1,6 +1,8 @@
 1.4.8
   * Integrate cygstart with FD.o menu and mimetype system.
     (Yaakov Selkowitz)
+  * Remove ascii utility; replaced by separate package derived
+    from ESR's implementation http://catb.org/~esr/ascii/
 
 1.4.6
   * conv: no longer distribute as dos2unix, unix2dos, u2d, or d2u.

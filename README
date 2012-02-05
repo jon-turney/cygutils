@@ -47,8 +47,8 @@ files included in this package that fall under his edict.
 What's in this package:
 -------------------------------
 GPLv3+:
- ascii     banner     cygdrop       cygicons.dll   cygstart
- dump      lpr        mkshortcut    readshortcut   realpath
+ banner     cygdrop       cygicons.dll   cygstart    dump
+ lpr        mkshortcut    readshortcut   realpath
 
  Clipboard:
  putclip   getclip
