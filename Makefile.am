@@ -33,7 +33,7 @@ endif
 
 bin_PROGRAMS = $(windows_progs) src/conv/conv \
 	src/dump/dump $(ipc_progs) \
-	src/realpath/realpath $(cygwin_specific_progs)
+	$(cygwin_specific_progs)
 
 bin_SCRIPTS = $(ipc_scripts)
 
@@ -121,7 +121,6 @@ src_dump_dump_LDADD                 = -lpopt
 src_lpr_lpr_LDADD                   = -lwinspool
 src_mkshortcut_mkshortcut_LDADD     = -lpopt -lole32 /usr/lib/w32api/libuuid.a
 src_readshortcut_readshortcut_LDADD = -lpopt -lole32 /usr/lib/w32api/libuuid.a
-src_realpath_realpath_LDADD         = -lpopt
 
 src_lpr_lpr_SOURCES = \
 	src/lpr/Printer.cc    src/lpr/Win32Utils.cc \

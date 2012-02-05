@@ -55,14 +55,6 @@ banner.exe
   prints a large banner to stdout.  From Joerg Schaible.
   (GPLv3+)
   
-realpath.exe
-  Convert pathname argument to absolute path, with all 
-  references to `.', `..', and symlinks resolved. Note
-  that modern coreutils provide 'readlink' with a 
-  canonicalize mode (-f/-e/-m) that operates substantially
-  similar to realpath.
-  (GPLv3+)
-
 lpr.exe
   can be used to spool to a windows printer
   (GPLv3+)

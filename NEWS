@@ -3,6 +3,8 @@
     (Yaakov Selkowitz)
   * Remove ascii utility; replaced by separate package derived
     from ESR's implementation http://catb.org/~esr/ascii/
+  * Remove realpath utility; replaced by new implementation
+    provided by coreutils (8.15 and above).
 
 1.4.6
   * conv: no longer distribute as dos2unix, unix2dos, u2d, or d2u.

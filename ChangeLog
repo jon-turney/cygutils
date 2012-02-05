@@ -1,3 +1,12 @@
+2012-02-05  Charles Wilson  <cwilson@...>
+
+	Remove realpath in deference to coreutils(>=8.15) implementation.
+	* Makefile.am: Remove mentions of realpath.
+	* PROGLIST: Ditto.
+	* README: Ditto.
+	* NEWS: Update.
+	* src/realpath/realpath.c: Remove.
+
 2011-10-30  Yaakov Selkowitz  <yselkowitz@users.sourceforge.net>
 
 	Remove ascii in deference to new (external) package.
