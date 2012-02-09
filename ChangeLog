@@ -1,3 +1,9 @@
+2012-02-09  Charles Wilson  <cwilson@...>
+
+	Release 1.4.8
+	* configure.ac: Bump version number to 1.4.8.
+	* BRANCHES: Ditto.
+
 2012-02-05  Charles Wilson  <cwilson@...>
 
 	Remove realpath in deference to coreutils(>=8.15) implementation.
