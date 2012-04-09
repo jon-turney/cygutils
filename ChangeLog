@@ -1,5 +1,15 @@
 2012-04-09  Charles Wilson  <cwilson@...>
 
+	Support new cygwin-1.7.13+ clipboard format.
+	* src/clip/getclip.c (getCygVer): New utility function.
+	(getclip): If cygwin version >= 1.7.13, expect clipboard
+	data to use new format.
+	* src/clip/putclip.c (getCygVer): New utility function.
+	(putclip): If cygwin version >= 1.7.13, use new format.
+	* NEWS: Document.
+
+2012-04-09  Charles Wilson  <cwilson@...>
+
 	Post-release version bump 1.4.9
 	* configure.ac: Bump version number to 1.4.9.
 	* BRANCHES: Ditto.

@@ -1,7 +1,7 @@
 /**
  * getclip.exe   Copy Windows clipboard to stdout  
  *
- * Copyright 2001,2002,2009 by Charles Wilson
+ * Copyright 2001,2002,2009,2012 by Charles Wilson
  * All rights reserved.
  *
  * Additions by Rob Siklos <rob3@siklos.ca>
@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * See the COPYING file for full license information.
+  * See the COPYING file for full license information.
  */
 
 #if HAVE_CONFIG_H
@@ -29,6 +29,23 @@
 #include "common.h"
 
 #include <io.h>
+#include <sys/cygwin.h>
+
+typedef struct
+{
+  struct timespec timestamp;
+  size_t          len;
+  char            data[1];
+} cygcb_t;
+
+typedef struct
+{
+  unsigned short api_major;
+  unsigned short api_minor;
+  unsigned short dll_major;
+  unsigned short dll_minor;
+  unsigned short dll_micro;
+} cygwin_version_data;
 
 #define ENDLMODE_UNIX 0
 #define ENDLMODE_DOS 1
@@ -55,6 +72,7 @@ static void usage (FILE * f, char *name);
 static void help (FILE * f, char *name);
 static void version (FILE * f, char *name);
 static void license (FILE * f, char *name);
+static void getCygVer(cygwin_version_data* verInfo);
 static int getclip (FILE * out, flags_struct flags, FILE * f, char *name);
 
 static char *program_name;
@@ -257,6 +275,63 @@ license (FILE * f, char *name)
   printLicense (f, name);
 }
 
+#define CYGPREFIX (sizeof ("%%% Cygwin ") - 1)
+static void getCygVer(cygwin_version_data* verInfo)
+{
+  /* adapted from cygcheck.cc */
+  static char dummy[] = "\0\0\0\0\0\0\0";
+  char *dll_major = dummy;
+
+  const char* buf = (const char*) cygwin_internal(CW_GETVERSIONINFO);
+  size_t size = strlen(buf);
+  const char *bufend = buf + size;
+
+  verInfo->api_major = 0;
+  verInfo->api_minor = 0;
+  verInfo->dll_major = 0;
+  verInfo->dll_minor = 0;
+  verInfo->dll_micro = 0;
+
+  while (buf < bufend)
+    if ((buf = (char *) memchr (buf, '%', bufend - buf)) == NULL)
+      break;
+    else if (strncmp ("%%% Cygwin ", buf, CYGPREFIX) != 0)
+      buf++;
+    else
+      {
+        char *p = strchr (buf += CYGPREFIX, '\n');
+        if (!p)
+          break;
+        if (strncasecmp (buf, "dll major:", 10) == 0)
+          {
+	    char c = '\0';
+	    /* assumes 'p-(buf+11)' <= 7 */
+	    memcpy (dll_major, buf + 11, p - (buf + 11));
+            c = dll_major[1];
+            dll_major[1] = '\0';
+            verInfo->dll_major = atoi (dll_major);
+            dll_major[1] = c;
+            verInfo->dll_minor = atoi (dll_major + 1);
+            continue;
+          }
+        if (strncasecmp (buf, "dll minor:", 10) == 0)
+          {
+            verInfo->dll_micro = atoi (buf + 11);
+	    continue;
+	  }
+        if (strncasecmp (buf, "api major:", 10) == 0)
+	  {
+            verInfo->api_major = atoi (buf + 11);
+	    continue;
+	  }
+        if (strncasecmp (buf, "api minor:", 10) == 0)
+	  {
+            verInfo->api_minor = atoi (buf + 11);
+	    continue;
+	  }
+      }
+}
+
 int
 getclip (FILE * out, flags_struct flags, FILE * f, char *name)
 {
@@ -265,9 +340,17 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
   size_t len = 0;
   char *newStr = NULL;
   int origMode;
+  int cygNewFormat = 0;
+
+  cygwin_version_data verInfo;
+  getCygVer(&verInfo);
+  if ((verInfo.dll_major > 1) ||
+      ((verInfo.dll_major == 1) && (verInfo.dll_minor > 7)) ||
+      ((verInfo.dll_major == 1) && (verInfo.dll_minor == 7) &&
+       (verInfo.dll_micro >= 13)))
+    cygNewFormat = 1;
 
   origMode = setmode (fileno (out), O_BINARY);
-
 
   if (flags.endl_mode == ENDLMODE_NOCONV)
     {
@@ -292,16 +375,28 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
 
       if (format == cygnativeformat)
         {
-          unsigned char *nativebuf = (unsigned char *) GlobalLock (hglb);
-          if (nativebuf)
-            {
-              size_t buflen = (*(size_t *) nativebuf);
-              buf = nativebuf + sizeof (size_t);
-              len = buflen;
+	  if (cygNewFormat)
+	    {
+              cygcb_t *clipbuf = (cygcb_t *) GlobalLock (hglb);
+              if (clipbuf)
+                {
+                  fwrite (clipbuf->data, sizeof (unsigned char), clipbuf->len, out);
+                  GlobalUnlock (hglb);
+                }
+	    }
+	  else
+	    {
+              unsigned char *nativebuf = (unsigned char *) GlobalLock (hglb);
+              if (nativebuf)
+                {
+                  size_t buflen = (*(size_t *) nativebuf);
+                  buf = nativebuf + sizeof (size_t);
+                  len = buflen;
 
-              fwrite (buf, sizeof (unsigned char), len, out);
-              GlobalUnlock (hglb);
-            }
+                  fwrite (buf, sizeof (unsigned char), len, out);
+                  GlobalUnlock (hglb);
+                }
+	    }
         }
       else
         {

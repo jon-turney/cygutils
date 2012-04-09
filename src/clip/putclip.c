@@ -1,7 +1,7 @@
 /**
  * putclip.exe   copy stdin to Windows clipboard
  *
- * Copyright 2001,2002,2009 by Charles Wilson
+ * Copyright 2001,2002,2009,2012 by Charles Wilson
  * All rights reserved.
  *
  * Additions by Rob Siklos <rob3@siklos.ca>
@@ -28,6 +28,24 @@
 #include <io.h>
 
 #include "common.h"
+#include <sys/cygwin.h>
+
+typedef struct
+{
+  struct timespec timestamp;
+  size_t          len;
+  char            data[1];
+} cygcb_t;
+
+typedef struct
+{
+  unsigned short api_major;
+  unsigned short api_minor;
+  unsigned short dll_major;
+  unsigned short dll_minor;
+  unsigned short dll_micro;
+} cygwin_version_data;
+
 #define CLIPCHUNK 1024
 
 #define ENDLMODE_UNIX   0
@@ -59,6 +77,7 @@ static void usage (FILE * f, char *name);
 static void help (FILE * f, char *name);
 static void version (FILE * f, char *name);
 static void license (FILE * f, char *name);
+static void getCygVer(cygwin_version_data* verInfo);
 static int putclip (FILE * in, flags_struct flags, FILE * f, char *name);
 
 static char *program_name;
@@ -254,11 +273,68 @@ license (FILE * f, char *name)
   printLicense (f, name);
 }
 
+#define CYGPREFIX (sizeof ("%%% Cygwin ") - 1)
+static void getCygVer(cygwin_version_data* verInfo)
+{
+  /* adapted from cygcheck.cc */
+  static char dummy[] = "\0\0\0\0\0\0\0";
+  char *dll_major = dummy;
+
+  const char* buf = (const char*) cygwin_internal(CW_GETVERSIONINFO);
+  size_t size = strlen(buf);
+  const char *bufend = buf + size;
+
+  verInfo->api_major = 0;
+  verInfo->api_minor = 0;
+  verInfo->dll_major = 0;
+  verInfo->dll_minor = 0;
+  verInfo->dll_micro = 0;
+
+  while (buf < bufend)
+    if ((buf = (char *) memchr (buf, '%', bufend - buf)) == NULL)
+      break;
+    else if (strncmp ("%%% Cygwin ", buf, CYGPREFIX) != 0)
+      buf++;
+    else
+      {
+        char *p = strchr (buf += CYGPREFIX, '\n');
+        if (!p)
+          break;
+        if (strncasecmp (buf, "dll major:", 10) == 0)
+          {
+            char c = '\0';
+            /* assumes 'p-(buf+11)' <= 7 */
+            memcpy (dll_major, buf + 11, p - (buf + 11));
+            c = dll_major[1];
+            dll_major[1] = '\0';
+            verInfo->dll_major = atoi (dll_major);
+            dll_major[1] = c;
+            verInfo->dll_minor = atoi (dll_major + 1);
+            continue;
+          }
+        if (strncasecmp (buf, "dll minor:", 10) == 0)
+          {
+            verInfo->dll_micro = atoi (buf + 11);
+            continue;
+          }
+        if (strncasecmp (buf, "api major:", 10) == 0)
+          {
+            verInfo->api_major = atoi (buf + 11);
+            continue;
+          }
+        if (strncasecmp (buf, "api minor:", 10) == 0)
+          {
+            verInfo->api_minor = atoi (buf + 11);
+            continue;
+          }
+      }
+}
+
 int
 putclip (FILE * in, flags_struct flags, FILE * f, char *name)
 {
   HANDLE hData;                 /* handle to clip data */
-  char *clipbuf = NULL;         /* pointer to clip data */
+  void *clipbuf = NULL;         /* pointer to clip data */
   char chunk[CLIPCHUNK + 1];
   char *buf = NULL;
   char *convbuf = NULL;
@@ -267,6 +343,15 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
   int len = 0;
   int convlen = 0;
   int numread;
+  int cygNewFormat = 0;
+
+  cygwin_version_data verInfo;
+  getCygVer(&verInfo);
+  if ((verInfo.dll_major > 1) ||
+      ((verInfo.dll_major == 1) && (verInfo.dll_minor > 7)) ||
+      ((verInfo.dll_major == 1) && (verInfo.dll_minor == 7) &&
+       (verInfo.dll_micro >= 13)))
+    cygNewFormat = 1;
 
   /* Since we have to copy to the clipboard all in one step,
      read entire stream into memory. However, let's try to 
@@ -431,22 +516,37 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
       /* Allocate memory and copy the string to it */
       /* cygwin native format */
       OpenClipboard (0);
-      if (!(hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (size_t))))
+      if (cygNewFormat)
+	hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (cygcb_t));
+      else
+	hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (size_t));
+
+      if (!hData)
         {
           fprintf (f, "Couldn't allocate global buffer for write.\n");
           if (convbuf)
             free (convbuf);
           return (PUTCLIP_ERR);
         }
-      if (!(clipbuf = (char *) GlobalLock (hData)))
+      if (!(clipbuf = (void *) GlobalLock (hData)))
         {
           fprintf (f, "Couldn't lock global buffer.\n");
           free (convbuf);
           return (PUTCLIP_ERR);
         }
 
-      *(size_t *) (clipbuf) = convlen;
-      memcpy (clipbuf + sizeof (size_t), convbuf, convlen);
+      if (cygNewFormat)
+        {
+          cygcb_t *clipbufX = (cygcb_t *) clipbuf;
+          clipbufX->len = convlen;
+          clock_gettime (CLOCK_REALTIME, &clipbufX->timestamp);
+          memcpy (clipbufX->data, convbuf, convlen);
+        }
+      else
+        {
+          *(size_t *) (clipbuf) = convlen;
+          memcpy (clipbuf + sizeof (size_t), convbuf, convlen);
+        }
       GlobalUnlock (hData);
       EmptyClipboard ();
       if (!SetClipboardData (cygnativeformat, hData))
@@ -476,7 +576,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           free (convbuf);
           return (PUTCLIP_ERR);
         }
-      if (!(clipbuf = (char *) GlobalLock (hData)))
+      if (!(clipbuf = (void *) GlobalLock (hData)))
         {
           fprintf (f, "Couldn't lock global buffer.\n");
           free (convbuf);
@@ -484,8 +584,8 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
         }
 
       memcpy (clipbuf, convbuf, convlen);
-      *(clipbuf + convlen) = '\0';
-      *(clipbuf + convlen + 1) = '\0';
+      *((char *)clipbuf + convlen) = '\0';
+      *((char *)clipbuf + convlen + 1) = '\0';
 
       GlobalUnlock (hData);
       if (!SetClipboardData (CF_TEXT, hData))

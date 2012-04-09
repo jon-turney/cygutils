@@ -1,3 +1,6 @@
+1.4.10
+  * getclip and putclip now support new cygwin-1.7.13+ clipboard format.
+
 1.4.8
   * Integrate cygstart with FD.o menu and mimetype system.
     (Yaakov Selkowitz)
