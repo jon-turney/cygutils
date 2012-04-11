@@ -1,3 +1,8 @@
+2012-03-30  Yaakov Selkowitz  <yselkowitz@...>
+
+	* src/cygstart/cygstart.c (cygStart): Handle file: and mailto: URIs.
+	* NEWS: Document.
+
 2012-04-09  Charles Wilson  <cwilson@...>
 
 	Support new cygwin-1.7.13+ clipboard format.

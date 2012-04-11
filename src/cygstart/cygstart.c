@@ -580,9 +580,11 @@ cygStart (const char *aPath, const wchar_t * action,
   const wchar_t *pWinDir = NULL;
   int rc = 0;
 
+  if (strncmp (aPath, "file://", 7) == 0)
+    aPath += 7;
 #ifdef __CYGWIN__
   /* Convert file path from POSIX to Windows, unless it looks like a URL */
-  if (!strstr (aPath, "://"))
+  if (!strstr (aPath, "://") && strncmp (aPath, "mailto:", 7) != 0)
     {
       rc = cygstart_posix_to_win_w (aPath, &winPath);
       if (rc) goto cleanup;
