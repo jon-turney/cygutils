@@ -1,3 +1,13 @@
+2012-04-10  Charles Wilson  <cwilson@...>
+
+	Add new -R/--raw option to readshortcut.
+	* src/readshortcut/readshortcut.c: Don't redefine SLGP_RAWPATH
+	Win32 macro. Added new show_raw member to optvals struct.
+	(main): Added -R/--raw option to popt array.
+	(readshortcut): Implement -R/--raw option.
+	* src/readshortcut/readshortcut.1: Document new commandline option.
+	* NEWS: Document.
+
 2012-03-30  Yaakov Selkowitz  <yselkowitz@...>
 
 	* src/cygstart/cygstart.c (cygStart): Handle file: and mailto: URIs.

@@ -57,7 +57,6 @@
 #define ERR_SYS  2
 #define ERR_WIN  3
 
-#define SLGP_RAWPATH 0
 #define SW_SHOWMINIMIZED_SEVEN 7
 
 #define BUFF_SIZE 1024
@@ -79,6 +78,7 @@ typedef struct optvals_s
   int show_icon_offset;
   int show_desc;
   int show_all;
+  int show_raw;
 
 } optvals;
 
@@ -141,6 +141,8 @@ main (int argc, const char **argv)
      "Display shortcut description", NULL},
     {"all", 'a', POPT_ARG_VAL, &(opts.show_all), 1, "Display all information",
      NULL},
+    {"raw", 'R', POPT_ARG_VAL, &(opts.show_raw), 1,
+     "Show paths in raw mode (that is, without expanding embedded environment variables)", NULL},
     {NULL, '\0', 0, NULL, 0, NULL, NULL}
   };
 
@@ -359,7 +361,7 @@ readshortcut (optvals * opts)
           if (opts->show_all || opts->show_target)
             {
               shell_link->lpVtbl->GetPath (shell_link, strPath, MAX_PATH,
-                                           NULL, SLGP_RAWPATH);
+                                           NULL, (opts->show_raw ? SLGP_RAWPATH : 0));
               if (opts->show_field_names)
                 {
                   printf ("Target: ");
