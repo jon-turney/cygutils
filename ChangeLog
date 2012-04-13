@@ -1,5 +1,12 @@
 2012-04-12  Charles Wilson  <cwilson@...>
 
+	Release 1.4.10
+	* configure.ac: Bump version number to 1.4.10.
+	* BRANCHES: Ditto.
+	* PROGLIST: Update.
+
+2012-04-12  Charles Wilson  <cwilson@...>
+
 	Modernize pathname handling in readshortcut, mkshortcut, and lpr.
 	* src/readshortcut/readshortcut.c (formatPath): Now always returns
 	a newly-allocated char*.

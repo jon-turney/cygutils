@@ -116,3 +116,11 @@ cygwin distribution, and it provides those utilities.  In fact,
 it was from util-linux that the versions in cygutils were originally
 derived.
 
+Note3: "ascii.exe" was previously provided by cygutils. However, it
+was removed in version 1.4.8 because the separate ascii package was
+added to the cygwin distribution.
+
+Note4: "realpath.exe" was previously provided by cygutils. It was
+removed in version 1.4.8 because newer releases of coreutils (>=8.15)
+now provide that utility.
+
