@@ -3,6 +3,11 @@
   * cygstart now supports file:// and mailto: URLs (Yaakov Selkowitz)
   * Added -R/--raw option to readshortcut (prevents expanding embedded
     environment variables within paths). Reported by Denis Excoffier.
+  * mkshortcut and readshortcut now use cygwin-1.7 path conversion
+    functions rather than deprecated ones. However, they make only
+    minimal concessions to unicode, and operate mostly on narrow character
+    encoded pathnames. They should now be able to handle "long" pathnames
+    however.
 
 1.4.8
   * Integrate cygstart with FD.o menu and mimetype system.

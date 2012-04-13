@@ -48,6 +48,7 @@
 
 #include <shlobj.h>
 #include <olectlid.h>
+#include <sys/cygwin.h>
 
 #define PATH_UNIX 0
 #define PATH_WIN  1
@@ -82,11 +83,6 @@ typedef struct optvals_s
 
 } optvals;
 
-#ifdef __CYGWIN__
-void cygwin_conv_to_full_win32_path (const char *path, char *win32_path);
-void cygwin_conv_to_full_posix_path (const char *path, char *posix_path);
-#endif
-
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
 static const char *getVersion (void);
@@ -95,7 +91,7 @@ static void help (FILE * f, char *name);
 static void version (FILE * f, char *name);
 static void license (FILE * f, char *name);
 
-void formatPath (char *strPath, int format);
+char * formatPath (char *strPath, int format);
 int readshortcut (optvals * opts);
 
 static char *program_name;
@@ -309,13 +305,14 @@ readshortcut (optvals * opts)
   /* if there's no colon in the path, it's POSIX and we should convert to win32 */
   if (strchr (opts->target_fname, ':') == NULL)
     {
-      char *strTmpPath = (char *) malloc (MAX_PATH);
+      char *strTmpPath = (char *)cygwin_create_path(CCP_POSIX_TO_WIN_A,
+                                                    opts->target_fname);
       if (strTmpPath == NULL)
         {
-          fprintf (stderr, "%s: memory allocation error\n", program_name);
+          fprintf (stderr, "%s: error converting target posix path to win32 (%s)\n",
+                   program_name, strerror(errno));
           return (ERR_SYS);
         }
-      cygwin_conv_to_full_win32_path (opts->target_fname, strTmpPath);
       free (opts->target_fname);
       opts->target_fname = strTmpPath;
     }
@@ -360,25 +357,29 @@ readshortcut (optvals * opts)
           /* read stuff from the link object and print it to the screen */
           if (opts->show_all || opts->show_target)
             {
+              char *s;
               shell_link->lpVtbl->GetPath (shell_link, strPath, MAX_PATH,
                                            NULL, (opts->show_raw ? SLGP_RAWPATH : 0));
               if (opts->show_field_names)
                 {
                   printf ("Target: ");
                 }
-              formatPath (strPath, opts->pathType);
-              printf ("%s\n", strPath);
+              s = formatPath (strPath, opts->pathType);
+              printf ("%s\n", (s ? s : strPath));
+              if (s) free(s);
             }
           if (opts->show_all || opts->show_working_dir)
             {
+              char *s;
               shell_link->lpVtbl->GetWorkingDirectory (shell_link, strPath,
                                                        MAX_PATH);
               if (opts->show_field_names)
                 {
                   printf ("Working Directory: ");
                 }
-              formatPath (strPath, opts->pathType);
-              printf ("%s\n", strPath);
+              s = formatPath (strPath, opts->pathType);
+              printf ("%s\n", (s ? s : strPath));
+              if (s) free(s);
             }
           if (opts->show_all || opts->show_args)
             {
@@ -418,12 +419,14 @@ readshortcut (optvals * opts)
                                                    MAX_PATH, &iBuff);
               if (opts->show_all || opts->show_icon)
                 {
+                  char *s;
                   if (opts->show_field_names)
                     {
                       printf ("Icon Library: ");
                     }
-                  formatPath (strPath, opts->pathType);
-                  printf ("%s\n", strPath);
+                  s = formatPath (strPath, opts->pathType);
+                  printf ("%s\n", (s ? s : strPath));
+                  if (s) free(s);
                 }
               if (opts->show_all || opts->show_icon_offset)
                 {
@@ -467,20 +470,35 @@ readshortcut (optvals * opts)
   return (result);
 }
 
+static char* xstrndup(const char* string, size_t n)
+{
+  char *s = strndup (string, n);
+  if (!s)
+    fprintf (stderr, "%s: memory allocation error\n", program_name);
+  return s;
+}
+
 /* change the path to the proper format */
-void
+char *
 formatPath (char *strPath, int format)
 {
   if (format == PATH_WIN)
     {
-      return;
+      char *s = strndup (strPath, MAX_PATH);
+      if (!s)
+        fprintf (stderr, "%s: memory allocation error\n", program_name);
+      return s;
     }                           /* windows is the default */
   else
     {
       // convert to posix path
-      char strTmp[MAX_PATH];
-      strcpy (strTmp, strPath);
-      cygwin_conv_to_full_posix_path (strTmp, strPath);
+      char *s = (char *) cygwin_create_path(CCP_WIN_A_TO_POSIX, strPath);
+      if (!s)
+        {
+          fprintf (stderr, "%s: error converting win32 path to posix (%s)\n",
+                   program_name, strerror(errno));
+        }
+      return s;
     }
 }
 

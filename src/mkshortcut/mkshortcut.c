@@ -89,7 +89,6 @@ main (int argc, const char **argv)
 
   const char *tmp_str;
   int icon_offset_flag;
-  char icon_name[MAX_PATH];
   const char *arg;
 
   struct poptOption helpOptionsTable[] = {
@@ -208,11 +207,12 @@ main (int argc, const char **argv)
           opts.icon_flag = 1;
           if (arg = poptGetOptArg (optCon))
             {
-              cygwin_conv_to_full_win32_path (arg, icon_name);
-              if ((opts.icon_name_arg = strdup (icon_name)) == NULL)
+              opts.icon_name_arg = (char *) cygwin_create_path(
+                  CCP_POSIX_TO_WIN_A, arg);
+              if (opts.icon_name_arg == NULL)
                 {
-                  fprintf (stderr, "%s: memory allocation error\n",
-                           program_name);
+                  fprintf (stderr, "%s: error converting posix path to win32 (%s)\n",
+                           program_name, strerror(errno));
                   ec = 2;
                   goto exit;
                 }
@@ -379,13 +379,39 @@ exit:
   return (ec);
 }
 
+static char *
+xstrndup (const char *string, size_t n)
+{
+  char *s = strndup (string, n);
+  if (!s)
+  {
+    fprintf (stderr, "%s: out of memory\n", program_name);
+    exit(2);
+  }
+  return s;
+}
+
+static char *
+xstrncat (char **dest, const char *add, size_t n)
+{
+  size_t len = strlen (*dest) + n;
+  char *s = (char *) realloc (*dest, len * sizeof (char));
+  if (!s)
+  {
+    fprintf (stderr, "%s: out of memory\n", program_name);
+    exit(2);
+  }
+  *dest = s;
+  return strncat (*dest, add, n);
+}
+
 int
 mkshortcut (optvals opts)
 {
-  char link_name[MAX_PATH];
-  char exe_name[MAX_PATH];
-  char dir_name[MAX_PATH];
-  char desc[MAX_PATH];
+  char* link_name = NULL;
+  char* exe_name = NULL;
+  char* dir_name = NULL;
+  char* desc = NULL;
   char *buf_str, *tmp_str;
   int tmp;
 
@@ -396,33 +422,33 @@ mkshortcut (optvals opts)
   IPersistFile *persist_file;
   WCHAR widepath[MAX_PATH];
 
-  buf_str = (char *) malloc (PATH_MAX);
-  if (buf_str == NULL)
-    {
-      fprintf (stderr, "%s: out of memory\n", program_name);
-      return (2);
-    }
-
   /*  If there's a colon in the TARGET, it should be a URL */
   if (strchr (opts.target_arg, ':') != NULL)
     {
       /*  Nope, somebody's trying a W32 path  */
       if (opts.target_arg[1] == ':')
         {
-          free (buf_str);
           fprintf (stderr, "%s: all paths must be in POSIX format\n",
                    program_name);
           usage (stderr, program_name);
           return (1);
         }
-      strcpy (exe_name, opts.target_arg);
-      dir_name[0] = '\0';       /* No working dir for URL */
+      exe_name = xstrndup (opts.target_arg, strlen(opts.target_arg));
+      dir_name = xstrndup ("", 0);  /* No working dir for URL */
     }
   /* Convert TARGET to win32 path */
   else
     {
-      strcpy (buf_str, opts.target_arg);
-      cygwin_conv_to_full_win32_path (buf_str, exe_name);
+      buf_str = xstrndup (opts.target_arg, strlen(opts.target_arg));
+      exe_name = (char *) cygwin_create_path (CCP_POSIX_TO_WIN_A,
+                                              opts.target_arg);
+      if (!exe_name)
+      {
+        fprintf (stderr, "%s: error converting posix path to win32 (%s)\n",
+                 program_name, strerror(errno));
+        free (buf_str);
+        return 2;
+      }
 
       /*  Get a working dir from 'w' option */
       if (opts.dir_name_arg != NULL)
@@ -430,28 +456,39 @@ mkshortcut (optvals opts)
           if (strchr (opts.dir_name_arg, ':') != NULL)
             {
               free (buf_str);
+              free (exe_name);
               fprintf (stderr, "%s: all paths must be in POSIX format\n",
                        program_name);
               usage (stderr, program_name);
               return (1);
             }
-          cygwin_conv_to_win32_path (opts.dir_name_arg, dir_name);
+          dir_name = (char *) cygwin_create_path (CCP_POSIX_TO_WIN_A,
+                                                  opts.dir_name_arg);
+          if (!dir_name)
+          {
+            fprintf (stderr, "%s: error converting posix path to win32 (%s)\n",
+                     program_name, strerror(errno));
+            free (buf_str);
+            free (exe_name);
+            return 2;
+          }
         }
       /*  Get a working dir from the exepath */
       else
         {
           tmp_str = strrchr (exe_name, '\\');
           tmp = strlen (exe_name) - strlen (tmp_str);
-          strncpy (dir_name, exe_name, tmp);
+          dir_name = xstrndup (exe_name, tmp);
           dir_name[tmp] = '\0';
         }
+      if (buf_str) free (buf_str);
     }
 
   /*  Generate a name for the link if not given */
   if (opts.name_arg == NULL)
     {
       /*  Strip trailing /'s if any */
-      strcpy (buf_str, opts.target_arg);
+      buf_str = xstrndup (opts.target_arg, strlen(opts.target_arg));
       tmp_str = buf_str;
       tmp = strlen (buf_str) - 1;
       while (strrchr (buf_str, '/') == (buf_str + tmp))
@@ -466,7 +503,8 @@ mkshortcut (optvals opts)
             tmp_str = buf_str + 1;
           buf_str++;
         }
-      strcpy (link_name, tmp_str);
+      link_name = xstrndup (tmp_str, strlen (tmp_str));
+      free (buf_str);
     }
   /*  User specified a name, so check it and convert  */
   else
@@ -476,7 +514,6 @@ mkshortcut (optvals opts)
           /*  Cannot have absolute path relative to Desktop/SM Programs */
           if (opts.name_arg[0] == '/')
             {
-              free (buf_str);
               fprintf (stderr,
                        "%s: absolute pathnames not allowed with -D/-P\n",
                        program_name);
@@ -487,13 +524,19 @@ mkshortcut (optvals opts)
       /*  Sigh. Another W32 path */
       if (strchr (opts.name_arg, ':') != NULL)
         {
-          free (buf_str);
           fprintf (stderr, "%s: all paths must be in POSIX format\n",
                    program_name);
           usage (stderr, program_name);
           return (1);
         }
-      cygwin_conv_to_win32_path (opts.name_arg, link_name);
+      link_name = (char *) cygwin_create_path (
+          CCP_POSIX_TO_WIN_A | CCP_RELATIVE, opts.name_arg);
+      if (!link_name)
+      {
+        fprintf (stderr, "%s: error converting posix path to win32 (%s)\n",
+                 program_name, strerror(errno));
+        return 2;
+      }
     }
 
   /*  Add suffix to link name if necessary */
@@ -501,69 +544,85 @@ mkshortcut (optvals opts)
     {
       tmp = strlen (link_name) - 4;
       if (strncmp (link_name + tmp, ".lnk", 4) != 0)
-        strcat (link_name, ".lnk");
+        xstrncat (&link_name, ".lnk", 4);
     }
   else
-    strcat (link_name, ".lnk");
+    xstrncat (&link_name, ".lnk", 4);
 
   /*  Prepend relative path if necessary  */
   if (opts.desktop_flag)
     {
-      strcpy (buf_str, link_name);
+      char local_buf[MAX_PATH];
+      buf_str = xstrndup (link_name, strlen (link_name));
+
       if (!opts.allusers_flag)
         SHGetSpecialFolderLocation (NULL, CSIDL_DESKTOPDIRECTORY, &id);
       else
         SHGetSpecialFolderLocation (NULL, CSIDL_COMMON_DESKTOPDIRECTORY, &id);
-      SHGetPathFromIDList (id, link_name);
+      SHGetPathFromIDList (id, local_buf);
       /*  Make sure Win95 without "All Users" has output  */
-      if (strlen (link_name) == 0)
+      if (strlen (local_buf) == 0)
         {
           SHGetSpecialFolderLocation (NULL, CSIDL_DESKTOPDIRECTORY, &id);
-          SHGetPathFromIDList (id, link_name);
+          SHGetPathFromIDList (id, local_buf);
         }
-      strcat (link_name, "\\");
-      strcat (link_name, buf_str);
+      free (link_name);
+      link_name = xstrndup (local_buf, strlen (local_buf));
+      xstrncat (&link_name, "\\", 1);
+      xstrncat (&link_name, buf_str, strlen (buf_str));
+      free (buf_str);
     }
 
   if (opts.smprograms_flag)
     {
-      strcpy (buf_str, link_name);
+      char local_buf[MAX_PATH];
+      buf_str = xstrndup (link_name, strlen (link_name));
+
       if (!opts.allusers_flag)
         SHGetSpecialFolderLocation (NULL, CSIDL_PROGRAMS, &id);
       else
         SHGetSpecialFolderLocation (NULL, CSIDL_COMMON_PROGRAMS, &id);
-      SHGetPathFromIDList (id, link_name);
+      SHGetPathFromIDList (id, local_buf);
       /*  Make sure Win95 without "All Users" has output  */
-      if (strlen (link_name) == 0)
+      if (strlen (local_buf) == 0)
         {
           SHGetSpecialFolderLocation (NULL, CSIDL_PROGRAMS, &id);
-          SHGetPathFromIDList (id, link_name);
+          SHGetPathFromIDList (id, local_buf);
         }
-      strcat (link_name, "\\");
-      strcat (link_name, buf_str);
+      free (link_name);
+      link_name = xstrndup (local_buf, strlen (local_buf));
+      xstrncat (&link_name, "\\", 1);
+      xstrncat (&link_name, buf_str, strlen (buf_str));
+      free (buf_str);
     }
 
   /* Setup description text */
   if (opts.desc_arg != NULL)
     {
-      strncpy (desc, opts.desc_arg, MAX_PATH);
-
-      /* There won't be a null terminated if strlen(desc_arg)>MAX_PATH */
-      desc[MAX_PATH - 1] = '\0';
+      desc = xstrndup (opts.desc_arg, strlen (opts.desc_arg));
     }
   else
     {
       /* Put the POSIX path in the "Description", just to be nice */
-      cygwin_conv_to_full_posix_path (exe_name, desc);
+      desc = (char *) cygwin_create_path (CCP_WIN_A_TO_POSIX, exe_name);
+      if (!desc)
+      {
+        fprintf (stderr, "%s: error converting win32 path to posix (%s)\n",
+                 program_name, strerror(errno));
+        return 2;
+      }
     }
 
   /*  Beginning of Windows interface */
   hres = OleInitialize (NULL);
   if (hres != S_FALSE && hres != S_OK)
     {
-      free (buf_str);
       fprintf (stderr, "%s: Could not initialize OLE interface\n",
                program_name);
+      free (link_name);
+      free (exe_name);
+      free (dir_name);
+      free (desc);
       return (3);
     }
 
@@ -596,18 +655,24 @@ mkshortcut (optvals opts)
                                  MAX_PATH);
           if (!SUCCEEDED (hres))
             {
-              free (buf_str);
               fprintf (stderr, "%s: Unicode translation failed%d\n",
                        program_name, hres);
+              free (link_name);
+              free (exe_name);
+              free (dir_name);
+              free (desc);
               return (3);
             }
           hres = persist_file->lpVtbl->Save (persist_file, widepath, TRUE);
           if (!SUCCEEDED (hres))
             {
-              free (buf_str);
               fprintf (stderr,
                        "%s: Saving \"%s\" failed; does the target directory exist?\n",
                        program_name, link_name);
+              free (link_name);
+              free (exe_name);
+              free (dir_name);
+              free (desc);
               return (3);
             }
           persist_file->lpVtbl->Release (persist_file);
@@ -636,20 +701,29 @@ mkshortcut (optvals opts)
                 }
               free(posixpath);
             }
-
+          free (link_name);
+          free (exe_name);
+          free (dir_name);
+          free (desc);
           return (0);
         }
       else
         {
-          free (buf_str);
           fprintf (stderr, "%s: QueryInterface failed\n", program_name);
+          free (link_name);
+          free (exe_name);
+          free (dir_name);
+          free (desc);
           return (3);
         }
     }
   else
     {
-      free (buf_str);
       fprintf (stderr, "%s: CoCreateInstance failed\n", program_name);
+      free (link_name);
+      free (exe_name);
+      free (dir_name);
+      free (desc);
       return (3);
     }
 }

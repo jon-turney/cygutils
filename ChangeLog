@@ -1,3 +1,23 @@
+2012-04-12  Charles Wilson  <cwilson@...>
+
+	Modernize pathname handling in readshortcut, mkshortcut, and lpr.
+	* src/readshortcut/readshortcut.c (formatPath): Now always returns
+	a newly-allocated char*.
+	(readshortcut): Use cygwin-1.7 path conversion functions
+	throughout. Adapt to new formatPath signature; handle memory
+	allocation and path conversion errors.
+	* src/mkshortcut/mkshortcut.c (main): Use cygwin-1.7 path
+	conversion function for icon_name.
+	(xstrndup, xstrncat): New static utility functions.
+	(mkshortcut): Use cygwin-1.7 path conversion functions throughout.
+	Handle allocation issues for link_name, exe_name, dir_name, and
+	desc, which were previously static arrays of [MAX_PATH]. buf_str
+	memory allocation is now strictly local to each block.
+	* src/lpr/lpr.cc (main): Use cygwin-1.7 path conversion function
+	for winPrinter. Convert char* result to std::string immediately.
+	* NEWS: Document.
+	* TODO: Update.
+
 2012-04-10  Charles Wilson  <cwilson@...>
 
 	Add new -R/--raw option to readshortcut.

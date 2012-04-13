@@ -28,9 +28,7 @@
 #include <fstream>
 #include <string>
 
-#ifdef __CYGWIN__
 #include <sys/cygwin.h>
-#endif
 
 #include "src/lpr/Printer.hh"
 
@@ -161,8 +159,18 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-  char winPrinter[MAX_PATH];
-  cygwin_conv_to_win32_path(printerName.c_str(), winPrinter);
+  char* winPrinterCSTR = (char *) cygwin_create_path (
+      CCP_POSIX_TO_WIN_A, printerName.c_str());
+  if (!winPrinterCSTR)
+  {
+    int myerrno = errno;
+    cerr << progName << ": error converting posix path to win32 ("
+         << strerror(myerrno) << ")";
+    return 1;
+  }
+  string winPrinter(winPrinterCSTR);
+  free (winPrinterCSTR);
+
   if (debugFlag)
     cout << "Windows printer name = '" << winPrinter << "'" << endl;
 
