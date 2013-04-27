@@ -27,6 +27,7 @@
 
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 #include <sys/cygwin.h>
 
@@ -106,6 +107,15 @@ void scan_for_help(int argc, char *argv[])
     }
 }
 
+static bool stringcasecmp (const std::string& str1, const std::string& str2)
+{
+  string str1Cpy (str1);
+  string str2Cpy (str2);
+  transform (str1Cpy.begin(), str1Cpy.end(), str1Cpy.begin(), ::tolower);
+  transform (str2Cpy.begin(), str2Cpy.end(), str2Cpy.begin(), ::tolower);
+  return (str1Cpy == str2Cpy);
+}
+
 int main(int argc, char *argv[])
 {
   progName = getProgramName(argv[0]);
@@ -159,17 +169,29 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-  char* winPrinterCSTR = (char *) cygwin_create_path (
-      CCP_POSIX_TO_WIN_A, printerName.c_str());
-  if (!winPrinterCSTR)
+  string winPrinter(printerName);
+  // look for //server/share patterns, unless 'server' is
+  // something like http: or file:), and if it matches,
+  // convert to backslash form.  This is not a true
+  // "posix to win32" conversion, but simply a normalization.
+  if (winPrinter.size() > 2 &&
+      (winPrinter[0] == '/' || winPrinter[0] == '\\') &&
+      (winPrinter[1] == '/' || winPrinter[1] == '\\'))
   {
-    int myerrno = errno;
-    cerr << progName << ": error converting posix path to win32 ("
-         << strerror(myerrno) << ")";
-    return 1;
+    size_t pos = winPrinter.find_first_of("/\\", 2);
+    if (pos != string::npos)
+    {
+      string server = winPrinter.substr(2, pos - 2);
+      if (!stringcasecmp(server, "http:") &&
+	  !stringcasecmp(server, "file:"))
+      {
+        // normalize all '/' to '\'
+        pos = 0;
+        while ((pos = winPrinter.find('/', pos)) != string::npos)
+          winPrinter[pos] = '\\';
+      }
+    }
   }
-  string winPrinter(winPrinterCSTR);
-  free (winPrinterCSTR);
 
   if (debugFlag)
     cout << "Windows printer name = '" << winPrinter << "'" << endl;

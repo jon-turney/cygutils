@@ -1,3 +1,12 @@
+2012-04-13  Charles Wilson  <cwilson@...>
+
+	lpr and readshortcut bugfixes
+	* src/readshortcut/readshortcut.c: --raw was always "on".
+	Now handles embedded "windows" environment variables (%foo%)
+	correctly.
+	* src/lpr/lpr.cc (main): longstanding issue with lpr printer
+	name normalization corrected.
+
 2012-04-12  Charles Wilson  <cwilson@...>
 
 	Post-release version bump 1.4.11

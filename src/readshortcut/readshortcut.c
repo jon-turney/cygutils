@@ -184,6 +184,7 @@ main (int argc, const char **argv)
   opts.show_icon_offset = 0;
   opts.show_desc = 0;
   opts.show_all = 0;
+  opts.show_raw = 0;
 
   /* set the pOpt context and help line */
   optCon = poptGetContext (NULL, argc, argv, opt, 0);
@@ -260,6 +261,17 @@ exit:
   return result;
 }
 
+static int startsWithDOSEnvVar(const char* string, size_t n)
+{
+  if (n > 2 && string[0] == '%')
+  {
+    const char *p = strchr(&string[1], '%');
+    if (p && (p - string) > 1)
+      return 1;
+  }
+  return 0;
+}
+
 int
 readshortcut (optvals * opts)
 {
@@ -302,8 +314,17 @@ readshortcut (optvals * opts)
       strcat (opts->target_fname, ".lnk");
     }
 
-  /* if there's no colon in the path, it's POSIX and we should convert to win32 */
-  if (strchr (opts->target_fname, ':') == NULL)
+  /* if none of the following are true:
+   *     there's a colon in the path or
+   *     the path starts with two backslashes or
+   *     the path starts with a DOS environment variable [*]
+   * then it's POSIX and we should convert to win32
+   * [*] which itself might have a colon, or start with two backslashes.
+   *     we don't know, so assume it probably does.
+   */
+  if (! ((strchr (opts->target_fname, ':') != NULL) ||
+         (strlen (opts->target_fname) > 2 && opts->target_fname[0] == '\\' && opts->target_fname[1] == '\\') ||
+	 startsWithDOSEnvVar (opts->target_fname, strlen (opts->target_fname))))
     {
       char *strTmpPath = (char *)cygwin_create_path(CCP_POSIX_TO_WIN_A,
                                                     opts->target_fname);
@@ -478,6 +499,7 @@ static char* xstrndup(const char* string, size_t n)
   return s;
 }
 
+
 /* change the path to the proper format */
 char *
 formatPath (char *strPath, int format)
@@ -491,8 +513,17 @@ formatPath (char *strPath, int format)
     }                           /* windows is the default */
   else
     {
-      // convert to posix path
-      char *s = (char *) cygwin_create_path(CCP_WIN_A_TO_POSIX, strPath);
+      /*
+       * convert to posix path -- but assume that, if the path starts
+       * with a windows environment variable such as %SystemPath% (or
+       * even %foo%) that it MIGHT already be an absolute path, and
+       * cheat a bit: use relative path conversion.
+       */
+      cygwin_conv_path_t convType = CCP_WIN_A_TO_POSIX;
+      if (startsWithDOSEnvVar(strPath, strlen (strPath)))
+	convType |= CCP_RELATIVE;
+
+      char *s = (char *) cygwin_create_path(convType, strPath);
       if (!s)
         {
           fprintf (stderr, "%s: error converting win32 path to posix (%s)\n",
