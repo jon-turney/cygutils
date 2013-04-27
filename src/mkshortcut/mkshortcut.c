@@ -35,7 +35,7 @@
 #define NOCOMATTRIBUTE
 
 #include <shlobj.h>
-#include <olectlid.h>
+#include <olectl.h>
 /* moved to common.h */
 /*
 #include <stdio.h>

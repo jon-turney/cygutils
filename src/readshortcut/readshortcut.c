@@ -47,7 +47,7 @@
 */
 
 #include <shlobj.h>
-#include <olectlid.h>
+#include <olectl.h>
 #include <sys/cygwin.h>
 
 #define PATH_UNIX 0

@@ -440,8 +440,8 @@ static int convert(const char *fn, Opt opts) {
     }
   }
   else {
-    setmode(0, O_BINARY);
-    setmode(1, O_BINARY);
+    _setmode(0, O_BINARY);
+    _setmode(1, O_BINARY);
   }
 
   while ((c = fgetc(in)) != EOF) {

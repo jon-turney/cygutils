@@ -1,5 +1,12 @@
 2013-04-27  Charles Wilson  <cwilson@...>
 
+	Other w32api corrections.
+	* src/conv/conv.c: Use _setmode, not setmode.
+	* src/mkshortcut/mkshortcut.c: Fix include file.
+	* src/readshortcut/readshortcut.c: Fix include file.
+
+2013-04-27  Charles Wilson  <cwilson@...>
+
 	Prep for release.
 	* AUTHORS: Add Daniel Colascione.
 	* README: Add winln.
