@@ -87,6 +87,11 @@ ipck:
   IPC utility brought over from cygipc.
   (GPLv3+)
 
+winln:
+  Drop-in replacement for ln(1) that creates Windows symbolic links
+  instead of Cygwin ones.
+  (GPLv3+)
+
 cygicons:
   DLL containing cygwin-related icons
   (GPLv3+)

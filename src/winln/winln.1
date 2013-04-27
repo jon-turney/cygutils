@@ -1,0 +1,112 @@
+.TH WINLN 1 "2 Apr 2013" "winln 1.3 (cygutils)" "Cygutils"
+.SH NAME
+winln \- create a Windows symbolic link
+.SH SYNOPSIS
+.B winln
+.RB [\-\fBsvfdFA\fP]
+.RB \fITARGET\fP\ \fILINKNAME\fP
+.br
+.B winln
+.RB [\-\fBsvfdFA\fP]
+.RB \fITARGET\fP
+.br
+.B winln
+.RB [\-\fBsvfdFA\fP]
+.RB \fITARGET...\fP\ \fIDIRECTORY\fP
+.br
+.B winln
+.RB [\-\fBsvfdFA\fP]    
+.RB \-t\ \fIDIRECTORY\fP\ \fITARGET...\fP
+.br
+.SH DESCRIPTION
+.B winln
+is a drop-in replacement for ln(1), the difference being that
+.B winln
+creates Windows symbolic links instead of Cygwin ones.
+Note that Windows has two kinds of symbolic links: file
+links and directory links.
+.B winln
+automatically chooses the correct type of link when the target exists,
+but if the target does not exist, you may want to explicitly specify
+the kind of link to create.  Links to non-existent targets default to
+file links.
+.SH OPTIONS
+
+.TP
+\fB\-s\fP, \fB\-\-symbolic\fP
+Create a symbolic (as opposed to hard) link.
+For compatibility with ln(1),
+creating hard links is the default.
+
+.TP
+\fB\-v\fP, \fB\-\-verbose\fP
+Print to standard output the names of links created.
+
+.TP
+\fB\-f\fP, \fB\-\-force\fP
+Replace existing destination file.
+
+.TP
+\fB\-d\fP, \fB\-\-directory\fP
+Create a directory symbolic link.
+
+.TP
+\fB\-F\fP, \fB\-\-file\fP
+Create a file symbolic link.
+
+.TP
+\fB\-A\fP, \fB\-\-auto\fP
+Automatically determine the type of symbolic
+link to create.
+If the target exists and is a directory, create a
+directory symbolic link.
+Otherwise, create a file symbolic link.
+
+.TP
+\fB\-t\fP, \fB\-\-target-directory\fP
+Treat DIRECTORY as the directory in which to create
+links based on the remaining arguments.
+
+.TP
+\fB\-T\fP, \fB\-\-no-target-directory\fP
+Treat LINKNAME as a normal file always.
+
+.TP
+\fB\-h\fP, \fB\-\-help\fP
+Show brief help message.
+
+.TP
+\fB\-\-version\fP
+Display version information
+
+.SH NOT\ IMPLEMENTED
+.B winln
+does not implement the following
+command line arguments from GNU ln(1):
+.br
+\fB-b\fP, \fB--backup\fP,
+\fB-i\fP, \fB--interactive\fP,
+\fB-L\fP, \fB--logical\fP,
+\fB-n\fP, \fB--no-dereference\fP,
+\fB-P\fP, \fB--physical\fP
+
+.SH COPYRIGHT
+Copyright (C) 2011-2013 Daniel Colascione
+.PP
+\fBwinln\fP is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+.PP
+\fBwinln\fP is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+.PP
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see
+.BR <http://www.gnu.org/licenses/>
+.PP
+See the COPYING file for full license information.
+.SH AUTHOR
+Daniel Colascione <dancol@dancol.org>

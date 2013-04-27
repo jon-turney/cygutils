@@ -12,7 +12,8 @@ AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
 if WITH_WINDOWS_PROGRAMS
 windows_progs = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/cygstart/cygstart src/lpr/lpr src/mkshortcut/mkshortcut \
-	src/readshortcut/readshortcut
+	src/readshortcut/readshortcut \
+	src/winln/winln
 windows_ltlibraries = src/cygicons/libicons.la
 windows_headers = src/cygicons/cygicons.h
 xdg_menus       = src/cygstart/cygstart.desktop
@@ -47,7 +48,8 @@ include_HEADERS = $(windows_headers)
 man_MANS = src/cygstart/cygstart.1 \
 	src/mkshortcut/mkshortcut.1 \
 	src/readshortcut/readshortcut.1 \
-	src/lpr/lpr.1
+	src/lpr/lpr.1 \
+	src/winln/winln.1
 
 doc_DATA = \
 	AUTHORS COPYING ChangeLog HOW-TO-CONTRIBUTE \
@@ -68,7 +70,8 @@ EXTRA_PROGRAMS = src/banner/banner src/clip/getclip src/clip/putclip \
 	src/ipc/msgtool src/ipc/semstat \
 	src/lpr/lpr \
 	src/mkshortcut/mkshortcut src/readshortcut/readshortcut \
-	src/cygdrop/cygdrop
+	src/cygdrop/cygdrop \
+	src/winln/winln
 
 EXTRA_HEADERS = src/cygicons/cygicons.h
 EXTRA_SCRIPTS = src/ipc/ipck

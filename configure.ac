@@ -24,6 +24,7 @@ AC_PROG_CXX
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_LN_S
+AM_PROG_AR
 
 LT_INIT([win32-dll dlopen disable-static])
 LT_LANG([Windows Resource])
