@@ -4,7 +4,11 @@
 	* configure.ac: Bump version number to 1.4.12.
 	Update to latest autoconf/automake. Remove -Wall
 	-Werror from automake, due to old intl.m4/po.m4.
+	Update to latest gettext files (0.18).
 	* BRANCHES: Ditto.
+	* ABOUT-NLS: Update to latest gettext (0.18).
+	* po/Makefile.in.in: Update to latest gettext (0.18).
+	* po/Rules-quot: Update to latest gettext (0.18).
 
 2013-04-27  Charles Wilson  <cwilson@...>
 
