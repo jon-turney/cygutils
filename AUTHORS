@@ -68,3 +68,7 @@ Christopher Faylor <....>
   rename.c, rename.1 (taken from util-linux)
   (GPL)
 
+Daniel Colascione
+  winln.c, winln.1
+  (GPLv3)
+

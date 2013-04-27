@@ -1,3 +1,10 @@
+1.4.12
+  * winln: new ln workalike that produces "native" windows
+    shortcuts. Daniel Colascione.
+  * Build fixes adapting to new w32api.
+  * Bugfixes for lpr and readshortcut (already present in
+    1.4.10-2 cygwin release).
+
 1.4.10
   * getclip and putclip now support new cygwin-1.7.13+ clipboard format.
   * cygstart now supports file:// and mailto: URLs (Yaakov Selkowitz)

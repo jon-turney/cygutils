@@ -48,7 +48,7 @@ What's in this package:
 -------------------------------
 GPLv3+:
  banner     cygdrop       cygicons.dll   cygstart    dump
- lpr        mkshortcut    readshortcut
+ lpr        mkshortcut    readshortcut   winln
 
  Clipboard:
  putclip   getclip

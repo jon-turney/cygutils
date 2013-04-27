@@ -1,3 +1,21 @@
+2013-04-27  Charles Wilson  <cwilson@...>
+
+	Prep for release.
+	* AUTHORS: Add Daniel Colascione.
+	* README: Add winln.
+	* NEWS: Update documentation.
+
+2013-04-02  Daniel Colascione <dancol@...>
+
+	Add winln, a ln(1) workalike that generates Windows
+	symbolic links instead of Cygwin ones.
+
+	* configure.ac: Require $AR program.
+	* Makefile.am: Add winln to program list.
+	* src/winln/winln.c: New.
+	* src/winln/winln.1: New.
+	* PROGLIST: Describe winln.
+
 2013-02-20  Yaakov Selkowitz  <yselkowitz@...>
 
 	New w32api and cross build fixes
