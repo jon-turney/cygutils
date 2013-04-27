@@ -112,6 +112,7 @@ DISTCLEANFILES = \
 	po/remove-potcdate.sed \
 	src/cygicons/cygicons.rc
 
+libuuid = `${CC} -print-file-name=w32api/libuuid.a`
 src_banner_banner_LDADD             = -lpopt -lkernel32 -lgdi32
 src_clip_getclip_LDADD              = -lpopt
 src_clip_putclip_LDADD              = -lpopt
@@ -119,8 +120,10 @@ src_conv_conv_LDADD                 = -lpopt
 src_cygstart_cygstart_LDADD         = -lpopt
 src_dump_dump_LDADD                 = -lpopt
 src_lpr_lpr_LDADD                   = -lwinspool
-src_mkshortcut_mkshortcut_LDADD     = -lpopt -lole32 /usr/lib/w32api/libuuid.a
-src_readshortcut_readshortcut_LDADD = -lpopt -lole32 /usr/lib/w32api/libuuid.a
+src_mkshortcut_mkshortcut_LDADD     = -lpopt -lole32
+src_mkshortcut_mkshortcut_LDFLAGS   = ${libuuid}
+src_readshortcut_readshortcut_LDADD = -lpopt -lole32
+src_readshortcut_readshortcut_LDFLAGS = ${libuuid}
 
 src_lpr_lpr_SOURCES = \
 	src/lpr/Printer.cc    src/lpr/Win32Utils.cc \

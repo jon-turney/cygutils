@@ -1,3 +1,9 @@
+2013-02-20  Yaakov Selkowitz  <yselkowitz@...>
+
+	New w32api and cross build fixes
+	* Makefile.am: Use $CC -print-file-name to find the location
+	of w32api libuuid.a, to allow cross-compiling.
+
 2012-04-13  Charles Wilson  <cwilson@...>
 
 	lpr and readshortcut bugfixes
