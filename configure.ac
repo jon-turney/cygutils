@@ -1,10 +1,10 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.68)
-AC_INIT(cygutils, 1.4.11, cygwin@cygwin.com)
+AC_PREREQ(2.69)
+AC_INIT(cygutils, 1.4.12, cygwin@cygwin.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11 silent-rules -Wall -Werror dist-xz no-dist-gzip])
+AM_INIT_AUTOMAKE([1.12 silent-rules dist-xz no-dist-gzip])
 AM_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 

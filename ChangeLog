@@ -1,5 +1,13 @@
 2013-04-27  Charles Wilson  <cwilson@...>
 
+	Release 1.4.12
+	* configure.ac: Bump version number to 1.4.12.
+	Update to latest autoconf/automake. Remove -Wall
+	-Werror from automake, due to old intl.m4/po.m4.
+	* BRANCHES: Ditto.
+
+2013-04-27  Charles Wilson  <cwilson@...>
+
 	Other w32api corrections.
 	* src/conv/conv.c: Use _setmode, not setmode.
 	* src/mkshortcut/mkshortcut.c: Fix include file.
