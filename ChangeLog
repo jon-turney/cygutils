@@ -1,5 +1,11 @@
 2012-04-12  Charles Wilson  <cwilson@...>
 
+	Post-release version bump 1.4.11
+	* configure.ac: Bump version number to 1.4.11
+	* BRANCHES: Ditto.
+
+2012-04-12  Charles Wilson  <cwilson@...>
+
 	Release 1.4.10
 	* configure.ac: Bump version number to 1.4.10.
 	* BRANCHES: Ditto.
