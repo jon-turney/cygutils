@@ -63,13 +63,24 @@ typedef enum StartFlags
   SF_WAIT = 1 << 1,
 } StartFlags;
 
+/* ShellExecuteW returns an HINSTANCE -- which is a pointer whose
+ * size differs on 32bit and 64bit platforms -- but it is really
+ * an integer type, NOT a pointer. We need to cast it to an integer
+ * type, but...which one?  This ugliness avoids compile warnings.
+ */
+#ifdef __x86_64
+#define INTEGER_CAST long long
+#else
+#define INTEGER_CAST int
+#endif
+
 static int cygStart (const char *aPath, const wchar_t * action,
                      const wchar_t * args, const char *workDir,
                      int show, StartFlags startFlags);
 static int winStart (const wchar_t * aPath, const wchar_t * action,
                      const wchar_t * args, const wchar_t * workDir,
                      int show, StartFlags startFlags);
-static char *startError (int err);
+static char *startError (INTEGER_CAST err);
 static const char *getVersion (void);
 static void printTopDescription (FILE * f, char *name);
 static void printBottomDescription (FILE * f, char *name);
@@ -646,8 +657,8 @@ winStart (const wchar_t * aPath, const wchar_t * action,
 
   if (!(startFlags & SF_WAIT))
     {
-      int ret =
-        (int) ShellExecuteW (NULL, action, aPath, args, workDir, show);
+      INTEGER_CAST ret =
+        (INTEGER_CAST) ShellExecuteW (NULL, action, aPath, args, workDir, show);
 
       if (ret >= 32)
         {
@@ -675,10 +686,10 @@ winStart (const wchar_t * aPath, const wchar_t * action,
 
       if (!ShellExecuteExW (&sei))
         {
-          if (((int) sei.hInstApp) < 32)
+          if (((INTEGER_CAST)sei.hInstApp) < 32)
             {
               fwprintf (stderr, L"Unable to start '%ls': %s\n", aPath,
-                        startError ((int) sei.hInstApp));
+                        startError ((INTEGER_CAST) sei.hInstApp));
               return 1;
             }
           else
@@ -728,7 +739,7 @@ printLastError (FILE * file)
 
 /* Return an error message, given a ShellExecute return code */
 static char *
-startError (int err)
+startError (INTEGER_CAST err)
 {
   switch (err)
     {

@@ -9,6 +9,7 @@
 	* ABOUT-NLS: Update to latest gettext (0.18).
 	* po/Makefile.in.in: Update to latest gettext (0.18).
 	* po/Rules-quot: Update to latest gettext (0.18).
+	* src/cygstart/cygstart.c: Avoid compiler warnings.
 
 2013-04-27  Charles Wilson  <cwilson@...>
 

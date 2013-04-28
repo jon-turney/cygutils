@@ -5,7 +5,7 @@ AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.12 silent-rules dist-xz no-dist-gzip])
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
 VERSION_MAJOR=`echo $VERSION | cut -f1 -d.`
