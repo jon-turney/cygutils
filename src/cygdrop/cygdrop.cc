@@ -317,9 +317,13 @@ main (int argc, char **argv)
     return winerror("OpenProcessToken");
 
   // Get groups.
-  char groups_buf[sizeof(DWORD) + max_groups * sizeof(SID_AND_ATTRIBUTES)];
-  TOKEN_GROUPS * groups = (TOKEN_GROUPS *)groups_buf;
   DWORD size = 0;
+  if (!GetTokenInformation (proc_token, TokenGroups, NULL, 0, &size)
+      && GetLastError () != ERROR_INSUFFICIENT_BUFFER)
+    return winerror ("GetTokenInformation");
+
+  char groups_buf[size];
+  TOKEN_GROUPS * groups = (TOKEN_GROUPS *)groups_buf;
   if (!GetTokenInformation (proc_token, TokenGroups, groups, sizeof(groups_buf), &size))
     return winerror ("GetTokenInformation");
 

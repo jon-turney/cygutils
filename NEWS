@@ -1,3 +1,7 @@
+1.4.14
+  * cygdrop: Fix bug in obtaining security token information
+  Patch from Corinna Vinschen, reported by Achim Gratz.
+
 1.4.12
   * winln: new ln workalike that produces "native" windows
     shortcuts. Daniel Colascione.

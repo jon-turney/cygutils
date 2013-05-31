@@ -1,3 +1,8 @@
+2013-05-30  Corinna Vinschen  <corinna@...>
+
+	* cygdrop.cc (main): Use correct procedure to
+	allocate space for security token.
+
 2013-05-30  Charles Wilson  <cwilson@...>
 
 	Post-release version bump 1.4.13
