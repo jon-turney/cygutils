@@ -394,7 +394,7 @@ xstrndup (const char *string, size_t n)
 static char *
 xstrncat (char **dest, const char *add, size_t n)
 {
-  size_t len = strlen (*dest) + n;
+  size_t len = strlen (*dest) + n + 1;
   char *s = (char *) realloc (*dest, len * sizeof (char));
   if (!s)
   {
