@@ -1,7 +1,20 @@
+2015-11-03  Mark Geisert  <mark@maxrnd.com>
+
+	Release 1.4.15
+	* configure.ac: Bump version number to 1.4.15.
+	* BRANCHES: Ditto.
+	* src/cygdrop/cygdrop.cc (match_priv): strcmpi() -> strcasecmp().
+	* src/lpr/Printer.cc (::mapPortName): stricmp() -> strcasecmp().
+	* src/mkshortcut/mkshortcut.cc: Don't free() adjusted pointer.
+	Also handle changed Windows behavior when saving link to relative
+	path; evident after Windows 7.  Reporter Anthony Heading refers to
+	https://msdn.microsoft.com/en-us/
+	library/windows/desktop/hh848036%28v=vs.85%29.aspx
+
 2013-07-28  Charles Wilson  <cwilson@...>
 
 	Release 1.4.14
-	* configure.ac: Bump version number to 1.4.12.
+	* configure.ac: Bump version number to 1.4.14.
 	Update to latest autoconf/automake.
 	* BRANCHES: Ditto.
 

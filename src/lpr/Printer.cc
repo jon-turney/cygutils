@@ -225,7 +225,7 @@ void Printer::mapPortName() throw(PrinterException)
       PrinterList list = enumPrinters(PRINTER_ENUM_NAME, empty);
       for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
         {
-          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+          if (strcasecmp(m_devName.c_str(), it->pPortName) == 0)
             {
               if (m_debugFlag)
                 cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
@@ -241,7 +241,7 @@ void Printer::mapPortName() throw(PrinterException)
       PrinterList list = enumPrinters(PRINTER_ENUM_LOCAL, 0);
       for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
         {
-          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+          if (strcasecmp(m_devName.c_str(), it->pPortName) == 0)
             {
               if (m_debugFlag)
                 cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName
@@ -254,7 +254,7 @@ void Printer::mapPortName() throw(PrinterException)
       list = enumPrinters(PRINTER_ENUM_CONNECTIONS, 0);
       for (PrinterList::iterator it = list.begin(); it != list.end(); ++it)
         {
-          if (stricmp(m_devName.c_str(), it->pPortName) == 0)
+          if (strcasecmp(m_devName.c_str(), it->pPortName) == 0)
             {
               if (m_debugFlag)
                 cout << "Mapped '" << m_devName << "' to '" << it->pPrinterName

@@ -1,3 +1,14 @@
+1.4.15
+  New maintainer Mark Geisert <mark@maxrnd.com>.
+  Source code master converted from CVS to Git, still hosted at sourceware.
+  * cygdrop: Replace strcmpi() calls with strcasecmp().
+  * lpr: Replace stricmp() calls with strcasecmp().
+  * mkshortcut: Fix seg fault due to freeing adjusted pointer.  Patch from
+  reporter Anthony Heading.
+  * mkshortcut: Handle changed Windows behavior when saving a link to a
+  relative path; change evident after Windows 7.  Patch from reporter
+  Anthony Heading.
+
 1.4.14
   * cygdrop: Fix bug in obtaining security token information
   Patch from Corinna Vinschen, reported by Achim Gratz.

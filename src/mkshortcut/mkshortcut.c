@@ -412,7 +412,7 @@ mkshortcut (optvals opts)
   char* exe_name = NULL;
   char* dir_name = NULL;
   char* desc = NULL;
-  char *buf_str, *tmp_str;
+  char *buf_str, *tmp_str, *base_str;
   int tmp;
 
   /* For OLE interface */
@@ -421,6 +421,7 @@ mkshortcut (optvals opts)
   IShellLink *shell_link;
   IPersistFile *persist_file;
   WCHAR widepath[MAX_PATH];
+  char link_path[MAX_PATH];
 
   /*  If there's a colon in the TARGET, it should be a URL */
   if (strchr (opts.target_arg, ':') != NULL)
@@ -489,6 +490,7 @@ mkshortcut (optvals opts)
     {
       /*  Strip trailing /'s if any */
       buf_str = xstrndup (opts.target_arg, strlen(opts.target_arg));
+      base_str = buf_str;
       tmp_str = buf_str;
       tmp = strlen (buf_str) - 1;
       while (strrchr (buf_str, '/') == (buf_str + tmp))
@@ -504,7 +506,7 @@ mkshortcut (optvals opts)
           buf_str++;
         }
       link_name = xstrndup (tmp_str, strlen (tmp_str));
-      free (buf_str);
+      free (base_str);
     }
   /*  User specified a name, so check it and convert  */
   else
@@ -595,6 +597,16 @@ mkshortcut (optvals opts)
       xstrncat (&link_name, buf_str, strlen (buf_str));
       free (buf_str);
     }
+
+  /* After Windows 7, saving link to relative path fails; work around that */
+  hres = GetFullPathName (link_name, sizeof (link_path), link_path, 0);
+  if (hres == 0)
+    {
+      fprintf (stderr, "%s: Could not qualify link name\n", program_name);
+      return 2;
+    }
+  free (link_name);
+  link_name = xstrndup (link_path, strlen (link_path));
 
   /* Setup description text */
   if (opts.desc_arg != NULL)

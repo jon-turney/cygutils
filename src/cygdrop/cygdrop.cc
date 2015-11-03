@@ -171,11 +171,11 @@ match_strsid (const char * strsid, const char * pattern)
 static bool
 match_priv (const char * priv, const char * pattern)
 {
-  if (!strcmpi (priv, pattern))
+  if (!strcasecmp (priv, pattern))
     return true;
   char buf[strlen (pattern) + 16];
   sprintf (buf, "Se%sPrivilege", pattern);
-  return !strcmpi (priv, buf);
+  return !strcasecmp (priv, buf);
 }
 
 /* use long options for standard options, for
