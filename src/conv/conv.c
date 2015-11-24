@@ -30,6 +30,7 @@
 #endif
 
 #include "common.h"
+#include <io.h>		// for _setmode
 
 static const char versionID[] = PACKAGE_VERSION;
 static const char revID[] =
