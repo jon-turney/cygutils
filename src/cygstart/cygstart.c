@@ -800,7 +800,7 @@ printBottomDescription (FILE * f, char *name)
   fprintf (f, "Please report any bugs to <cygwin(at)cygwin.com>.\n");
 }
 
-static
+static void
 printLicense (FILE * f, char *name)
 {
   fprintf (f,

@@ -253,7 +253,7 @@ printBottomDescription (FILE * f, char *name)
   fprintf (f, "The banner text is displayed horizontally.\n");
 }
 
-static
+static void
 printLicense (FILE * f, char *name)
 {
   fprintf (f,

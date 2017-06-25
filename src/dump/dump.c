@@ -174,7 +174,7 @@ printBottomDescription (FILE * f, char *name)
            "\nSimilar in behavior to 'od -Ax -tx2z [a file]'\n");
 }
 
-static
+static void
 printLicense (FILE * f, char *name)
 {
   fprintf (f,

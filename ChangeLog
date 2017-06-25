@@ -1,3 +1,18 @@
+2017-06-25  Mark Geisert  <mark@maxrnd.com>
+
+	Release 1.4.16
+	* configure.ac: Bump version number to 1.4.16.
+	* BRANCHES: Ditto.
+	* cygutils.cygport: Ditto, plus remove execute bits from file mode.
+	* src/mkshortcut/mkshortcut.c: Add Unicode support from Thomas Wolff.
+	* src/readshortcut/readshortcut.c: Ditto, plus minor formatting fixes.
+	* src/conv/conv.c: Remove execute bits from file mode.
+	* src/ipc/semstat.c: Ditto.
+	* ABOUT-NLS: Ditto.
+	* src/ipc/ipck: Minor formatting fixes.
+	* src/*/*.c: Add 'void' type to printLicense() definition.
+	* src/winln/winln.c: Add "#define _GNU_SOURCE" to get asprintf() proto.
+
 2015-11-23  Mark Geisert  <mark@maxrnd.com>
 
 	* src/conv/conv.c: Add "#include <io.h>" to avoid compiler warning.
@@ -12,7 +27,7 @@
 	* BRANCHES: Ditto.
 	* src/cygdrop/cygdrop.cc (match_priv): strcmpi() -> strcasecmp().
 	* src/lpr/Printer.cc (::mapPortName): stricmp() -> strcasecmp().
-	* src/mkshortcut/mkshortcut.cc: Don't free() adjusted pointer.
+	* src/mkshortcut/mkshortcut.c: Don't free() adjusted pointer.
 	Also handle changed Windows behavior when saving link to relative
 	path; evident after Windows 7.  Reporter Anthony Heading refers to
 	https://msdn.microsoft.com/en-us/

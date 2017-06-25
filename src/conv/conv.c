@@ -328,7 +328,7 @@ static void printBottomDescription(FILE * f, char * name)
   fprintf(f, "  [input file list...]       for each file listed, convert in place.\n");
   fprintf(f, "                             If none specified, then use stdin/stdout\n");
 }
-static printLicense(FILE * f, char * name)
+static void printLicense(FILE * f, char * name)
 {
   fprintf (f,
            "This program is free software: you can redistribute it and/or modify\n"

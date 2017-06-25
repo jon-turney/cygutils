@@ -24,6 +24,7 @@
 #define _WIN32_WINNT 0x0600 /* Vista, but will run on XP */
 #define UNICODE 1
 #define _UNICODE 1
+#define _GNU_SOURCE /* to pull in asprintf() from stdio.h */
 
 #if HAVE_CONFIG_H
 #include "config.h"

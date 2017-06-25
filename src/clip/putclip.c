@@ -229,7 +229,7 @@ printBottomDescription (FILE * f, char *name)
   fprintf (f, "NOTE: by default, no line ending conversion is performed.\n");
 }
 
-static
+static void
 printLicense (FILE * f, char *name)
 {
   fprintf (f,

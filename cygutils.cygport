@@ -1,13 +1,13 @@
 NAME=cygutils
-VERSION=1.4.15
-RELEASE=2
+VERSION=1.4.16
+RELEASE=1
 
 SUMM="A collection of simple utilities"
 DESC="A collection of simple (single source file) utilities, including"
 
 HOMEPAGE="http://cygutils.fruitbat.org/cygutils-package/index.html"
 GIT_URI="git://cygwin.com/git/cygwin-cygutils.git"
-GIT_TAG="v1_4_15a"
+GIT_TAG="v1_4_16"
 	inherit git
 
 PKG_NAMES="cygutils cygutils-extra cygutils-x11"

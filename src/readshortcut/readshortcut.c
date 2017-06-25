@@ -4,6 +4,8 @@
  * Copyright (C) 2003 Rob Siklos
  * http://www.cygwin.com/ml/cygwin/2003-08/msg00640.html
  *
+ * Unicode-enabled by (C) 2015 Thomas Wolff
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,7 +32,7 @@
  *
  * - comment the config.h and common.h includes
  * - uncomment the stdio and popt.h includes
- * - run "gcc readshortcut.c -o readshortcut.exe -lpopt -luuid -lole32" 
+ * - run gcc readshortcut.c -o readshortcut -lpopt -lole32 /usr/lib/w32api/libuuid.a
  *
  */
 
@@ -39,6 +41,7 @@
 # include "config.h"
 #endif
 #include "common.h"
+#include <locale.h>
 
 /* moved to common.h */
 /*
@@ -149,6 +152,8 @@ main (int argc, const char **argv)
      "Information options (display a message and exit)", NULL},
     {NULL, '\0', 0, NULL, 0, NULL, NULL}
   };
+
+  setlocale (LC_CTYPE, "");
 
   /* get the program name */
   tmp_str = strrchr (argv[0], '/');
@@ -261,11 +266,11 @@ exit:
   return result;
 }
 
-static int startsWithDOSEnvVar(const char* string, size_t n)
+static int startsWithDOSEnvVar (const char* string, size_t n)
 {
   if (n > 2 && string[0] == '%')
   {
-    const char *p = strchr(&string[1], '%');
+    const char *p = strchr (&string[1], '%');
     if (p && (p - string) > 1)
       return 1;
   }
@@ -276,10 +281,10 @@ int
 readshortcut (optvals * opts)
 {
   HRESULT hres;
-  IShellLink *shell_link;
+  IShellLinkW *wshell_link;
   IPersistFile *persist_file;
-  char strPath[MAX_PATH];
-  char strBuff[BUFF_SIZE];
+  char strPath[MAX_PATH * 3];
+  char strBuff[BUFF_SIZE * 3];
   int iBuff;
 
   int result = ERR_NONE;        /* the value to return on exit */
@@ -296,7 +301,7 @@ readshortcut (optvals * opts)
           if (opts->target_fname == NULL)
             {
               fprintf (stderr, "%s: memory allocation error\n", program_name);
-              return (ERR_SYS);
+              return ERR_SYS;
             }
           strcat (opts->target_fname, ".lnk");
         }
@@ -309,7 +314,7 @@ readshortcut (optvals * opts)
       if (opts->target_fname == NULL)
         {
           fprintf (stderr, "%s: memory allocation error\n", program_name);
-          return (ERR_SYS);
+          return ERR_SYS;
         }
       strcat (opts->target_fname, ".lnk");
     }
@@ -326,13 +331,13 @@ readshortcut (optvals * opts)
          (strlen (opts->target_fname) > 2 && opts->target_fname[0] == '\\' && opts->target_fname[1] == '\\') ||
 	 startsWithDOSEnvVar (opts->target_fname, strlen (opts->target_fname))))
     {
-      char *strTmpPath = (char *)cygwin_create_path(CCP_POSIX_TO_WIN_A,
+      char *strTmpPath = (char *)cygwin_create_path (CCP_POSIX_TO_WIN_A,
                                                     opts->target_fname);
       if (strTmpPath == NULL)
         {
           fprintf (stderr, "%s: error converting target posix path to win32 (%s)\n",
-                   program_name, strerror(errno));
-          return (ERR_SYS);
+                   program_name, strerror (errno));
+          return ERR_SYS;
         }
       free (opts->target_fname);
       opts->target_fname = strTmpPath;
@@ -343,32 +348,32 @@ readshortcut (optvals * opts)
     {
       fprintf (stderr, "%s: Could not initialize OLE interface\n",
                program_name);
-      return (ERR_WIN);
+      return ERR_WIN;
     }
 
   /* Get a pointer to the IShellLink interface. */
   hres =
     CoCreateInstance (&CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER,
-                      &IID_IShellLink, (void **) &shell_link);
+                      &IID_IShellLinkW, (void **) &wshell_link);
 
   if (!SUCCEEDED (hres))
     {
       fprintf (stderr, "%s: CoCreateInstance failed\n", program_name);
-      return (ERR_WIN);
+      return ERR_WIN;
     }
 
   /* Get a pointer to the IPersistFile interface. */
   hres =
-    shell_link->lpVtbl->QueryInterface (shell_link, &IID_IPersistFile,
+    wshell_link->lpVtbl->QueryInterface (wshell_link, &IID_IPersistFile,
                                         (void **) &persist_file);
 
   if (SUCCEEDED (hres))
     {
       WCHAR wsz[MAX_PATH];
+      WCHAR ws[BUFF_SIZE];
 
       /* Ensure that the string is Unicode. */
-      MultiByteToWideChar (CP_ACP, 0, (LPCSTR) opts->target_fname, -1, wsz,
-                           MAX_PATH);
+      mbstowcs (wsz, opts->target_fname, sizeof wsz);
 
       /* Load the shortcut.  */
       hres = persist_file->lpVtbl->Load (persist_file, wsz, STGM_READ);
@@ -379,33 +384,36 @@ readshortcut (optvals * opts)
           if (opts->show_all || opts->show_target)
             {
               char *s;
-              shell_link->lpVtbl->GetPath (shell_link, strPath, MAX_PATH,
+              wshell_link->lpVtbl->GetPath (wshell_link, wsz, sizeof wsz,
                                            NULL, (opts->show_raw ? SLGP_RAWPATH : 0));
+              wcstombs (strPath, wsz, sizeof strPath);
               if (opts->show_field_names)
                 {
                   printf ("Target: ");
                 }
               s = formatPath (strPath, opts->pathType);
               printf ("%s\n", (s ? s : strPath));
-              if (s) free(s);
+              if (s) free (s);
             }
           if (opts->show_all || opts->show_working_dir)
             {
               char *s;
-              shell_link->lpVtbl->GetWorkingDirectory (shell_link, strPath,
-                                                       MAX_PATH);
+              wshell_link->lpVtbl->GetWorkingDirectory (wshell_link, wsz,
+                                                        sizeof wsz);
+              wcstombs (strPath, wsz, sizeof strPath);
               if (opts->show_field_names)
                 {
                   printf ("Working Directory: ");
                 }
               s = formatPath (strPath, opts->pathType);
               printf ("%s\n", (s ? s : strPath));
-              if (s) free(s);
+              if (s) free (s);
             }
           if (opts->show_all || opts->show_args)
             {
-              shell_link->lpVtbl->GetArguments (shell_link, strBuff,
-                                                BUFF_SIZE);
+              wshell_link->lpVtbl->GetArguments (wshell_link, ws,
+                                                 sizeof ws);
+              wcstombs (strBuff, ws, sizeof strBuff);
               if (opts->show_field_names)
                 {
                   printf ("Arguments: ");
@@ -414,7 +422,7 @@ readshortcut (optvals * opts)
             }
           if (opts->show_all || opts->show_showCmd)
             {
-              shell_link->lpVtbl->GetShowCmd (shell_link, &iBuff);
+              wshell_link->lpVtbl->GetShowCmd (wshell_link, &iBuff);
               if (opts->show_field_names)
                 {
                   printf ("Show Command: ");
@@ -436,8 +444,9 @@ readshortcut (optvals * opts)
             }
           if (opts->show_all || opts->show_icon || opts->show_icon_offset)
             {
-              shell_link->lpVtbl->GetIconLocation (shell_link, strPath,
-                                                   MAX_PATH, &iBuff);
+              wshell_link->lpVtbl->GetIconLocation (wshell_link, wsz,
+                                                    sizeof wsz, &iBuff);
+              wcstombs (strPath, wsz, sizeof strPath);
               if (opts->show_all || opts->show_icon)
                 {
                   char *s;
@@ -447,7 +456,7 @@ readshortcut (optvals * opts)
                     }
                   s = formatPath (strPath, opts->pathType);
                   printf ("%s\n", (s ? s : strPath));
-                  if (s) free(s);
+                  if (s) free (s);
                 }
               if (opts->show_all || opts->show_icon_offset)
                 {
@@ -460,8 +469,9 @@ readshortcut (optvals * opts)
             }
           if (opts->show_all || opts->show_desc)
             {
-              shell_link->lpVtbl->GetDescription (shell_link, strBuff,
-                                                  BUFF_SIZE);
+              wshell_link->lpVtbl->GetDescription (wshell_link, ws,
+                                                  sizeof ws);
+              wcstombs (strBuff, ws, sizeof strBuff);
               if (opts->show_field_names)
                 {
                   printf ("Description: ");
@@ -486,17 +496,9 @@ readshortcut (optvals * opts)
     }
 
   /* Release the pointer to the IShellLink interface. */
-  shell_link->lpVtbl->Release (shell_link);
+  wshell_link->lpVtbl->Release (wshell_link);
 
-  return (result);
-}
-
-static char* xstrndup(const char* string, size_t n)
-{
-  char *s = strndup (string, n);
-  if (!s)
-    fprintf (stderr, "%s: memory allocation error\n", program_name);
-  return s;
+  return result;
 }
 
 
@@ -506,7 +508,7 @@ formatPath (char *strPath, int format)
 {
   if (format == PATH_WIN)
     {
-      char *s = strndup (strPath, MAX_PATH);
+      char *s = strdup (strPath);
       if (!s)
         fprintf (stderr, "%s: memory allocation error\n", program_name);
       return s;
@@ -520,14 +522,14 @@ formatPath (char *strPath, int format)
        * cheat a bit: use relative path conversion.
        */
       cygwin_conv_path_t convType = CCP_WIN_A_TO_POSIX;
-      if (startsWithDOSEnvVar(strPath, strlen (strPath)))
+      if (startsWithDOSEnvVar (strPath, strlen (strPath)))
 	convType |= CCP_RELATIVE;
 
-      char *s = (char *) cygwin_create_path(convType, strPath);
+      char *s = (char *) cygwin_create_path (convType, strPath);
       if (!s)
         {
           fprintf (stderr, "%s: error converting win32 path to posix (%s)\n",
-                   program_name, strerror(errno));
+                   program_name, strerror (errno));
         }
       return s;
     }

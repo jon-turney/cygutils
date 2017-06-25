@@ -39,6 +39,7 @@
 
 #define SEGSIZE 100
 
+int
 usage ()
 {
   fprintf (stderr, "shmtool - A utility for tinkering with shared memory\n");
@@ -49,23 +50,27 @@ usage ()
   exit (1);
 }
 
+int
 writeshm (int shmid, char *segptr, char *text)
 {
   strcpy (segptr, text);
   printf ("Done...\n");
 }
 
+int
 readshm (int shmid, char *segptr)
 {
   printf ("segptr: %s\n", segptr);
 }
 
+int
 removeshm (int shmid)
 {
   shmctl (shmid, IPC_RMID, 0);
   printf ("Shared memory segment marked for deletion\n");
 }
 
+int
 changemode (int shmid, char *mode)
 {
   struct shmid_ds myshmds;
@@ -85,6 +90,7 @@ changemode (int shmid, char *mode)
   printf ("New permissions are : %o\n", myshmds.shm_perm.mode);
 }
 
+int
 main (int argc, char *argv[])
 {
   key_t key;
