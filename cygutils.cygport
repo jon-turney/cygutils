@@ -16,7 +16,8 @@ cygutils_CATEGORY=Base
 cygutils_SUMMARY="${SUMM} (core collection)"
 cygutils_DESCRIPTION="${DESC}
 cygstart, mkshortcut, and readshortcut."
-cygutils_CONTENTS='usr/bin/cygstart.exe
+cygutils_CONTENTS='
+	usr/bin/cygstart.exe
 	usr/bin/mkshortcut.exe
 	usr/bin/readshortcut.exe
 	usr/share/doc/cygutils/[A-Z]*
@@ -30,7 +31,8 @@ cygutils_extra_SUMMARY="${SUMM} (other tools)"
 cygutils_extra_DESCRIPTION="${DESC}
 banner, conv, cygdrop, cygicons, dump (a hexdumper), getclip,
 ipck, lpr, msgtool, putclip, semstat, semtool, shmtool, and winln."
-cygutils_extra_CONTENTS='usr/bin/banner.exe
+cygutils_extra_CONTENTS='
+	usr/bin/banner.exe
 	usr/bin/conv.exe
 	usr/bin/cygdrop.exe
 	usr/bin/cygicons-0.dll
@@ -55,7 +57,7 @@ cygutils_x11_CATEGORY=X11
 cygutils_x11_SUMMARY="${SUMM} (X11 integration)"
 cygutils_x11_DESCRIPTION="${DESC}
 a cygstart app and a cygutils app."
-cygutils_x11_CONTENTS='etc/postinstall/cygutils.sh
+cygutils_x11_CONTENTS='
 	usr/share/applications/cygstart.desktop
 	usr/share/mime/packages/cygutils.xml'
 
