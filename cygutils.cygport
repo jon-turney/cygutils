@@ -64,10 +64,18 @@ cygutils_x11_CONTENTS='
 DIFF_EXCLUDES="-x m4 -x build-aux -x Makefile.in -x aclocal.m4 -x configure"
 
 src_compile() {
+	# libpopt.la breaks our build process so rename it temporarily
+	if [ -r /usr/lib/libpopt.la ]; then
+		mv /usr/lib/libpopt.la /usr/lib/libpopt.la.safe
+		trap 'mv /usr/lib/libpopt.la.safe /usr/lib/libpopt.la' exit
+	fi
 	cd ${S}
 	./bootstrap
 	cd ${B}
 	cygconf --enable-silent-rules
 	cygmake
+	# restore original libpopt.la if necessary
+	if [ -r /usr/lib/libpopt.la.safe ]; then
+		mv /usr/lib/libpopt.la.safe /usr/lib/libpopt.la
+	fi
 }
-

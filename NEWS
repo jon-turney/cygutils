@@ -1,3 +1,9 @@
+1.4.16
+  * Unicode support added to mkshortcut and readshortcut by Thomas Wolff.
+  * Minor formatting fixes to quash compiler warnings.
+  * Execute bits removed from files not needing them.
+  * Temporarily rename /usr/lib/libpopt.la while building package.
+
 1.4.15
   New maintainer Mark Geisert <mark@maxrnd.com>.
   Source code master converted from CVS to Git, still hosted at sourceware.
