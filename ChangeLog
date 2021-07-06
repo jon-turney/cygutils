@@ -1,3 +1,8 @@
+2021-07-05  Mark Geisert  <mark@maxrnd.com>
+
+	* src/clip/getclip.c: Add Unicode support.
+	* Makefile.am: Add -lntoskrnl to src_clip_getclip_LDADD.
+
 2017-07-03  Mark Geisert  <mark@maxrnd.com>
 
 	Release 1.4.16

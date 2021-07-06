@@ -29,7 +29,13 @@
 #include "common.h"
 
 #include <io.h>
+#include <wchar.h>
 #include <sys/cygwin.h>
+#include <w32api/ntstatus.h>
+/* This Windows 7+ function is not yet present in w32api/winternl.h */
+extern NTSYSAPI NTSTATUS RtlUnicodeToUTF8N(PCHAR, ULONG, PULONG, LPWSTR, ULONG);
+
+#define DEBUGGING 0 // Set 1 to display debug output on stderr
 
 typedef struct
 {
@@ -356,16 +362,31 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
     {
       const char *CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
       UINT cygnativeformat;
-      UINT formatlist[2];
+      UINT formatlist[3];
       UINT format;
 
       OpenClipboard (NULL);
+#if DEBUGGING
+      {
+        fprintf (stderr, "ThreadLocale: %u\nClipboardFormats:",
+                 GetThreadLocale ());
+        format = 0;
+        do {
+          format = EnumClipboardFormats (format);
+          fprintf (stderr, " %u", format);
+          if (format == CF_LOCALE)
+            fprintf (stderr, "(%u)", *(LCID *) GetClipboardData (CF_LOCALE));
+        } while (format != 0);
+        fprintf (stderr, "\n");
+      }
+#endif
       cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
 
       formatlist[0] = cygnativeformat;
-      formatlist[1] = CF_TEXT;
+      formatlist[1] = CF_UNICODETEXT;
+      formatlist[2] = CF_TEXT;
 
-      if ((format = GetPriorityClipboardFormat (formatlist, 2)) <= 0)
+      if ((format = GetPriorityClipboardFormat (formatlist, 3)) <= 0)
         {
           CloseClipboard ();
           return (0);
@@ -380,25 +401,47 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
               cygcb_t *clipbuf = (cygcb_t *) GlobalLock (hglb);
               if (clipbuf)
                 {
-                  fwrite (clipbuf->data, sizeof (unsigned char), clipbuf->len, out);
+                  fwrite (clipbuf->data, sizeof (char), clipbuf->len, out);
                   GlobalUnlock (hglb);
                 }
 	    }
 	  else
 	    {
-              unsigned char *nativebuf = (unsigned char *) GlobalLock (hglb);
+              char *nativebuf = (char *) GlobalLock (hglb);
               if (nativebuf)
                 {
                   size_t buflen = (*(size_t *) nativebuf);
                   buf = nativebuf + sizeof (size_t);
                   len = buflen;
 
-                  fwrite (buf, sizeof (unsigned char), len, out);
+                  fwrite (buf, sizeof (char), len, out);
                   GlobalUnlock (hglb);
                 }
 	    }
         }
-      else
+      else if (format == CF_UNICODETEXT)
+        {
+          LPWSTR lpwstr = (LPWSTR) GlobalLock (hglb);
+          if (lpwstr)
+            {
+              ULONG count;
+              ULONG srclen = wcslen (lpwstr) * sizeof (wchar_t); // byte count
+              ULONG dstlen = srclen + 32;
+              PCHAR dst = (PCHAR) malloc (dstlen);
+              NTSTATUS res = RtlUnicodeToUTF8N (dst, dstlen, &count,
+                                                lpwstr, srclen);
+#if DEBUGGING
+              /* look up hex error code displayed here in w32api/ntstatus.h */
+              fprintf (stderr, "RtlUnicodeToUTF8N returns 0x%X\n", res);
+#endif
+              if (res == STATUS_SUCCESS || res == STATUS_SOME_NOT_MAPPED)
+                if (count > 0)
+                  fwrite (dst, sizeof (char), count, out);
+              free (dst);
+              GlobalUnlock (hglb);
+            }
+        }
+      else /* format == CF_TEXT */
         {
           LPSTR lpstr = (LPSTR) GlobalLock (hglb);
           if (lpstr)
@@ -407,7 +450,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
               buf = lpstr;
               len = lplen;
 
-              fwrite (buf, sizeof (unsigned char), len, out);
+              fwrite (buf, sizeof (char), len, out);
               GlobalUnlock (hglb);
             }
         }
@@ -425,7 +468,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *pos;
 
       OpenClipboard (0);
-      hglb = GetClipboardData (CF_TEXT);
+      hglb = GetClipboardData (CF_TEXT); //TODO support CF_UNICODETEXT too?
       lpstr = GlobalLock (hglb);
       lplen = strlen (lpstr);
 
@@ -481,7 +524,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *pos;
 
       OpenClipboard (0);
-      hglb = GetClipboardData (CF_TEXT);
+      hglb = GetClipboardData (CF_TEXT); //TODO support CF_UNICODETEXT too?
       lpstr = GlobalLock (hglb);
       lplen = strlen (lpstr);
 

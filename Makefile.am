@@ -117,7 +117,7 @@ DISTCLEANFILES = \
 
 libuuid = `${CC} -print-file-name=w32api/libuuid.a`
 src_banner_banner_LDADD             = -lpopt -lkernel32 -lgdi32
-src_clip_getclip_LDADD              = -lpopt
+src_clip_getclip_LDADD              = -lpopt -lntoskrnl
 src_clip_putclip_LDADD              = -lpopt
 src_conv_conv_LDADD                 = -lpopt
 src_cygstart_cygstart_LDADD         = -lpopt
