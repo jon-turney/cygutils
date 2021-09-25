@@ -39,7 +39,7 @@ static void help (FILE * f, const char *name);
 static void version (FILE * f, const char *name);
 static void license (FILE * f, const char *name);
 
-static int
+static void
 usageCore (FILE * f, const char * name)
 {
   fprintf (f,
@@ -378,7 +378,7 @@ main (int argc, char **argv)
 	     ? " [logon_id]"  : ""));
 	  const struct group * g = strsid_to_group (strsid);
 	  if (g)
-	    printf (" gid=%lu(%s)", g->gr_gid, g->gr_name);
+	    printf (" gid=%u(%s)", (unsigned) g->gr_gid, g->gr_name);
 	  printf ("\n");
 	}
 
@@ -415,7 +415,7 @@ main (int argc, char **argv)
 	printf ("r   %s", strsid);
 	const struct group * g = strsid_to_group (strsid);
 	if (g)
-	  printf (" gid=%lu(%s)", g->gr_gid, g->gr_name);
+	  printf (" gid=%u(%s)", (unsigned) g->gr_gid, g->gr_name);
 	printf ("\n");
       }
 

@@ -31,9 +31,7 @@
 #include <io.h>
 #include <wchar.h>
 #include <sys/cygwin.h>
-#include <w32api/ntstatus.h>
-/* This Windows 7+ function is not yet present in w32api/winternl.h */
-extern NTSYSAPI NTSTATUS RtlUnicodeToUTF8N(PCHAR, ULONG, PULONG, LPWSTR, ULONG);
+#include <w32api/stringapiset.h>
 
 #define DEBUGGING 0 // Set 1 to display debug output on stderr
 
@@ -424,19 +422,21 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
           LPWSTR lpwstr = (LPWSTR) GlobalLock (hglb);
           if (lpwstr)
             {
-              ULONG count;
-              ULONG srclen = wcslen (lpwstr) * sizeof (wchar_t); // byte count
-              ULONG dstlen = srclen + 32;
-              PCHAR dst = (PCHAR) malloc (dstlen);
-              NTSTATUS res = RtlUnicodeToUTF8N (dst, dstlen, &count,
-                                                lpwstr, srclen);
+              int srclen = wcslen (lpwstr); // wide-char count
+              int dstlen = srclen << 2; // byte count
+              LPSTR dst = (LPSTR) malloc (dstlen);
+              int res = WideCharToMultiByte (CP_UTF8, 0, lpwstr, srclen,
+                                             dst, dstlen, NULL, NULL);
+              if (res > 0)
+                fwrite (dst, sizeof (char), res, out);
+              else if (res == 0)
+                {
 #if DEBUGGING
-              /* look up hex error code displayed here in w32api/ntstatus.h */
-              fprintf (stderr, "RtlUnicodeToUTF8N returns 0x%X\n", res);
+                  DWORD err = GetLastError ();
+                  /* look up error code displayed here in w32api/winerror.h */
+                  fprintf (stderr, "WideCharToMultiByte returns %d\n", err);
 #endif
-              if (res == STATUS_SUCCESS || res == STATUS_SOME_NOT_MAPPED)
-                if (count > 0)
-                  fwrite (dst, sizeof (char), count, out);
+                }
               free (dst);
               GlobalUnlock (hglb);
             }
