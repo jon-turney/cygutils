@@ -1,3 +1,9 @@
+2021-08-24  Mark Geisert  <mark@maxrnd.com>
+
+	* src/clip/putclip.c: Fix broken Unicode support. Don't GlobalFree a
+	handle that's been transferred to the system by SetClipboardData().
+	Thanks to Christian Franke for that last bit.
+
 2021-08-15  Mark Geisert  <mark@maxrnd.com>
 
 	* Makefile.am: Add -lkernel32 to src_clip_getclip_LDADD.  This somehow

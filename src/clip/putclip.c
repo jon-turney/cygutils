@@ -25,10 +25,15 @@
 #if HAVE_CONFIG_H
 # include "config.h"
 #endif
-#include <io.h>
 
 #include "common.h"
+
+#include <io.h>
+#include <wchar.h>
 #include <sys/cygwin.h>
+#include <w32api/stringapiset.h>
+
+#define DEBUGGING 0 // Set 1 to display debug output on stderr
 
 typedef struct
 {
@@ -558,6 +563,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           return (PUTCLIP_ERR);
         }
       CloseClipboard ();
+#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
       if (GlobalFree (hData))
         {
           fprintf (f,
@@ -565,12 +571,13 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           free (convbuf);
           return (PUTCLIP_ERR);
         }
+#endif
       hData = NULL;
       clipbuf = NULL;
 
       /* CF_UNICODETEXT format */
       OpenClipboard (0);
-      if (!(hData = GlobalAlloc (GMEM_MOVEABLE, convlen + 2))) //XXX
+      if (!(hData = GlobalAlloc (GMEM_MOVEABLE, sizeof (WCHAR) * convlen + 2)))
         {
           fprintf (f, "Couldn't allocate global buffer for write.\n");
           free (convbuf);
@@ -583,9 +590,22 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           return (PUTCLIP_ERR);
         }
 
-      memcpy (clipbuf, convbuf, convlen); //XXX
-      *((char *)clipbuf + convlen) = '\0'; //XXX
-      *((char *)clipbuf + convlen + 1) = '\0'; //XXX
+      int res = MultiByteToWideChar (CP_UTF8, 0, convbuf, convlen,
+                                     (LPWSTR) clipbuf, convlen + 1);
+      if (res == 0)
+        {
+#if DEBUGGING
+          DWORD err = GetLastError ();
+          /* look up error code displayed here in w32api/winerror.h */
+          fprintf (stderr, "MultiByteToWideChar returns %d\n", err);
+#endif
+        }
+      else /* res != 0 */
+        {
+#if DEBUGGING
+          fprintf (stderr, "len %d, convlen %d, res %d\n", len, convlen, res);
+#endif
+        }
 
       GlobalUnlock (hData);
       if (!SetClipboardData (CF_UNICODETEXT, hData))
@@ -595,6 +615,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           return (PUTCLIP_ERR);
         }
       CloseClipboard ();
+#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
       if (GlobalFree (hData))
         {
           fprintf (f,
@@ -602,6 +623,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           free (convbuf);
           return (PUTCLIP_ERR);
         }
+#endif
       hData = NULL;
       clipbuf = NULL;
 
@@ -632,6 +654,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           return (PUTCLIP_ERR);
         }
       CloseClipboard ();
+#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
       if (GlobalFree (hData))
         {
           fprintf (f,
@@ -639,6 +662,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           free (convbuf);
           return (PUTCLIP_ERR);
         }
+#endif
       hData = NULL;
       clipbuf = NULL;
 
