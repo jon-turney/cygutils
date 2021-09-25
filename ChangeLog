@@ -1,3 +1,9 @@
+2021-09-23  Mark Geisert  <mark@maxrnd.com>  (1.4.16-7)
+
+	* src/readshortcut/readshortcut.c: Fix mbstowcs usage so no chance
+	of buffer overflow to be caught at runtime by ssp.  Thanks to Keith
+	Christian for the report.
+
 2021-08-28  Mark Geisert  <mark@maxrnd.com>  (1.4.16-6)
 
 	* src/clip/putclip.c: Supply terminator for Unicode input lacking it.

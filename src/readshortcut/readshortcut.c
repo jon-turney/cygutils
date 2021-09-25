@@ -373,7 +373,7 @@ readshortcut (optvals * opts)
       WCHAR ws[BUFF_SIZE];
 
       /* Ensure that the string is Unicode. */
-      mbstowcs (wsz, opts->target_fname, sizeof wsz);
+      mbstowcs (wsz, opts->target_fname, MAX_PATH);
 
       /* Load the shortcut.  */
       hres = persist_file->lpVtbl->Load (persist_file, wsz, STGM_READ);
