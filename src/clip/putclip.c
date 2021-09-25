@@ -568,6 +568,43 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
       hData = NULL;
       clipbuf = NULL;
 
+      /* CF_UNICODETEXT format */
+      OpenClipboard (0);
+      if (!(hData = GlobalAlloc (GMEM_MOVEABLE, convlen + 2))) //XXX
+        {
+          fprintf (f, "Couldn't allocate global buffer for write.\n");
+          free (convbuf);
+          return (PUTCLIP_ERR);
+        }
+      if (!(clipbuf = (void *) GlobalLock (hData)))
+        {
+          fprintf (f, "Couldn't lock global buffer.\n");
+          free (convbuf);
+          return (PUTCLIP_ERR);
+        }
+
+      memcpy (clipbuf, convbuf, convlen); //XXX
+      *((char *)clipbuf + convlen) = '\0'; //XXX
+      *((char *)clipbuf + convlen + 1) = '\0'; //XXX
+
+      GlobalUnlock (hData);
+      if (!SetClipboardData (CF_UNICODETEXT, hData))
+        {
+          fprintf (f, "Couldn't write CF_UNICODETEXT format to the clipboard.\n");
+          free (convbuf);
+          return (PUTCLIP_ERR);
+        }
+      CloseClipboard ();
+      if (GlobalFree (hData))
+        {
+          fprintf (f,
+                   "Couldn't free global buffer after write to clipboard.\n");
+          free (convbuf);
+          return (PUTCLIP_ERR);
+        }
+      hData = NULL;
+      clipbuf = NULL;
+
       /* CF_TEXT format */
       OpenClipboard (0);
       if (!(hData = GlobalAlloc (GMEM_MOVEABLE, convlen + 2)))
