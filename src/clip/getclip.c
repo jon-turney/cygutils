@@ -434,7 +434,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
 #if DEBUGGING
                   DWORD err = GetLastError ();
                   /* look up error code displayed here in w32api/winerror.h */
-                  fprintf (stderr, "WideCharToMultiByte returns %d\n", err);
+                  fprintf (stderr, "WideCharToMultiByte returns %ld\n", err);
 #endif
                 }
               free (dst);

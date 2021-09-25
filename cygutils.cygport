@@ -1,6 +1,6 @@
 NAME=cygutils
 VERSION=1.4.16
-RELEASE=5
+RELEASE=6
 
 SUMM="A collection of simple utilities"
 DESC="A collection of simple (single source file) utilities, including"
