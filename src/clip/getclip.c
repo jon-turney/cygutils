@@ -1,5 +1,5 @@
 /**
- * getclip.exe   Copy Windows clipboard to stdout  
+ * getclip.exe   Copy Windows clipboard to stdout
  *
  * Copyright 2001,2002,2009,2012 by Charles Wilson
  * All rights reserved.
@@ -31,7 +31,8 @@
 #include <io.h>
 #include <wchar.h>
 #include <sys/cygwin.h>
-#include <w32api/stringapiset.h>
+#include <sys/clipboard.h> // for cygcb_t and CYGWIN_NATIVE
+#include <locale.h>
 
 #define DEBUGGING 0 // Set 1 to display debug output on stderr
 
@@ -40,7 +41,9 @@ typedef struct
   struct timespec timestamp;
   size_t          len;
   char            data[1];
-} cygcb_t;
+} cygcb_old_t; // for cygNewFormat == 1
+
+// extern typedef struct cygcb_t is for cygNewFormat == 2
 
 typedef struct
 {
@@ -63,10 +66,10 @@ static const char copyrightID[] =
 
 typedef struct
 {
-  int endl_mode;                /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
-  int unixflag;                 /* indicates that the user specified -u or --unix    */
-  int dosflag;                  /* indicates that the user specified -d or --dos     */
-  int noconvflag;               /* indicates that the user specified -n or --no-conv */
+  int endl_mode;  /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
+  int unixflag;   /* indicates that the user specified -u or --unix    */
+  int dosflag;    /* indicates that the user specified -d or --dos     */
+  int noconvflag; /* indicates that the user specified -n or --no-conv */
 } flags_struct;
 
 static void printTopDescription (FILE * f, char *name);
@@ -198,6 +201,8 @@ main (int argc, const char **argv)
       goto exit;
     }
   rest = poptGetArgs (optCon);
+
+  setlocale (LC_ALL, "");
   if (rest == NULL)
     ec |= getclip (stdout, flags, stderr, program_name);
   else
@@ -308,9 +313,9 @@ static void getCygVer(cygwin_version_data* verInfo)
           break;
         if (strncasecmp (buf, "dll major:", 10) == 0)
           {
-	    char c = '\0';
-	    /* assumes 'p-(buf+11)' <= 7 */
-	    memcpy (dll_major, buf + 11, p - (buf + 11));
+            char c = '\0';
+            /* assumes 'p-(buf+11)' <= 7 */
+            memcpy (dll_major, buf + 11, p - (buf + 11));
             c = dll_major[1];
             dll_major[1] = '\0';
             verInfo->dll_major = atoi (dll_major);
@@ -321,18 +326,18 @@ static void getCygVer(cygwin_version_data* verInfo)
         if (strncasecmp (buf, "dll minor:", 10) == 0)
           {
             verInfo->dll_micro = atoi (buf + 11);
-	    continue;
-	  }
+            continue;
+          }
         if (strncasecmp (buf, "api major:", 10) == 0)
-	  {
+          {
             verInfo->api_major = atoi (buf + 11);
-	    continue;
-	  }
+            continue;
+          }
         if (strncasecmp (buf, "api minor:", 10) == 0)
-	  {
+          {
             verInfo->api_minor = atoi (buf + 11);
-	    continue;
-	  }
+            continue;
+          }
       }
 }
 
@@ -344,21 +349,25 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
   size_t len = 0;
   char *newStr = NULL;
   int origMode;
-  int cygNewFormat = 0;
+  int cygNewFormat;
+  int cygversion;
 
   cygwin_version_data verInfo;
   getCygVer(&verInfo);
-  if ((verInfo.dll_major > 1) ||
-      ((verInfo.dll_major == 1) && (verInfo.dll_minor > 7)) ||
-      ((verInfo.dll_major == 1) && (verInfo.dll_minor == 7) &&
-       (verInfo.dll_micro >= 13)))
+  cygversion  = verInfo.dll_micro;
+  cygversion += verInfo.dll_minor * 100;
+  cygversion += verInfo.dll_major * 100 * 100;
+  if (cygversion < 10713)
+    cygNewFormat = 0;
+  else if (cygversion < 30300)
     cygNewFormat = 1;
+  else
+    cygNewFormat = 2;
 
   origMode = setmode (fileno (out), O_BINARY);
 
   if (flags.endl_mode == ENDLMODE_NOCONV)
     {
-      const char *CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
       UINT cygnativeformat;
       UINT formatlist[3];
       UINT format;
@@ -378,7 +387,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
         fprintf (stderr, "\n");
       }
 #endif
-      cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
+      cygnativeformat = RegisterClipboardFormatW (CYGWIN_NATIVE);
 
       formatlist[0] = cygnativeformat;
       formatlist[1] = CF_UNICODETEXT;
@@ -394,17 +403,21 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
 
       if (format == cygnativeformat)
         {
-	  if (cygNewFormat)
-	    {
+          if (cygNewFormat)
+            {
               cygcb_t *clipbuf = (cygcb_t *) GlobalLock (hglb);
+              cygcb_old_t *clipold = (cygcb_old_t *) clipbuf;
               if (clipbuf)
                 {
-                  fwrite (clipbuf->data, sizeof (char), clipbuf->len, out);
+                  if (cygNewFormat == 2)
+                    fwrite (&clipbuf[1], sizeof (char), clipbuf->cb_size, out);
+                  else
+                    fwrite (clipold->data, sizeof (char), clipold->len, out);
                   GlobalUnlock (hglb);
                 }
-	    }
-	  else
-	    {
+            }
+          else
+            {
               char *nativebuf = (char *) GlobalLock (hglb);
               if (nativebuf)
                 {
@@ -415,7 +428,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
                   fwrite (buf, sizeof (char), len, out);
                   GlobalUnlock (hglb);
                 }
-	    }
+            }
         }
       else if (format == CF_UNICODETEXT)
         {
@@ -423,18 +436,15 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
           if (lpwstr)
             {
               int srclen = wcslen (lpwstr); // wide-char count
-              int dstlen = srclen << 2; // byte count
+              int dstlen = srclen << 2; // heuristic for byte count
               LPSTR dst = (LPSTR) malloc (dstlen);
-              int res = WideCharToMultiByte (CP_UTF8, 0, lpwstr, srclen,
-                                             dst, dstlen, NULL, NULL);
+              int res = wcstombs (dst, lpwstr, dstlen);
               if (res > 0)
                 fwrite (dst, sizeof (char), res, out);
-              else if (res == 0)
+              else if (res == -1)
                 {
 #if DEBUGGING
-                  DWORD err = GetLastError ();
-                  /* look up error code displayed here in w32api/winerror.h */
-                  fprintf (stderr, "WideCharToMultiByte returns %ld\n", err);
+                  fprintf (stderr, "wcstombs: %s\n", strerror (errno));
 #endif
                 }
               free (dst);

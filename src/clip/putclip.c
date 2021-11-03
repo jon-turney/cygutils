@@ -31,7 +31,8 @@
 #include <io.h>
 #include <wchar.h>
 #include <sys/cygwin.h>
-#include <w32api/stringapiset.h>
+#include <sys/clipboard.h> // for cygcb_t and CYGWIN_NATIVE
+#include <locale.h>
 
 #define DEBUGGING 0 // Set 1 to display debug output on stderr
 
@@ -40,7 +41,9 @@ typedef struct
   struct timespec timestamp;
   size_t          len;
   char            data[1];
-} cygcb_t;
+} cygcb_old_t; // for cygNewFormat == 1
+
+// extern typedef struct cygcb_t is for cygNewFormat == 2
 
 typedef struct
 {
@@ -69,10 +72,10 @@ static const char copyrightID[] =
 
 typedef struct
 {
-  int endl_mode;                /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
-  int unixflag;                 /* indicates that the user specified -u or --unix    */
-  int dosflag;                  /* indicates that the user specified -d or --dos     */
-  int noconvflag;               /* indicates that the user specified -n or --no-conv */
+  int endl_mode;  /* ENDLMODE_DOS  ENDLMODE_UNIX  ENDLMODE_NOCONV      */
+  int unixflag;   /* indicates that the user specified -u or --unix    */
+  int dosflag;    /* indicates that the user specified -d or --dos     */
+  int noconvflag; /* indicates that the user specified -n or --no-conv */
 } flags_struct;
 
 static void printTopDescription (FILE * f, char *name);
@@ -198,6 +201,7 @@ main (int argc, const char **argv)
 
   rest = poptGetArgs (optCon);
 
+  setlocale (LC_ALL, "");
   if (rest == NULL)
     ec |= putclip (stdin, flags, stderr, program_name);
   else
@@ -348,19 +352,24 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
   int len = 0;
   int convlen = 0;
   int numread;
-  int cygNewFormat = 0;
+  int cygNewFormat;
+  int cygversion;
 
   cygwin_version_data verInfo;
   getCygVer(&verInfo);
-  if ((verInfo.dll_major > 1) ||
-      ((verInfo.dll_major == 1) && (verInfo.dll_minor > 7)) ||
-      ((verInfo.dll_major == 1) && (verInfo.dll_minor == 7) &&
-       (verInfo.dll_micro >= 13)))
+  cygversion  = verInfo.dll_micro;
+  cygversion += verInfo.dll_minor * 100;
+  cygversion += verInfo.dll_major * 100 * 100;
+  if (cygversion < 10713)
+    cygNewFormat = 0;
+  else if (cygversion < 30300)
     cygNewFormat = 1;
+  else
+    cygNewFormat = 2;
 
   /* Since we have to copy to the clipboard all in one step,
-     read entire stream into memory. However, let's try to 
-     do this using the minimum amount of memory, but keep 
+     read entire stream into memory. However, let's try to
+     do this using the minimum amount of memory, but keep
      allocating more if needed.
    */
   do
@@ -398,23 +407,9 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
   /* format the string according to flags */
   if (buf)
     {
-      const char *CYGWIN_NATIVE = "CYGWIN_NATIVE_CLIPBOARD";
       UINT cygnativeformat;
 
-      if (!OpenClipboard (0))
-        {
-          fprintf (stderr, "Unable to open the clipboard\n");
-#if DEBUGGING
-          DWORD err = GetLastError ();
-          /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "OpenClipboard returns %ld\n", err);
-#endif
-          return (PUTCLIP_ERR);
-        }
-      cygnativeformat = RegisterClipboardFormat (CYGWIN_NATIVE);
-      CloseClipboard ();
-
-      // if flags.endl_mode == ENDLMODE_NOCONV 
+      // if flags.endl_mode == ENDLMODE_NOCONV
       convbuf = buf;
       convlen = len;
 
@@ -537,32 +532,44 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           /* look up error code displayed here in w32api/winerror.h */
           fprintf (stderr, "OpenClipboard returns %ld\n", err);
 #endif
-          if (convbuf)
-            free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout2;
         }
-      if (cygNewFormat)
-	hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (cygcb_t));
-      else
-	hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (size_t));
+      cygnativeformat = RegisterClipboardFormatW (CYGWIN_NATIVE);
+
+      switch (cygNewFormat)
+        {
+        case 2:
+          hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (cygcb_t));
+          break;
+        case 1:
+          hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (cygcb_old_t));
+          break;
+        case 0:
+          hData = GlobalAlloc (GMEM_MOVEABLE, convlen + sizeof (size_t));
+          break;
+        }
 
       if (!hData)
         {
           fprintf (f, "Couldn't allocate global buffer for write.\n");
-          if (convbuf)
-            free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
       if (!(clipbuf = (void *) GlobalLock (hData)))
         {
           fprintf (f, "Couldn't lock global buffer.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
 
-      if (cygNewFormat)
+      if (cygNewFormat == 2)
         {
           cygcb_t *clipbufX = (cygcb_t *) clipbuf;
+          clipbufX->cb_size = convlen;
+          clock_gettime (CLOCK_REALTIME, &clipbufX->ts);
+          memcpy (&clipbufX[1], convbuf, convlen);
+        }
+      else if (cygNewFormat == 1)
+        {
+          cygcb_old_t *clipbufX = (cygcb_old_t *) clipbuf;
           clipbufX->len = convlen;
           clock_gettime (CLOCK_REALTIME, &clipbufX->timestamp);
           memcpy (clipbufX->data, convbuf, convlen);
@@ -577,65 +584,47 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
       if (!SetClipboardData (cygnativeformat, hData))
         {
           fprintf (f,
-                   "Couldn't write native format to the clipboard %04x %x\n",
+                   "Couldn't write native format to the clipboard %04x %p\n",
                    cygnativeformat, hData);
 #if DEBUGGING
           DWORD err = GetLastError ();
           /* look up error code displayed here in w32api/winerror.h */
           fprintf (stderr, "SetClipboardData returns %ld\n", err);
 #endif
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
-      CloseClipboard ();
-#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
-      if (GlobalFree (hData))
-        {
-          fprintf (f,
-                   "Couldn't free global buffer after write to clipboard.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
-        }
-#endif
+/* Per MSDN, don't GlobalFree a handle successfully transferred to system
+ *    if (GlobalFree (hData))
+ *      {
+ *        fprintf (f,
+ *                 "Couldn't free global buffer after write to clipboard.\n");
+ *        goto failout;
+ *      }
+ */
       hData = NULL;
       clipbuf = NULL;
 
       /* CF_UNICODETEXT format */
-      if (!OpenClipboard (0))
-        {
-          fprintf (f, "Unable to open the clipboard\n");
-#if DEBUGGING
-          DWORD err = GetLastError ();
-          /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "OpenClipboard returns %ld\n", err);
-#endif
-          free (convbuf);
-          return (PUTCLIP_ERR);
-        }
       if (!(hData = GlobalAlloc (GMEM_MOVEABLE, sizeof (WCHAR) * convlen + 2)))
         {
           fprintf (f, "Couldn't allocate global buffer for write.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
       if (!(clipbuf = (void *) GlobalLock (hData)))
         {
           fprintf (f, "Couldn't lock global buffer.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
 
-      int res = MultiByteToWideChar (CP_UTF8, 0, convbuf, convlen,
-                                     (LPWSTR) clipbuf, convlen + 1);
-      if (res == 0)
+      convbuf[convlen] = '\0';
+      int res = mbstowcs (clipbuf, convbuf, convlen + 1);
+      if (res == -1)
         {
 #if DEBUGGING
-          DWORD err = GetLastError ();
-          /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "MultiByteToWideChar returns %ld\n", err);
+          fprintf (stderr, "mbstowcs: %s\n", strerror (errno));
 #endif
         }
-      else /* res != 0 */
+      else /* res != -1 */
         {
           *((WCHAR *) clipbuf + res) = 0; /* NULL-terminate just in case */
 #if DEBUGGING
@@ -652,45 +641,29 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           /* look up error code displayed here in w32api/winerror.h */
           fprintf (stderr, "SetClipboardData returns %ld\n", err);
 #endif
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
-      CloseClipboard ();
-#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
-      if (GlobalFree (hData))
-        {
-          fprintf (f,
-                   "Couldn't free global buffer after write to clipboard.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
-        }
-#endif
+/* Per MSDN, don't GlobalFree a handle successfully transferred to system
+ *    if (GlobalFree (hData))
+ *      {
+ *        fprintf (f,
+ *                 "Couldn't free global buffer after write to clipboard.\n");
+ *        goto failout;
+ *      }
+ */
       hData = NULL;
       clipbuf = NULL;
 
       /* CF_TEXT format */
-      if (!OpenClipboard (0))
-        {
-          fprintf (f, "Unable to open the clipboard\n");
-#if DEBUGGING
-          DWORD err = GetLastError ();
-          /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "OpenClipboard returns %ld\n", err);
-#endif
-          free (convbuf);
-          return (PUTCLIP_ERR);
-        }
       if (!(hData = GlobalAlloc (GMEM_MOVEABLE, convlen + 2)))
         {
           fprintf (f, "Couldn't allocate global buffer for write.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
       if (!(clipbuf = (void *) GlobalLock (hData)))
         {
           fprintf (f, "Couldn't lock global buffer.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
 
       memcpy (clipbuf, convbuf, convlen);
@@ -706,19 +679,17 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           /* look up error code displayed here in w32api/winerror.h */
           fprintf (stderr, "SetClipboardData returns %ld\n", err);
 #endif
-          free (convbuf);
-          return (PUTCLIP_ERR);
+          goto failout;
         }
       CloseClipboard ();
-#if 0 // Per MSDN, don't GlobalFree a handle successfully transferred to system
-      if (GlobalFree (hData))
-        {
-          fprintf (f,
-                   "Couldn't free global buffer after write to clipboard.\n");
-          free (convbuf);
-          return (PUTCLIP_ERR);
-        }
-#endif
+/* Per MSDN, don't GlobalFree a handle successfully transferred to system
+ *    if (GlobalFree (hData))
+ *      {
+ *        fprintf (f,
+ *                 "Couldn't free global buffer after write to clipboard.\n");
+ *        goto failout;
+ *      }
+ */
       hData = NULL;
       clipbuf = NULL;
 
@@ -731,4 +702,11 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
       CloseClipboard ();
     }
   return (PUTCLIP_OK);
+
+failout:
+  CloseClipboard ();
+failout2:
+  if (convbuf)
+    free (convbuf);
+  return (PUTCLIP_ERR);
 }

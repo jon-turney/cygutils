@@ -6,6 +6,7 @@
   * Unicode support added to getclip and putclip.
   * Fix mbstowcs bug in readshortcut causing "buffer overflow detected" from
     -fstack-protect at runtime.
+  * Support clipboard use between 32- and 64-bit Cygwin environments.
 
 1.4.15
   New maintainer Mark Geisert <mark@maxrnd.com>.
