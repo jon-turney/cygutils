@@ -563,8 +563,16 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
       if (cygNewFormat == 2)
         {
           cygcb_t *clipbufX = (cygcb_t *) clipbuf;
-          clipbufX->cb_size = convlen;
           clock_gettime (CLOCK_REALTIME, &clipbufX->ts);
+#ifdef __x86_64__
+          /* ts overlays cb_sec and cb_nsec such that no conversion is needed */
+#elif __i386__
+          /* Expand 32-bit timespec layout to 64-bit layout.
+             NOTE: Steps must be done in this order to avoid data loss. */
+          clipbufX->cb_nsec = clipbufX->ts.tv_nsec;
+          clipbufX->cb_sec  = clipbufX->ts.tv_sec;
+#endif
+          clipbufX->cb_size = convlen;
           memcpy (&clipbufX[1], convbuf, convlen);
         }
       else if (cygNewFormat == 1)
