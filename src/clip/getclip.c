@@ -399,6 +399,9 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
           return (0);
         }
 
+#if DEBUGGING
+      fprintf (stderr, "Using format: %u\n", format);
+#endif
       hglb = GetClipboardData (format);
 
       if (format == cygnativeformat)
@@ -476,9 +479,37 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *prev;
       char *curr;
       char *pos;
+      UINT format;
 
       OpenClipboard (0);
+#if DEBUGGING
+      {
+        fprintf (stderr, "ThreadLocale: %u\nClipboardFormats:",
+                 GetThreadLocale ());
+        format = 0;
+        do {
+          format = EnumClipboardFormats (format);
+          fprintf (stderr, " %u", format);
+          if (format == CF_LOCALE)
+            fprintf (stderr, "(%u)", *(LCID *) GetClipboardData (CF_LOCALE));
+        } while (format != 0);
+        fprintf (stderr, "\n");
+      }
+#endif
+#if DEBUGGING
+      fprintf (stderr, "Using format: %u\n", CF_TEXT);
+#endif
       hglb = GetClipboardData (CF_TEXT); //TODO support CF_UNICODETEXT too?
+      if (!hglb)
+        {
+          DWORD err = GetLastError ();
+#if DEBUGGING
+          /* look up error code displayed here in w32api/winerror.h */
+          fprintf (stderr, "GetClipboardData returns %ld\n", err);
+#endif
+          CloseClipboard ();
+          return err != 0;
+        }
       lpstr = GlobalLock (hglb);
       lplen = strlen (lpstr);
 
@@ -532,9 +563,37 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *prev;
       char *curr;
       char *pos;
+      UINT format;
 
       OpenClipboard (0);
+#if DEBUGGING
+      {
+        fprintf (stderr, "ThreadLocale: %u\nClipboardFormats:",
+                 GetThreadLocale ());
+        format = 0;
+        do {
+          format = EnumClipboardFormats (format);
+          fprintf (stderr, " %u", format);
+          if (format == CF_LOCALE)
+            fprintf (stderr, "(%u)", *(LCID *) GetClipboardData (CF_LOCALE));
+        } while (format != 0);
+        fprintf (stderr, "\n");
+      }
+#endif
+#if DEBUGGING
+      fprintf (stderr, "Using format: %u\n", CF_TEXT);
+#endif
       hglb = GetClipboardData (CF_TEXT); //TODO support CF_UNICODETEXT too?
+      if (!hglb)
+        {
+          DWORD err = GetLastError ();
+#if DEBUGGING
+          /* look up error code displayed here in w32api/winerror.h */
+          fprintf (stderr, "GetClipboardData returns %ld\n", err);
+#endif
+          CloseClipboard ();
+          return err != 0;
+        }
       lpstr = GlobalLock (hglb);
       lplen = strlen (lpstr);
 
