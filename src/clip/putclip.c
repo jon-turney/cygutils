@@ -203,9 +203,21 @@ main (int argc, const char **argv)
 
   setlocale (LC_ALL, "");
   if (rest == NULL)
+#if DEBUGGING
+ready:
+#endif
     ec |= putclip (stdin, flags, stderr, program_name);
   else
     {
+#if DEBUGGING
+      // undocumented debugging feature: read stdin from file named in argv
+      if (isalpha (**rest))
+        {
+          FILE *tmpin = freopen (*rest, "rb", stdin);
+          if (tmpin == stdin && !*(rest + 1))
+            goto ready;
+        }
+#endif
       fprintf (stderr, "Extra args ignored: ");
       while (*rest)
         fprintf (stderr, "%s ", *rest++);
@@ -409,6 +421,10 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
     {
       UINT cygnativeformat;
 
+      // make sure buf and copies of it have space for a NUL to be appended
+      // DO NOT CHANGE len TO ACCOUNT FOR THIS
+      buf = realloc (buf, len + 1);
+
       // if flags.endl_mode == ENDLMODE_NOCONV
       convbuf = buf;
       convlen = len;
@@ -530,7 +546,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
 #if DEBUGGING
           DWORD err = GetLastError ();
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "OpenClipboard returns %ld\n", err);
+          fprintf (stderr, "OpenClipboard returns %d\n", err);
 #endif
           goto failout2;
         }
@@ -573,7 +589,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
           clipbufX->cb_sec  = clipbufX->ts.tv_sec;
 #endif
           clipbufX->cb_size = convlen;
-          memcpy (&clipbufX[1], convbuf, convlen);
+          memcpy (((char *) clipbufX) + sizeof (cygcb_t), convbuf, convlen);
         }
       else if (cygNewFormat == 1)
         {
@@ -597,7 +613,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
 #if DEBUGGING
           DWORD err = GetLastError ();
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "SetClipboardData returns %ld\n", err);
+          fprintf (stderr, "SetClipboardData returns %d\n", err);
 #endif
           goto failout;
         }
@@ -647,7 +663,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
 #if DEBUGGING
           DWORD err = GetLastError ();
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "SetClipboardData returns %ld\n", err);
+          fprintf (stderr, "SetClipboardData returns %d\n", err);
 #endif
           goto failout;
         }
@@ -685,7 +701,7 @@ putclip (FILE * in, flags_struct flags, FILE * f, char *name)
 #if DEBUGGING
           DWORD err = GetLastError ();
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "SetClipboardData returns %ld\n", err);
+          fprintf (stderr, "SetClipboardData returns %d\n", err);
 #endif
           goto failout;
         }

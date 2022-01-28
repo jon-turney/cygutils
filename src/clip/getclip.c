@@ -479,7 +479,9 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *prev;
       char *curr;
       char *pos;
+#if DEBUGGING
       UINT format;
+#endif
 
       OpenClipboard (0);
 #if DEBUGGING
@@ -505,7 +507,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
           DWORD err = GetLastError ();
 #if DEBUGGING
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "GetClipboardData returns %ld\n", err);
+          fprintf (stderr, "GetClipboardData returns %d\n", err);
 #endif
           CloseClipboard ();
           return err != 0;
@@ -563,7 +565,9 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
       char *prev;
       char *curr;
       char *pos;
+#if DEBUGGING
       UINT format;
+#endif
 
       OpenClipboard (0);
 #if DEBUGGING
@@ -589,7 +593,7 @@ getclip (FILE * out, flags_struct flags, FILE * f, char *name)
           DWORD err = GetLastError ();
 #if DEBUGGING
           /* look up error code displayed here in w32api/winerror.h */
-          fprintf (stderr, "GetClipboardData returns %ld\n", err);
+          fprintf (stderr, "GetClipboardData returns %d\n", err);
 #endif
           CloseClipboard ();
           return err != 0;
